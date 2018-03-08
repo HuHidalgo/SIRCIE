@@ -35,9 +35,9 @@ public class IngresosService extends MantenibleService<Ingresos> implements IIng
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-    public List<Ingresos> buscarPorId(int idIngreso)
+    public List<Ingresos> buscarPorId(int codIngreso)
     {
-		Ingresos ingreso = Ingresos.builder().codigoIngreso(idIngreso).build();
+		Ingresos ingreso = Ingresos.builder().idIngreso(codIngreso).build();
         return this.buscar(ingreso, Verbo.GET);
     }
 
@@ -45,9 +45,9 @@ public class IngresosService extends MantenibleService<Ingresos> implements IIng
 	public int registrarIngresos(Ingresos ingresos) {
 		
 		List<Ingresos> ingreso = this.registrarAutoIncrementable(ingresos);
-        if (!ingreso.isEmpty() && ingreso.get(0).getCodigoIngreso() != null)
+        if (!ingreso.isEmpty() && ingreso.get(0).getIdIngreso() != null)
         {
-            return ingreso.get(0).getCodigoIngreso();
+            return ingreso.get(0).getIdIngreso();
         } else
         {
             throw new MantenimientoException(ConstantesExcepciones.ERROR_REGISTRO);

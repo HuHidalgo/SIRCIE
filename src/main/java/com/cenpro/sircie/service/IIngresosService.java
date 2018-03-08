@@ -8,7 +8,7 @@ public interface IIngresosService extends IMantenibleService<Ingresos>{
 	
 	public List<Ingresos> buscarTodos();
 	
-	public List<Ingresos> buscarPorId(int idIngreso);
+	public List<Ingresos> buscarPorId(int codIngreso);
     
     public int registrarIngresos(Ingresos ingresos);
     

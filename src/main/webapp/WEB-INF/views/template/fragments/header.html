@@ -28,13 +28,39 @@
 			<li sec:authorize="hasPermission('1','ALL')" class="xn-openable">
 				<a>
 					<span class="fa fa-upload"></span> 
-					<span class="xn-text">Ingresos</span>
+					<span class="xn-text">Cargas</span>
 				</a>
 				<ul>
 					<li>
 						<a th:href="@{/carga/alumno}">
-							<span class="fa fa-user"></span> 
+							<span class="fa fa-upload"></span> 
+							<span class="xn-text"> Cargar Ingresos</span>
+						</a>
+					</li>
+					<li>
+						<a th:href="@{/carga/alumno}">
+							<span class="fa fa-upload"></span> 
+							<span class="xn-text"> Cargar Egresos</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li sec:authorize="hasPermission('1','ALL')" class="xn-openable">
+				<a>
+					<span class="fa fa-usd"></span> 
+					<span class="xn-text">Ingresos</span>
+				</a>
+				<ul>
+					<li>
+						<a th:href="@{mantenimiento/ingresos}">
+							<span class="fa fa-list-alt"></span> 
 							<span class="xn-text">Registro</span>
+						</a>
+					</li>
+					<li>
+						<a th:href="@{/carga/alumno}">
+							<span class="fa fa-file"></span> 
+							<span class="xn-text">Reportes</span>
 						</a>
 					</li>
 				</ul>
@@ -42,20 +68,53 @@
 			<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL') or hasPermission('3','ALL')"
 				class="xn-openable">
 				<a>
-					<span class="fa fa-bell"></span> 
+					<span class="fa fa-usd"></span> 
 					<span class="xn-text">Egresos</span>
 				</a>
 				<ul>
 					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
 						<a th:href="@{/consulta/atencion/laboratorio}">
-							<span class="fa fa-bell"></span>
+							<span class="fa fa-list-alt"></span>
 							<span> USGOM</span>
 						</a>
 					</li>
 					<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')">
 						<a th:href="@{/consulta/atencion/radiologia}">
-							<span class="fa fa-bell"></span>
+							<span class="fa fa-list-alt"></span>
 							<span> Planificación</span>
+						</a>
+					</li>
+					<li>
+						<a th:href="@{/carga/alumno}">
+							<span class="fa fa-file"></span> 
+							<span class="xn-text">Reportes</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL') or hasPermission('3','ALL')"
+				class="xn-openable">
+				<a>
+					<span class="fa fa-usd"></span> 
+					<span class="xn-text">Presupuesto</span>
+				</a>
+				<ul>
+					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
+						<a th:href="@{/consulta/atencion/laboratorio}">
+							<span class="fa fa-list-alt"></span>
+							<span> Ingresos</span>
+						</a>
+					</li>
+					<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')">
+						<a th:href="@{/consulta/atencion/radiologia}">
+							<span class="fa fa-list-alt"></span>
+							<span> Egresos</span>
+						</a>
+					</li>
+					<li>
+						<a th:href="@{/carga/alumno}">
+							<span class="fa fa-file"></span> 
+							<span class="xn-text">Reportes</span>
 						</a>
 					</li>
 				</ul>
@@ -66,11 +125,6 @@
 					<span class="xn-text">Mantenimientos</span>
 				</a>
 				<ul>
-					<li>
-						<a th:href="@{/mantenimiento/ingresos}">
-							<span class="fa fa-wrench"></span> Ingresos
-						</a>
-					</li>
 					<li>
 						<a th:href="@{/mantenimiento/alumno}">
 							<span class="fa fa-wrench"></span> Alumno
@@ -108,6 +162,7 @@
 					</li>
 				</ul>
 			</li>
+			<!--  
 			<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')" class="xn-openable">
 				<a>
 					<span class="fa fa-clipboard"></span> 
@@ -212,6 +267,7 @@
 					</li>
 				</ul>
 			</li>
+			-->
 			<li sec:authorize="hasPermission('1','ALL')" class="xn-openable">
 				<a>
 					<span class="fa fa-unlock-alt"></span> 

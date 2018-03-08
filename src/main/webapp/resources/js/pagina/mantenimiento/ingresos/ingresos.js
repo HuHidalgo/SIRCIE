@@ -66,8 +66,8 @@ $(document).ready(function() {
 		title : "Mantenimiento de Ingresos",
 		autoOpen : false,
 		modal : false,
-		height : 300,
-		width : 626
+		height : 800,
+		width : 1000
 	});
 
 	$local.$aniadirMantenimento.on("click", function() {
