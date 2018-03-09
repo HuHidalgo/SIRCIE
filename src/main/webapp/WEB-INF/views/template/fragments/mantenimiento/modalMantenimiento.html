@@ -47,7 +47,7 @@
 					<div class="group">
 						<label class="col-lg-2 control-label">Tipo de Documento</label>
 						<div class="col-lg-4">
-							<select id="tiposDocumento" class="form-control select2" name="idTipoDocumento">
+							<select id="tiposDocumento" class="form-control select2" name="tipoDocCliente">
 								<option value="" disabled="disabled" selected="selected">
 									Seleccione un tipo de Documento
 								</option>
@@ -59,7 +59,7 @@
 					<div class="group">
 						<label class="col-lg-2 control-label">Nro. de Documento</label>
 						<div class="col-lg-4">
-							<input class="form-control upperCase" name="nroDocCliente" data-skip-falsy="true" 
+							<input class="form-control numbersOnly" name="nroDocCliente" data-skip-falsy="true" 
 							data-value-type="string">
 						</div>
 					</div>
@@ -106,23 +106,32 @@
 				<div class="form-group">
 					<div class="group">
 						<label class="col-lg-2 control-label">Importe</label>
-						<div class="col-lg-2">
+						<div class="col-lg-4">
 							<input class="form-control numbersOnly" maxlength="13" name="importe" 
 							data-skip-falsy="true" data-value-type="string">
 						</div>
 					</div>
 					<div class="group">
 						<label class="col-lg-2 control-label">Importe Descontado</label>
-						<div class="col-lg-2">
+						<div class="col-lg-4">
 							<input class="form-control numbersOnly" maxlength="13" name="inporteDescontado" 
 							data-skip-falsy="true" data-value-type="string">
 						</div>
 					</div>
+				</div>
+				<div class="form-group">
 					<div class="group">
 						<label class="col-lg-2 control-label">Nro. de Cuota</label>
-						<div class="col-lg-2">
+						<div class="col-lg-4">
 							<input class="form-control numbersOnly" maxlength="2" name="nroCuota" 
 							data-skip-falsy="true" data-value-type="string">
+						</div>
+					</div>
+					<div class="group">
+						<label class="col-lg-2 control-label">Descripcíon (Razón del descuento)</label>
+						<div class="col-lg-4">
+							<textarea class="form-control" name="descDescuento" style="resize: none;"
+							rows = "3" data-skip-falsy="true" data-value-type="string"></textarea>
 						</div>
 					</div>
 				</div>
@@ -130,12 +139,12 @@
 					<div class="group">
 						<label class="col-lg-2 control-label">Tipo de Moneda</label>
 						<div class="col-lg-4">
-							<select id="tiposDocumento" class="form-control select2" name="idTipoDocumento">
+							<select id="tiposMoneda" class="form-control select2" name="tipoMoneda">
 								<option value="" disabled="disabled" selected="selected">
 									Seleccione un tipo de Moneda
 								</option>
-								<option th:each="tipoDocumento : ${tiposDocumento}" th:value="${tipoDocumento.idItem}"
-									th:text="|${tipoDocumento.idItem} - ${tipoDocumento.abreviatura}|"></option>
+								<option th:each="tipoMoneda : ${tiposMoneda}" th:value="${tipoMoneda.idItem}"
+									th:text="|${tipoMoneda.idItem} - ${tipoMoneda.abreviatura}|"></option>
 							</select>
 						</div>
 					</div>
@@ -167,8 +176,8 @@
 						<div class="col-lg-4">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input id="fechaFactura" type="text" class="form-control" name="fechaVF"/>
-							</div>
+								<input id="fechaVF" type="text" class="form-control"/>
+							</div>						
 						</div>
 					</div>
 				</div>
@@ -176,7 +185,7 @@
 					<div class="group">
 						<label class="col-lg-2 control-label">Nro. Recibo de Ingreso</label>
 						<div class="col-lg-4">
-							<input class="form-control numbersOnly" maxlength="50" name="nroReciboIngreso" data-skip-falsy="true" 
+							<input class="form-control numbersOnly" maxlength="15" name="nroReciboIngreso" data-skip-falsy="true" 
 							data-value-type="string">
 						</div>
 					</div>
@@ -185,7 +194,7 @@
 						<div class="col-lg-4">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input id="fechaNacimiento" type="text" class="form-control" readonly="readonly" name="fechaNacimiento"/>
+								<input id="fechaRI" type="text" class="form-control"/>
 							</div>
 						</div>
 					</div>
@@ -193,7 +202,28 @@
 			</fieldset>
 		</div>
 	</th:block>
-
+	
+	<th:block th:fragment="unidad">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Código de Unidad</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="codigoUnidad">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nombre de unidad</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="nombreUnidad">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Número de Concepto</label>
+			<div class="col-lg-10">
+				<input class="form-control numbersOnly" name="nroConcepto" maxlength="3">
+			</div>
+		</div>
+	</th:block>
+	
 	<th:block th:fragment="persona">
 		<div class="form-group">
 			<label class="col-lg-2 control-label">Tipo de Documento</label>

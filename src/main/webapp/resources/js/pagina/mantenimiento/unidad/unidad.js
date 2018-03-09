@@ -7,21 +7,12 @@ $(document).ready(function() {
 		$aniadirMantenimento : $("#aniadirMantenimiento"),
 		$registrarMantenimiento : $("#registrarMantenimiento"),
 		$filaSeleccionada : "",
-		$tiposDocumento : $("#tiposDocumento"),
-		$tiposMoneda : $("#tiposMoneda"),
 		$actualizarMantenimiento : $("#actualizarMantenimiento"),
-		$fechaVF : $("#fechaVF"),
-		$fechaRI : $("#fechaRI"),
-		codigoIngresoSeleccionado : 0
+		codigoUnidadSeleccionado : 0
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
-	
-	$funcionUtil.crearSelect2($local.$tiposDocumento, "Seleccione un Tipo de Moneda");
-	$funcionUtil.crearSelect2($local.$tiposMoneda, "Seleccione un Tipo de Documento");
-	$funcionUtil.crearDatePickerSimple($local.$fechaVF, "DD/MM/YYYY");
-	$funcionUtil.crearDatePickerSimple($local.$fechaRI, "DD/MM/YYYY");
-	
+
 	$.fn.dataTable.ext.errMode = 'none';
 
 	$local.$tablaMantenimiento.on('xhr.dt', function(e, settings, json, xhr) {
@@ -34,11 +25,11 @@ $(document).ready(function() {
 
 	$local.tablaMantenimiento = $local.$tablaMantenimiento.DataTable({
 		"ajax" : {
-			"url" : $variableUtil.root + "mantenimiento/ingresos?accion=buscarTodos",
+			"url" : $variableUtil.root + "mantenimiento/unidad?accion=buscarTodos",
 			"dataSrc" : ""
 		},
 		"language" : {
-			"emptyTable" : "No hay ingresos registrados."
+			"emptyTable" : "No hay Unidades registradas."
 		},
 		"initComplete" : function() {
 			$local.$tablaMantenimiento.wrap("<div class='table-responsive'></div>");
@@ -50,17 +41,17 @@ $(document).ready(function() {
 		}, {
 			"targets" : 3,
 			"className" : "all dt-center",
-			"defaultContent" : $variableUtil.botonActualizar
+			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
 		"columns" : [ {
-			"data" : "codigoIngreso",
-			"title" : "Código de Ingreso"
+			"data" : "codigoUnidad",
+			"title" : "Código de Unidad"
 		}, {
-			"data" : "nombreAlumno",
-			"title" : "Nombre de alumno"
+			"data" : "nombreUnidad",
+			"title" : "Nombre de Unidad"
 		}, {
-			"data" : "concepto",
-			"title" : "Concepto"
+			"data" : "nroConcepto",
+			"title" : "Número de Concepto"
 		}, {
 			"data" : null,
 			"title" : 'Acción'
@@ -72,11 +63,11 @@ $(document).ready(function() {
 	});
 
 	$local.$modalMantenimiento.PopupWindow({
-		title : "Mantenimiento de Ingresos",
+		title : "Mantenimiento de Unidad",
 		autoOpen : false,
 		modal : false,
-		height : 550,
-		width : 1000
+		height : 390,
+		width : 626
 	});
 
 	$local.$aniadirMantenimento.on("click", function() {
@@ -91,7 +82,7 @@ $(document).ready(function() {
 	});
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
-		$local.codigoIngresoSeleccionado = 0;
+		$local.codigoUnidadSeleccionado = 0;
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
@@ -112,13 +103,11 @@ $(document).ready(function() {
 		if (!$formMantenimiento.valid()) {
 			return;
 		}
-		var ingresos = $formMantenimiento.serializeJSON();
-		ingresos.fechaVF = $local.$fechaVF.data("daterangepicker").startDate.format('YYYY-MM-DD');
-		ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
+		var unidad = $formMantenimiento.serializeJSON();
 		$.ajax({
 			type : "POST",
-			url : $variableUtil.root + "mantenimiento/ingresos",
-			data : JSON.stringify(ingresos),
+			url : $variableUtil.root + "mantenimiento/unidad",
+			data : JSON.stringify(unidad),
 			beforeSend : function(xhr) {
 				$local.$registrarMantenimiento.attr("disabled", true).find("i").removeClass("fa-floppy-o").addClass("fa-spinner fa-pulse fa-fw");
 				xhr.setRequestHeader('Content-Type', 'application/json');
@@ -130,10 +119,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(ingresos) {
-				$funcionUtil.notificarException($variableUtil.registroExitoso, "fa-check", "Aviso", "success");
-				var ingreso = ingresos[0];
-				var row = $local.tablaMantenimiento.row.add(ingreso).draw();
+			success : function(response) {
+				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
+				var row = $local.tablaMantenimiento.row.add(unidad).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");
@@ -149,9 +137,9 @@ $(document).ready(function() {
 	$local.$tablaMantenimiento.children("tbody").on("click", ".actualizar", function() {
 		$funcionUtil.prepararFormularioActualizacion($formMantenimiento);
 		$local.$filaSeleccionada = $(this).parents("tr");
-		var ingresos = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
-		$local.codigoIngresoSeleccionado = ingresos.codigoIngreso;
-		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
+		var unidad = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
+		$local.codigoUnidadSeleccionado = unidad.codigoUnidad;
+		$funcionUtil.llenarFormulario(unidad, $formMantenimiento);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
 		$local.$modalMantenimiento.PopupWindow("open");
@@ -161,12 +149,12 @@ $(document).ready(function() {
 		if (!$formMantenimiento.valid()) {
 			return;
 		}
-		var ingresos = $formMantenimiento.serializeJSON();
-		ingresos.codigoIngreso = $local.codigoIngresoSeleccionado;
+		var unidad = $formMantenimiento.serializeJSON();
+		unidad.codigoUnidad = $local.codigoUnidadSeleccionado;
 		$.ajax({
 			type : "PUT",
-			url : $variableUtil.root + "mantenimiento/ingresos",
-			data : JSON.stringify(ingresos),
+			url : $variableUtil.root + "mantenimiento/unidad",
+			data : JSON.stringify(unidad),
 			beforeSend : function(xhr) {
 				$local.$actualizarMantenimiento.attr("disabled", true).find("i").removeClass("fa-pencil-square").addClass("fa-spinner fa-pulse fa-fw");
 				xhr.setRequestHeader('Content-Type', 'application/json');
@@ -180,7 +168,7 @@ $(document).ready(function() {
 			},
 			success : function(response) {
 				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(ingresos).draw();
+				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(unidad).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");
@@ -189,6 +177,66 @@ $(document).ready(function() {
 			},
 			complete : function(response) {
 				$local.$actualizarMantenimiento.attr("disabled", false).find("i").addClass("fa-pencil-square").removeClass("fa-spinner fa-pulse fa-fw");
+			}
+		});
+	});
+
+	$local.$tablaMantenimiento.children("tbody").on("click", ".eliminar", function() {
+		$local.$filaSeleccionada = $(this).parents("tr");
+		var unidad = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
+		$.confirm({
+			icon : "fa fa-info-circle",
+			title : "Aviso",
+			content : "¿Desea eliminar la Unidad <b>'" + unidad.codigoUnidad + " - " + unidad.nombreUnidad + "'<b/>?",
+			theme : "bootstrap",
+			buttons : {
+				Aceptar : {
+					action : function() {
+						var confirmar = $.confirm({
+							icon : 'fa fa-spinner fa-pulse fa-fw',
+							title : "Eliminando...",
+							content : function() {
+								var self = this;
+								self.buttons.close.hide();
+								$.ajax({
+									type : "DELETE",
+									url : $variableUtil.root + "mantenimiento/unidad",
+									data : JSON.stringify(unidad),
+									autoclose : true,
+									beforeSend : function(xhr) {
+										xhr.setRequestHeader('Content-Type', 'application/json');
+										xhr.setRequestHeader("X-CSRF-TOKEN", $variableUtil.csrf);
+									}
+								}).done(function(response) {
+									$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
+									$local.tablaMantenimiento.row($local.$filaSeleccionada).remove().draw(false);
+									confirmar.close();
+								}).fail(function(xhr) {
+									confirmar.close();
+									switch (xhr.status) {
+									case 400:
+										$funcionUtil.notificarException($funcionUtil.obtenerMensajeErrorEnCadena(xhr.responseJSON), "fa-warning", "Aviso", "warning");
+										break;
+									case 409:
+										var mensaje = $funcionUtil.obtenerMensajeError("La Unidad <b>" + unidad.codigoUnidad + " - " + unidad.nombreUnidad + "</b>", xhr.responseJSON, $variableUtil.accionEliminado);
+										$funcionUtil.notificarException(mensaje, "fa-warning", "Aviso", "warning");
+										break;
+									}
+								});
+							},
+							buttons : {
+								close : {
+									text : 'Aceptar'
+								}
+							}
+						});
+					},
+					keys : [ 'enter' ],
+					btnClass : "btn-primary"
+				},
+				Cancelar : {
+					keys : [ 'esc' ]
+				},
 			}
 		});
 	});

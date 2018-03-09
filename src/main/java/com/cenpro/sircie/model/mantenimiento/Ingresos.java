@@ -34,6 +34,7 @@ public class Ingresos {
 	private Double importe;
 	
 	private Double importeDescontado;
+	private String descDescuento;
 	
 	private int idCurso;
 	private String nombreCurso;
