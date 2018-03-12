@@ -8,10 +8,13 @@ $(document).ready(function() {
 		$registrarMantenimiento : $("#registrarMantenimiento"),
 		$filaSeleccionada : "",
 		$actualizarMantenimiento : $("#actualizarMantenimiento"),
-		codigoConceptoSeleccionado : 0
+		codigoConceptoSeleccionado : 0,
+		codigoUnidadSeleccionada : "",
+		$unidades : $("#unidades")
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
+	$funcionUtil.crearSelect2($local.$unidades, "Seleccione una unidad");
 
 	$.fn.dataTable.ext.errMode = 'none';
 
@@ -44,7 +47,9 @@ $(document).ready(function() {
 			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
 		"columns" : [ {
-			"data" : "codigoUnidad",
+			"data" : function(row) {
+				return $funcionUtil.unirCodigoDescripcion(row.nroConceptoUnidad, row.nombreUnidad);
+			},
 			"title" : "Unidad"
 		}, {
 			"data" : "nroConceptoEsp",
@@ -72,7 +77,7 @@ $(document).ready(function() {
 		title : "Mantenimiento de Concepto",
 		autoOpen : false,
 		modal : false,
-		height : 450,
+		height : 500,
 		width : 626
 	});
 
@@ -89,6 +94,7 @@ $(document).ready(function() {
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
 		$local.codigoConceptoSeleccionado = 0;
+		$local.codigoUnidadSeleccionada = "";
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
@@ -145,6 +151,7 @@ $(document).ready(function() {
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var concepto = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
 		$local.codigoConceptoSeleccionado = concepto.idConcepto;
+		$local.codigoUnidadSeleccionada = concepto.codigoUnidad;
 		$funcionUtil.llenarFormulario(concepto, $formMantenimiento);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
@@ -157,6 +164,7 @@ $(document).ready(function() {
 		}
 		var concepto = $formMantenimiento.serializeJSON();
 		concepto.idConcepto = $local.codigoConceptoSeleccionado;
+		concepto.codigoUnidad = $local.codigoUnidadSeleccionada;
 		$.ajax({
 			type : "PUT",
 			url : $variableUtil.root + "mantenimiento/concepto",

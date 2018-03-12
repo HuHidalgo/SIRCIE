@@ -11,7 +11,9 @@ import com.cenpro.sircie.mapper.IConceptoMapper;
 import com.cenpro.sircie.mapper.base.IMantenibleMapper;
 import com.cenpro.sircie.model.mantenimiento.Concepto;
 import com.cenpro.sircie.service.IConceptoService;
+import com.cenpro.sircie.service.excepcion.MantenimientoException;
 import com.cenpro.sircie.service.impl.MantenibleService;
+import com.cenpro.sircie.utilitario.ConstantesExcepciones;
 import com.cenpro.sircie.utilitario.Verbo;
 
 @Service
@@ -24,7 +26,14 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 		super(mapper);
 		this.conceptoMapper = (IConceptoMapper) mapper;
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public List<Concepto> buscarPorId(int idConcepto) {
 
+		Concepto concepto = Concepto.builder().idConcepto(idConcepto).build();
+        return this.buscar(concepto, Verbo.GET);
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Concepto> buscarTodos() {
 		
@@ -33,7 +42,15 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void registrarConcepto(Concepto concepto) {
-		
+		/*
+		List<Concepto> conceptos = this.registrarAutoIncrementable(concepto);
+        if (!conceptos.isEmpty() && conceptos.get(0).getIdConcepto() != null)
+        {
+            return conceptos.get(0).getIdConcepto();
+        } else
+        {
+            throw new MantenimientoException(ConstantesExcepciones.ERROR_REGISTRO);
+        }*/
 		this.registrar(concepto);
 	}
 
@@ -47,6 +64,6 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	public void eliminarConcepto(Concepto concepto) {
 		
 		this.eliminar(concepto);
-	}	
+	}
 
 }

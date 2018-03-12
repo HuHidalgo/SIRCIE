@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Concepto {
 	private Integer idConcepto;
-	private Integer nroConceptoEsp;
+	private String nroConceptoEsp;
 	private String nomConceptoEsp;
 	private String descConceptoEsp;
 	private Double importe;
 	
 	private String codigoUnidad;
-
+	private String nroConceptoUnidad;
+	private String nombreUnidad;
 }

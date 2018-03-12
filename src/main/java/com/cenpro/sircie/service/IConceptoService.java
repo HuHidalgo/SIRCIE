@@ -8,6 +8,8 @@ public interface IConceptoService extends IMantenibleService<Concepto>{
 	
 	public List<Concepto> buscarTodos();
     
+	public List<Concepto> buscarPorId(int idConcepto);
+	
     //public List<Concepto> buscarTodosT();
     
     public void registrarConcepto(Concepto concepto);

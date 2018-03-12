@@ -39,7 +39,7 @@ public @RestController class CampaniaRestController
     public ResponseEntity<?> registrarCampania(@RequestBody Campania campania)
     {
         int idCampania = campaniaService.registrarCampania(campania);
-        System.out.println(ResponseEntity.ok(campaniaService.buscarPorId(idCampania)));
+        //System.out.println(ResponseEntity.ok(campaniaService.buscarPorId(idCampania)));
         return ResponseEntity.ok(campaniaService.buscarPorId(idCampania));
     }
     

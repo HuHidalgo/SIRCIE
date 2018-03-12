@@ -219,50 +219,48 @@
 		<div class="form-group">
 			<label class="col-lg-2 control-label">Número de Concepto</label>
 			<div class="col-lg-10">
-				<input class="form-control" name="nroConcepto" maxlength="3">
+				<input class="form-control numbersOnly" name="nroConcepto" maxlength="3">
 			</div>
 		</div>
 	</th:block>
 	
 	<th:block th:fragment="concepto">
 		<div class="form-group">
-			<div class="group">
-				<label class="col-lg-2 control-label">Unidad</label>
-				<div class="col-lg-10">
-					<select id="unidades" class="form-control select2 elemento-desactivable" name="codigoUnidad">
-						<option value="" disabled="disabled" selected="selected">
-							Seleccione una Unidad
-						</option>
-						<option th:each="unidad : ${unidades}" th:value="${unidad.codigoUnidad}"
-							th:text="|${unidad.codigoUnidad} - ${unidad.nroConcepto} - ${unidad.nombreUnidad}|"></option>
-					</select>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Número Concepto Específico</label>
+			<label class="col-lg-2 control-label">Unidad</label>
 			<div class="col-lg-10">
-				<input class="form-control upperCase" name="nroConceptoEsp">
+				<select id="unidades" class="form-control select2 elemento-desactivable" name="codigoUnidad">
+					<option value="" disabled="disabled" selected="selected">
+						Seleccione una Unidad
+					</option>
+					<option th:each="unidad : ${unidades}" th:value="${unidad.codigoUnidad}"
+						th:text="|${unidad.codigoUnidad} - ${unidad.nroConcepto} - ${unidad.nombreUnidad}|">
+					</option>
+				</select>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Nombre Concepto Específico</label>
+			<label class="col-lg-2 control-label">Número Concepto</label>
+			<div class="col-lg-10">
+				<input class="form-control numbersOnly" maxlength="3" name="nroConceptoEsp">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nombre Concepto</label>
 			<div class="col-lg-10">
 				<input class="form-control upperCase" name="nomConceptoEsp">
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Descripción Concepto Específico</label>
+			<label class="col-lg-2 control-label">Descripción Concepto</label>
 			<div class="col-lg-10">
 				<textarea class="form-control upperCase" name="descConceptoEsp" style="resize: none;"
 				rows = "3" data-skip-falsy="true" data-value-type="string"></textarea>
 			</div>
 		</div>
-		<div class="group">
+		<div class="form-group">
 			<label class="col-lg-2 control-label">Importe</label>
 			<div class="col-lg-4">
-				<input class="form-control numbersOnly" maxlength="8" name="importe" 
-				data-skip-falsy="true" data-value-type="string">
+				<input class="form-control" maxlength="8" name="importe">
 			</div>
 		</div>
 	</th:block>
