@@ -45,8 +45,7 @@ public class EscuelaService extends MantenibleService<Escuela> implements IEscue
     public List<Escuela> buscarPorCodigoFacultadCodigoEscuela(Integer codigoFacultad,
             Integer codigoEscuela)
     {
-        Escuela escuela = Escuela.builder().codigoFacultad(codigoFacultad)
-                .codigoEscuela(codigoEscuela).build();
+        Escuela escuela = Escuela.builder().codigoFacultad(codigoFacultad).codigoEscuela(codigoEscuela).build();
         return this.buscar(escuela, Verbo.GET);
     }
 

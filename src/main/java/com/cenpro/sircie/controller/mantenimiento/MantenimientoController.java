@@ -15,6 +15,7 @@ import com.cenpro.sircie.controller.excepcion.anotacion.Vista;
 import com.cenpro.sircie.service.IFacultadService;
 import com.cenpro.sircie.service.IMultiTabDetService;
 import com.cenpro.sircie.service.IPersonaService;
+import com.cenpro.sircie.service.IUnidadService;
 import com.cenpro.sircie.utilitario.MultiTablaUtil;
 
 @Vista
@@ -25,6 +26,8 @@ public @Controller class MantenimientoController
     private @Autowired IPersonaService personaService;
     private @Autowired IFacultadService facultadService;
     private @Autowired IMultiTabDetService multiTabDetService;
+    
+    private @Autowired IUnidadService unidadService;
 
     @Audit(tipo = Tipo.Persona)
     @GetMapping("/{mantenimiento:persona}")
@@ -88,7 +91,7 @@ public @Controller class MantenimientoController
     }
     
     //@Audit(tipo = Tipo.Ingresos)
-    @GetMapping("/{mantenimiento:ingresos}")//////////////////////////////////////
+    @GetMapping("/{mantenimiento:ingresos}")
     public String irPaginaMantenimientoIngresos(@PathVariable String mantenimiento, ModelMap model)
     {
         model.addAttribute("mantenimiento", mantenimiento);
@@ -96,6 +99,7 @@ public @Controller class MantenimientoController
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO));
         model.addAttribute("tiposMoneda",
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_MONEDA));
+        model.addAttribute("unidades", unidadService.buscarTodos());
         return "seguras/mantenimiento/mantenimiento";
     }
     
@@ -111,6 +115,14 @@ public @Controller class MantenimientoController
     public String irPaginaMantenimientoUnidad(@PathVariable String mantenimiento, ModelMap model)
     {
         model.addAttribute("mantenimiento", mantenimiento);
+        return "seguras/mantenimiento/mantenimiento";
+    }
+    
+    @GetMapping("/{mantenimiento:concepto}")
+    public String irPaginaMantenimientoConcepto(@PathVariable String mantenimiento, ModelMap model)
+    {
+        model.addAttribute("mantenimiento", mantenimiento);
+        model.addAttribute("unidades", unidadService.buscarTodos());
         return "seguras/mantenimiento/mantenimiento";
     }
     

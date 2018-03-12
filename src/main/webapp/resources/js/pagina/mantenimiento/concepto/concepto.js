@@ -7,23 +7,12 @@ $(document).ready(function() {
 		$aniadirMantenimento : $("#aniadirMantenimiento"),
 		$registrarMantenimiento : $("#registrarMantenimiento"),
 		$filaSeleccionada : "",
-		$tiposDocumento : $("#tiposDocumento"),
-		$tiposMoneda : $("#tiposMoneda"),
 		$actualizarMantenimiento : $("#actualizarMantenimiento"),
-		$fechaVF : $("#fechaVF"),
-		$fechaRI : $("#fechaRI"),
-		codigoIngresoSeleccionado : 0,
-		$unidades : $("#unidades")
+		codigoConceptoSeleccionado : 0
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
-	
-	$funcionUtil.crearSelect2($local.$unidades, "Seleccione una Unidad");
-	$funcionUtil.crearSelect2($local.$tiposDocumento, "Seleccione un Tipo de Documento");
-	$funcionUtil.crearSelect2($local.$tiposMoneda, "Seleccione un Tipo de Moneda");
-	$funcionUtil.crearDatePickerSimple($local.$fechaVF, "DD/MM/YYYY");
-	$funcionUtil.crearDatePickerSimple($local.$fechaRI, "DD/MM/YYYY");
-	
+
 	$.fn.dataTable.ext.errMode = 'none';
 
 	$local.$tablaMantenimiento.on('xhr.dt', function(e, settings, json, xhr) {
@@ -36,34 +25,40 @@ $(document).ready(function() {
 
 	$local.tablaMantenimiento = $local.$tablaMantenimiento.DataTable({
 		"ajax" : {
-			"url" : $variableUtil.root + "mantenimiento/ingresos?accion=buscarTodos",
+			"url" : $variableUtil.root + "mantenimiento/concepto?accion=buscarTodos",
 			"dataSrc" : ""
 		},
 		"language" : {
-			"emptyTable" : "No hay ingresos registrados."
+			"emptyTable" : "No hay Conceptos registrados."
 		},
 		"initComplete" : function() {
 			$local.$tablaMantenimiento.wrap("<div class='table-responsive'></div>");
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2 ],
+			"targets" : [ 0, 1, 2, 3, 4 ],
 			"className" : "all filtrable",
 		}, {
-			"targets" : 3,
+			"targets" : 5,
 			"className" : "all dt-center",
-			"defaultContent" : $variableUtil.botonActualizar
+			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
 		"columns" : [ {
-			"data" : "codigoIngreso",
-			"title" : "Código de Ingreso"
+			"data" : "codigoUnidad",
+			"title" : "Unidad"
 		}, {
-			"data" : "nombreAlumno",
-			"title" : "Nombre de alumno"
+			"data" : "nroConceptoEsp",
+			"title" : "Número de Concepto Específico"
 		}, {
-			"data" : "concepto",
-			"title" : "Concepto"
+			"data" : "nomConceptoEsp",
+			"title" : "Nombre de Concepto Específico"
 		}, {
+			"data" : "descConceptoEsp",
+			"title" : "Descripción de Concepto Específico"
+		},{
+			"data" : "importe",
+			"title" : "Importe"
+		},{
 			"data" : null,
 			"title" : 'Acción'
 		} ]
@@ -74,11 +69,11 @@ $(document).ready(function() {
 	});
 
 	$local.$modalMantenimiento.PopupWindow({
-		title : "Mantenimiento de Ingresos",
+		title : "Mantenimiento de Concepto",
 		autoOpen : false,
 		modal : false,
-		height : 550,
-		width : 1000
+		height : 450,
+		width : 626
 	});
 
 	$local.$aniadirMantenimento.on("click", function() {
@@ -93,7 +88,7 @@ $(document).ready(function() {
 	});
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
-		$local.codigoIngresoSeleccionado = 0;
+		$local.codigoConceptoSeleccionado = 0;
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
@@ -114,13 +109,11 @@ $(document).ready(function() {
 		if (!$formMantenimiento.valid()) {
 			return;
 		}
-		var ingresos = $formMantenimiento.serializeJSON();
-		ingresos.fechaVF = $local.$fechaVF.data("daterangepicker").startDate.format('YYYY-MM-DD');
-		ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
+		var concepto = $formMantenimiento.serializeJSON();
 		$.ajax({
 			type : "POST",
-			url : $variableUtil.root + "mantenimiento/ingresos",
-			data : JSON.stringify(ingresos),
+			url : $variableUtil.root + "mantenimiento/concepto",
+			data : JSON.stringify(concepto),
 			beforeSend : function(xhr) {
 				$local.$registrarMantenimiento.attr("disabled", true).find("i").removeClass("fa-floppy-o").addClass("fa-spinner fa-pulse fa-fw");
 				xhr.setRequestHeader('Content-Type', 'application/json');
@@ -132,10 +125,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(ingresos) {
-				$funcionUtil.notificarException($variableUtil.registroExitoso, "fa-check", "Aviso", "success");
-				var ingreso = ingresos[0];
-				var row = $local.tablaMantenimiento.row.add(ingreso).draw();
+			success : function(response) {
+				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
+				var row = $local.tablaMantenimiento.row.add(concepto).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");
@@ -151,9 +143,9 @@ $(document).ready(function() {
 	$local.$tablaMantenimiento.children("tbody").on("click", ".actualizar", function() {
 		$funcionUtil.prepararFormularioActualizacion($formMantenimiento);
 		$local.$filaSeleccionada = $(this).parents("tr");
-		var ingresos = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
-		$local.codigoIngresoSeleccionado = ingresos.codigoIngreso;
-		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
+		var concepto = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
+		$local.codigoConceptoSeleccionado = concepto.idConcepto;
+		$funcionUtil.llenarFormulario(concepto, $formMantenimiento);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
 		$local.$modalMantenimiento.PopupWindow("open");
@@ -163,12 +155,12 @@ $(document).ready(function() {
 		if (!$formMantenimiento.valid()) {
 			return;
 		}
-		var ingresos = $formMantenimiento.serializeJSON();
-		ingresos.codigoIngreso = $local.codigoIngresoSeleccionado;
+		var concepto = $formMantenimiento.serializeJSON();
+		concepto.idConcepto = $local.codigoConceptoSeleccionado;
 		$.ajax({
 			type : "PUT",
-			url : $variableUtil.root + "mantenimiento/ingresos",
-			data : JSON.stringify(ingresos),
+			url : $variableUtil.root + "mantenimiento/concepto",
+			data : JSON.stringify(concepto),
 			beforeSend : function(xhr) {
 				$local.$actualizarMantenimiento.attr("disabled", true).find("i").removeClass("fa-pencil-square").addClass("fa-spinner fa-pulse fa-fw");
 				xhr.setRequestHeader('Content-Type', 'application/json');
@@ -182,7 +174,7 @@ $(document).ready(function() {
 			},
 			success : function(response) {
 				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(ingresos).draw();
+				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(concepto).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");
@@ -191,6 +183,66 @@ $(document).ready(function() {
 			},
 			complete : function(response) {
 				$local.$actualizarMantenimiento.attr("disabled", false).find("i").addClass("fa-pencil-square").removeClass("fa-spinner fa-pulse fa-fw");
+			}
+		});
+	});
+
+	$local.$tablaMantenimiento.children("tbody").on("click", ".eliminar", function() {
+		$local.$filaSeleccionada = $(this).parents("tr");
+		var concepto = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
+		$.confirm({
+			icon : "fa fa-info-circle",
+			title : "Aviso",
+			content : "¿Desea eliminar el concepto <b>'" + concepto.idConcepto + " - " + concepto.nomConceptoEsp + "'<b/>?",
+			theme : "bootstrap",
+			buttons : {
+				Aceptar : {
+					action : function() {
+						var confirmar = $.confirm({
+							icon : 'fa fa-spinner fa-pulse fa-fw',
+							title : "Eliminando...",
+							content : function() {
+								var self = this;
+								self.buttons.close.hide();
+								$.ajax({
+									type : "DELETE",
+									url : $variableUtil.root + "mantenimiento/concepto",
+									data : JSON.stringify(concepto),
+									autoclose : true,
+									beforeSend : function(xhr) {
+										xhr.setRequestHeader('Content-Type', 'application/json');
+										xhr.setRequestHeader("X-CSRF-TOKEN", $variableUtil.csrf);
+									}
+								}).done(function(response) {
+									$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
+									$local.tablaMantenimiento.row($local.$filaSeleccionada).remove().draw(false);
+									confirmar.close();
+								}).fail(function(xhr) {
+									confirmar.close();
+									switch (xhr.status) {
+									case 400:
+										$funcionUtil.notificarException($funcionUtil.obtenerMensajeErrorEnCadena(xhr.responseJSON), "fa-warning", "Aviso", "warning");
+										break;
+									case 409:
+										var mensaje = $funcionUtil.obtenerMensajeError("El concepto <b>" + concepto.idConcepto + " - " + concepto.nomConceptoEsp + "</b>", xhr.responseJSON, $variableUtil.accionEliminado);
+										$funcionUtil.notificarException(mensaje, "fa-warning", "Aviso", "warning");
+										break;
+									}
+								});
+							},
+							buttons : {
+								close : {
+									text : 'Aceptar'
+								}
+							}
+						});
+					},
+					keys : [ 'enter' ],
+					btnClass : "btn-primary"
+				},
+				Cancelar : {
+					keys : [ 'esc' ]
+				},
 			}
 		});
 	});

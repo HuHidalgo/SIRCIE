@@ -12,40 +12,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cenpro.sircie.model.mantenimiento.Unidad;
-import com.cenpro.sircie.service.IUnidadService;
+import com.cenpro.sircie.model.mantenimiento.Concepto;
+import com.cenpro.sircie.service.IConceptoService;
 import com.cenpro.sircie.utilitario.ConstantesGenerales;
 
-@RequestMapping("/mantenimiento/unidad")
-public @RestController class UnidadRestController {
+@RequestMapping("/mantenimiento/concepto")
+public @RestController class ConceptoRestController {
 	
-	private @Autowired IUnidadService unidadService;
+	private @Autowired IConceptoService conceptoService;
 
     @GetMapping(params = "accion=buscarTodos")
-    public List<Unidad> buscarTodosT()
+    public List<Concepto> buscarTodos()
     {
-        return unidadService.buscarTodosT();
+        return conceptoService.buscarTodos();
     }
 
     @PostMapping
-    public ResponseEntity<?> registrarUnidad(@RequestBody Unidad unidad)
+    public ResponseEntity<?> registrarConcepto(@RequestBody Concepto concepto)
     {
-        unidadService.registrarUnidad(unidad);
+        conceptoService.registrarConcepto(concepto);
         return ResponseEntity.ok(ConstantesGenerales.REGISTRO_EXITOSO);
     }
 
     @PutMapping
-    public ResponseEntity<?> actualizarUnidad(@RequestBody Unidad unidad)
+    public ResponseEntity<?> actualizarConcepto(@RequestBody Concepto concepto)
     {
-        unidadService.actualizarUnidad(unidad);
+        conceptoService.actualizarConcepto(concepto);
         return ResponseEntity.ok(ConstantesGenerales.ACTUALIZACION_EXITOSA);
     }
     
     @DeleteMapping
-    public ResponseEntity<?> eliminarUnidad(@RequestBody Unidad unidad)
+    public ResponseEntity<?> eliminarConcepto(@RequestBody Concepto concepto)
     {
-        unidadService.eliminarUnidad(unidad);
+        conceptoService.eliminarConcepto(concepto);
         return ResponseEntity.ok(ConstantesGenerales.ELIMINACION_EXITOSA);
     }
-
 }

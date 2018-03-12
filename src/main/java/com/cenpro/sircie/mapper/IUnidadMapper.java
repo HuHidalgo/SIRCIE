@@ -12,7 +12,7 @@ import com.cenpro.sircie.model.parametro.Parametro;
 
 public interface IUnidadMapper extends IMantenibleMapper<Unidad>{
 	
-	@Select(value = { "{call MANT_UNIDAD ( "
+	@Select(value = { "{call MANT_UNIDADES ( "
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.codigoUnidad, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.nombreUnidad, jdbcType = VARCHAR, mode = IN},"
