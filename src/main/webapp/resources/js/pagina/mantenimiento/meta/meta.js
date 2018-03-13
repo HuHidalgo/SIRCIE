@@ -45,10 +45,10 @@ $(document).ready(function() {
 		} ],
 		"columns" : [ {
 			"data" : "nroMeta",
-			"title" : "Nro. Meta"
+			"title" : "Número de Meta"
 		}, {
 			"data" : "nomMeta",
-			"title" : "Nombre"
+			"title" : "Nombre de Meta"
 		}, {
 			"data" : "desMeta",
 			"title" : "Descripción"
@@ -66,7 +66,7 @@ $(document).ready(function() {
 		title : "Mantenimiento de Meta",
 		autoOpen : false,
 		modal : false,
-		height : 390,
+		height : 320,
 		width : 626
 	});
 

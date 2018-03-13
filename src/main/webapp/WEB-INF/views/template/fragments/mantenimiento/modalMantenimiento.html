@@ -267,13 +267,13 @@
 	
 	<th:block th:fragment="meta">
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Nro. Meta</label>
+			<label class="col-lg-2 control-label">Número de Meta</label>
 			<div class="col-lg-10">
-				<input class="form-control upperCase" name="nroMeta">
+				<input class="form-control numbersOnly elemento-desactivable" name="nroMeta">
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Nombre</label>
+			<label class="col-lg-2 control-label">Nombre de Meta</label>
 			<div class="col-lg-10">
 				<input class="form-control upperCase" name="nomMeta">
 			</div>
@@ -288,37 +288,36 @@
 
 	<th:block th:fragment="tarea">
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Codigo</label>
-			<div class="col-lg-10">
-				<input class="form-control upperCase" name="codigoTarea">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Nombre Tarea</label>
-			<div class="col-lg-10">
-				<input class="form-control upperCase" name="nombreTarea">
-			</div>
-		</div>
-		<div class="form-group">
 			<label class="col-lg-2 control-label">Unidad responsable</label>
 			<div class="col-lg-10">
-				<select id="unidades" class="form-control select2 elemento-desactivable"
-					name="codigoUnidad">
+				<select id="unidades" class="form-control select2" name="codigoUnidad">
 					<option value="" disabled="disabled" selected="selected">Elija Unidad</option>
 					<option th:each="unidad : ${unidades}" th:value="${unidad.codigoUnidad}"
-						th:text="|${unidad.nombreUnidad}|"></option>
+						th:text="|${unidad.codigoUnidad} - ${unidad.nombreUnidad}|"></option>
 				</select>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-lg-2 control-label">Meta</label>
 			<div class="col-lg-10">
-				<select id="metas" class="form-control select2 elemento-desactivable"
-					name="nroMeta">
+				<select id="metas" class="form-control select2" name="nroMeta">
 					<option value="" disabled="disabled" selected="selected">Elija Meta</option>
 					<option th:each="meta : ${metas}" th:value="${meta.nroMeta}"
-						th:text="|${meta.nomMeta}|"></option>
+						th:text="|${meta.nroMeta} - ${meta.nomMeta}|"></option>
 				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Codigo de Tarea</label>
+			<div class="col-lg-10">
+				<input class="form-control numbersOnly elemento-desactivable" name="codigoTarea">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nombre de Tarea</label>
+			<div class="col-lg-10">
+				<textarea class="form-control upperCase" name="nomTarea" style="resize: none;"
+				rows = "3" data-skip-falsy="true" data-value-type="string"></textarea>
 			</div>
 		</div>
 	</th:block>
@@ -345,8 +344,7 @@
 		<div class="form-group">
 			<label class="col-lg-2 control-label">Tarea</label>
 			<div class="col-lg-10">
-				<select id="tareas" class="form-control select2 elemento-desactivable"
-					name="codigoTarea">
+				<select id="tareas" class="form-control select2" name="codigoTarea">
 					<option value="" disabled="disabled" selected="selected">Elija Tarea</option>
 					<option th:each="tarea: ${tareas}" th:value="${tarea.codigoTarea}"
 						th:text="|${tarea.nombreTarea}|"></option>

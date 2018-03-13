@@ -28,21 +28,24 @@ public @RestController class TareaRestController
     }
 
     @PostMapping
-    public ResponseEntity<?> registrarUnidad(@RequestBody Tarea tarea)
-    {
+    public ResponseEntity<?> registrarTarea(@RequestBody Tarea tarea)
+    {	
         tareaService.registrarTarea(tarea);
-        return ResponseEntity.ok(ConstantesGenerales.REGISTRO_EXITOSO);
+        return ResponseEntity.ok(tareaService.buscarPorCodigoUnidadNroMeta(tarea.getCodigoUnidad(), 
+        						tarea.getNroMeta()));
     }
 
     @PutMapping
     public ResponseEntity<?> actualizarTarea(@RequestBody Tarea tarea)
     {
+    	System.out.println("----> "+tarea);
         tareaService.actualizarTarea(tarea);
-        return ResponseEntity.ok(ConstantesGenerales.ACTUALIZACION_EXITOSA);
+        return ResponseEntity.ok(tareaService.buscarPorCodigoUnidadNroMeta(tarea.getCodigoUnidad(), 
+								tarea.getNroMeta()));
     }
     
     @DeleteMapping
-    public ResponseEntity<?> eliminarUnidad(@RequestBody Tarea tarea)
+    public ResponseEntity<?> eliminarTarea(@RequestBody Tarea tarea)
     {
     	tareaService.eliminarTarea(tarea);
         return ResponseEntity.ok(ConstantesGenerales.ELIMINACION_EXITOSA);

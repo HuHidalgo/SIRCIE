@@ -9,6 +9,8 @@ $(document).ready(function() {
 		$filaSeleccionada : "",
 		$actualizarMantenimiento : $("#actualizarMantenimiento"),
 		codigoTareaSeleccionado : 0,
+		//codigoUnidadSeleccionada : "",
+		//codigoMetaSeleccionada : 0,
 		$unidades : $("#unidades"),
 		$metas : $("#metas")
 	};
@@ -41,23 +43,30 @@ $(document).ready(function() {
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2 ],
+			"targets" : [ 0, 1, 2, 3 ],
 			"className" : "all filtrable",
 		}, {
-			"targets" : 3,
+			"targets" : 4,
 			"className" : "all dt-center",
 			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
 		"columns" : [ {
-			"data" : "codigoTarea",
-			"title" : "Codigo"
-		}, {
-			"data" : "nombreTarea",
-			"title" : "Nombre"
-		}, {
-			"data" : "nombreUnidad",
+			"data" : function(row) {
+				return $funcionUtil.unirCodigoDescripcion(row.codigoUnidad, row.nombreUnidad);
+			},
 			"title" : "Unidad"
 		}, {
+			"data" : function(row) {
+				return $funcionUtil.unirCodigoDescripcion(row.nroMeta, row.nomMeta);
+			},
+			"title" : "Meta"
+		}, {
+			"data" : "codigoTarea",
+			"title" : "Codigo Tarea"
+		}, {
+			"data" : "nomTarea",
+			"title" : "Nombre de Tarea"
+		},{
 			"data" : null,
 			"title" : 'Acción'
 		} ]
@@ -71,7 +80,7 @@ $(document).ready(function() {
 		title : "Mantenimiento de Tarea",
 		autoOpen : false,
 		modal : false,
-		height : 390,
+		height : 410,
 		width : 626
 	});
 
@@ -88,6 +97,8 @@ $(document).ready(function() {
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
 		$local.codigoTareaSeleccionado = 0;
+		//$local.codigoUnidadSeleccionada = "";
+		//$local.codigoMetaSeleccionada = 0;
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
@@ -109,9 +120,6 @@ $(document).ready(function() {
 			return;
 		}
 		var tarea = $formMantenimiento.serializeJSON();
-		tarea.Unidad_idUnidad = $local.$unidades.val();
-		tarea.Meta_nroMeta = $local.$metas.val();
-		tarea.nombreUnidad = $("#unidades option:selected").text();
 		$.ajax({
 			type : "POST",
 			url : $variableUtil.root + "mantenimiento/tarea",
@@ -127,9 +135,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(response) {
-				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row.add(tarea).draw();
+			success : function(tareas) {
+				$funcionUtil.notificarException($variableUtil.registroExitoso, "fa-check", "Aviso", "success");
+				var row = $local.tablaMantenimiento.row.add(tareas[0]).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");
@@ -147,6 +155,8 @@ $(document).ready(function() {
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var tarea = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
 		$local.codigoTareaSeleccionado = tarea.codigoTarea;
+		//$local.codigoUnidadSeleccionada = tarea.codigoUnidad;
+		//$local.codigoMetaSeleccionada = tarea.nroMeta;
 		$funcionUtil.llenarFormulario(tarea, $formMantenimiento);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
@@ -159,6 +169,8 @@ $(document).ready(function() {
 		}
 		var tarea = $formMantenimiento.serializeJSON();
 		tarea.codigoTarea = $local.codigoTareaSeleccionado;
+		//tarea.codigoUnidad = $local.codigoUnidadSeleccionada;
+		//tarea.nroMeta = $local.codigoMetaSeleccionada;
 		$.ajax({
 			type : "PUT",
 			url : $variableUtil.root + "mantenimiento/tarea",
@@ -174,9 +186,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(response) {
-				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(tarea).draw();
+			success : function(tareas) {
+				$funcionUtil.notificarException($variableUtil.actualizacionExitosa, "fa-check", "Aviso", "success");
+				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(tareas[0]).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");
@@ -195,7 +207,7 @@ $(document).ready(function() {
 		$.confirm({
 			icon : "fa fa-info-circle",
 			title : "Aviso",
-			content : "¿Desea eliminar la tarea <b>'" + tarea.codigoTarea + " - " + tarea.nombreTarea + "'<b/>?",
+			content : "¿Desea eliminar la tarea <b>'" + tarea.codigoTarea + " - " + tarea.nomTarea + "'<b/>?",
 			theme : "bootstrap",
 			buttons : {
 				Aceptar : {
@@ -226,7 +238,7 @@ $(document).ready(function() {
 										$funcionUtil.notificarException($funcionUtil.obtenerMensajeErrorEnCadena(xhr.responseJSON), "fa-warning", "Aviso", "warning");
 										break;
 									case 409:
-										var mensaje = $funcionUtil.obtenerMensajeError("La tarea <b>" + tarea.CodigoTarea + " - " + tarea.nomTarea + "</b>", xhr.responseJSON, $variableUtil.accionEliminado);
+										var mensaje = $funcionUtil.obtenerMensajeError("La tarea <b>" + tarea.codigoTarea + " - " + tarea.nomTarea + "</b>", xhr.responseJSON, $variableUtil.accionEliminado);
 										$funcionUtil.notificarException(mensaje, "fa-warning", "Aviso", "warning");
 										break;
 									}

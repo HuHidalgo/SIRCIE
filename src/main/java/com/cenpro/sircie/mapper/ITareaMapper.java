@@ -12,12 +12,13 @@ import com.cenpro.sircie.model.parametro.Parametro;
 
 public interface ITareaMapper extends IMantenibleMapper<Tarea> 
 {
-	@Select(value = { "{call MANT_TAREA ( "
+	@Select(value = { "{call MANT_TAREAS ( "
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.codigoTarea, jdbcType = NUMERIC, mode = IN},"
-            + "#{objeto.Unidad_idUnidad, jdbcType = VARCHAR, mode = IN},"
-            + "#{objeto.Meta_nroMeta, jdbcType = NUMERIC, mode = IN},"
-            + "#{objeto.nombreTarea, jdbcType = VARCHAR, mode = IN})}"})
+            + "#{objeto.codigoUnidad, jdbcType = VARCHAR, mode = IN},"
+            + "#{objeto.nroMeta, jdbcType = NUMERIC, mode = IN},"
+            + "#{objeto.nomTarea, jdbcType = VARCHAR, mode = IN},"
+			+ "#{userAudit, jdbcType = VARCHAR, mode = IN})}" })
     @Options(statementType = StatementType.CALLABLE)
     public List<Tarea> mantener(Parametro parametro);
 }

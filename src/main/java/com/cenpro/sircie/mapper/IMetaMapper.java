@@ -12,11 +12,12 @@ import com.cenpro.sircie.model.parametro.Parametro;
 
 public interface IMetaMapper extends IMantenibleMapper<Meta>
 {
-	@Select(value = { "{call MANT_META ( "
+	@Select(value = { "{call MANT_METAS ( "
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.nroMeta, jdbcType = NUMERIC, mode = IN},"
             + "#{objeto.nomMeta, jdbcType = VARCHAR, mode = IN},"
-            + "#{objeto.desMeta, jdbcType = VARCHAR, mode = IN})}"})
+            + "#{objeto.desMeta, jdbcType = VARCHAR, mode = IN},"
+			+ "#{userAudit, jdbcType = VARCHAR, mode = IN})}" })
     @Options(statementType = StatementType.CALLABLE)
     public List<Meta> mantener(Parametro parametro);
 }

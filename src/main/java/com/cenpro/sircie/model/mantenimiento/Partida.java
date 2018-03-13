@@ -14,6 +14,6 @@ public class Partida
 	private String clasificador;
 	private String descripcion;
 	private String descDetallada;
-	private Integer CodigoTarea;
-	private String nombreTarea;
+	private Integer codigoTarea;
+	private String nomTarea;
 }

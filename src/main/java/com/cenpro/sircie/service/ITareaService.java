@@ -8,6 +8,8 @@ public interface ITareaService extends IMantenibleService<Tarea>
 {
 	public List<Tarea> buscarTodos();
     
+	public List<Tarea> buscarPorCodigoUnidadNroMeta(String codigoUnidad, Integer nroMeta);
+	
     public List<Tarea> buscarPorId();
     
     public void registrarTarea(Tarea tarea);

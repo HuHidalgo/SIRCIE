@@ -36,7 +36,13 @@ public class TareaService extends MantenibleService<Tarea> implements ITareaServ
 	public List<Tarea> buscarPorId() {
 		return this.buscar(new Tarea(), Verbo.GET);
 	}
-
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public List<Tarea> buscarPorCodigoUnidadNroMeta(String codigoUnidad, Integer nroMeta) {
+		Tarea tarea = Tarea.builder().codigoUnidad(codigoUnidad).nroMeta(nroMeta).build();
+		return this.buscar(tarea, Verbo.GET);
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void registrarTarea(Tarea tarea) {
 		this.registrar(tarea);
@@ -51,5 +57,4 @@ public class TareaService extends MantenibleService<Tarea> implements ITareaServ
 	public void eliminarTarea(Tarea tarea) {
 		this.eliminar(tarea);
 	}
-
 }

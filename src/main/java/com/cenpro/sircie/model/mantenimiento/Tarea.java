@@ -12,9 +12,12 @@ import lombok.NoArgsConstructor;
 public class Tarea 
 {
 	private Integer codigoTarea;
-    private String Unidad_idUnidad;
-    private Integer Meta_nroMeta;
-    private String nombreTarea;
+	private String nomTarea;
+	
+    private String codigoUnidad;
     private String nombreUnidad;
-    //private String nombreMeta;
+    
+    private Integer nroMeta;
+    private String nomMeta;
+    
 }

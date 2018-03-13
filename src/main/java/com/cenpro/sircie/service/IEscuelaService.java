@@ -8,8 +8,7 @@ public interface IEscuelaService extends IMantenibleService<Escuela>
 {
     public List<Escuela> buscarTodos();
 
-    public List<Escuela> buscarPorCodigoFacultadCodigoEscuela(Integer codigoFacultad,
-            Integer codigoEscuela);
+    public List<Escuela> buscarPorCodigoFacultadCodigoEscuela(Integer codigoFacultad, Integer codigoEscuela);
 
     public List<Escuela> buscarPorCodigoFacultad(Integer codigoFacultad);
 
