@@ -8,7 +8,7 @@ $(document).ready(function() {
 		$registrarMantenimiento : $("#registrarMantenimiento"),
 		$filaSeleccionada : "",
 		$actualizarMantenimiento : $("#actualizarMantenimiento"),
-		codigoConceptoSeleccionado : 0,
+		codigoConceptoSeleccionado : "",
 		codigoUnidadSeleccionada : "",
 		$unidades : $("#unidades")
 	};
@@ -93,7 +93,7 @@ $(document).ready(function() {
 	});
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
-		$local.codigoConceptoSeleccionado = 0;
+		$local.codigoConceptoSeleccionado = "";
 		$local.codigoUnidadSeleccionada = "";
 	});
 
@@ -180,9 +180,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(response) {
-				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(concepto).draw();
+			success : function(conceptos) {
+				$funcionUtil.notificarException($variableUtil.actualizacionExitosa, "fa-check", "Aviso", "success");
+				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(conceptos[0]).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");

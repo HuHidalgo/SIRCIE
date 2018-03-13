@@ -8,7 +8,7 @@ $(document).ready(function() {
 		$registrarMantenimiento : $("#registrarMantenimiento"),
 		$filaSeleccionada : "",
 		$actualizarMantenimiento : $("#actualizarMantenimiento"),
-		codigoUnidadSeleccionado : 0
+		codigoUnidadSeleccionado : ""
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
@@ -82,7 +82,7 @@ $(document).ready(function() {
 	});
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
-		$local.codigoUnidadSeleccionado = 0;
+		$local.codigoUnidadSeleccionado = "";
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
