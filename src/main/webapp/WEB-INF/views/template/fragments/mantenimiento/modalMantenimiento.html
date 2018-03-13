@@ -265,6 +265,96 @@
 		</div>
 	</th:block>
 	
+	<th:block th:fragment="meta">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nro. Meta</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="nroMeta">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nombre</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="nomMeta">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Descripción</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="desMeta">
+			</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="tarea">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Codigo</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="codigoTarea">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nombre Tarea</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="nombreTarea">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Unidad responsable</label>
+			<div class="col-lg-10">
+				<select id="unidades" class="form-control select2 elemento-desactivable"
+					name="codigoUnidad">
+					<option value="" disabled="disabled" selected="selected">Elija Unidad</option>
+					<option th:each="unidad : ${unidades}" th:value="${unidad.codigoUnidad}"
+						th:text="|${unidad.nombreUnidad}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Meta</label>
+			<div class="col-lg-10">
+				<select id="metas" class="form-control select2 elemento-desactivable"
+					name="nroMeta">
+					<option value="" disabled="disabled" selected="selected">Elija Meta</option>
+					<option th:each="meta : ${metas}" th:value="${meta.nroMeta}"
+						th:text="|${meta.nomMeta}|"></option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block th:fragment="partida">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Clasificador</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="clasificador">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Descripción</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="descripcion">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Descripción Detallada</label>
+			<div class="col-lg-10">
+				<textarea name="descDetallada" rows="5" cols="73"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Tarea</label>
+			<div class="col-lg-10">
+				<select id="tareas" class="form-control select2 elemento-desactivable"
+					name="codigoTarea">
+					<option value="" disabled="disabled" selected="selected">Elija Tarea</option>
+					<option th:each="tarea: ${tareas}" th:value="${tarea.codigoTarea}"
+						th:text="|${tarea.nombreTarea}|"></option>
+				</select>
+			</div>
+		</div>
+	</th:block>
+	
 	<th:block th:fragment="persona">
 		<div class="form-group">
 			<label class="col-lg-2 control-label">Tipo de Documento</label>

@@ -13,8 +13,10 @@ import com.cenpro.sircie.aspecto.enumeracion.Comentario;
 import com.cenpro.sircie.aspecto.enumeracion.Tipo;
 import com.cenpro.sircie.controller.excepcion.anotacion.Vista;
 import com.cenpro.sircie.service.IFacultadService;
+import com.cenpro.sircie.service.IMetaService;
 import com.cenpro.sircie.service.IMultiTabDetService;
 import com.cenpro.sircie.service.IPersonaService;
+import com.cenpro.sircie.service.ITareaService;
 import com.cenpro.sircie.service.IUnidadService;
 import com.cenpro.sircie.utilitario.MultiTablaUtil;
 
@@ -26,7 +28,8 @@ public @Controller class MantenimientoController
     private @Autowired IPersonaService personaService;
     private @Autowired IFacultadService facultadService;
     private @Autowired IMultiTabDetService multiTabDetService;
-    
+    private @Autowired IMetaService metaService;
+    private @Autowired ITareaService tareaService;
     private @Autowired IUnidadService unidadService;
 
     @Audit(tipo = Tipo.Persona)
@@ -128,6 +131,30 @@ public @Controller class MantenimientoController
     
     @GetMapping("/{mantenimiento:procesoAutomatico}")
     public String irPaginaMantenimientoProcesoAutomatico(@PathVariable String mantenimiento, ModelMap model)
+    {
+        model.addAttribute("mantenimiento", mantenimiento);
+        return "seguras/mantenimiento/mantenimiento";
+    }
+
+    @GetMapping("/{mantenimiento:tarea}")
+    public String irPaginaMantenimientoTarea(@PathVariable String mantenimiento, ModelMap model)
+    {
+        model.addAttribute("mantenimiento", mantenimiento);
+        model.addAttribute("unidades", unidadService.buscarTodos());
+        model.addAttribute("metas", metaService.buscarTodos());
+        return "seguras/mantenimiento/mantenimiento";
+    }
+    
+    @GetMapping("/{mantenimiento:partida}")
+    public String irPaginaMantenimientoPartida(@PathVariable String mantenimiento, ModelMap model)
+    {
+        model.addAttribute("mantenimiento", mantenimiento);
+        model.addAttribute("tareas", tareaService.buscarTodos());
+        return "seguras/mantenimiento/mantenimiento";
+    }
+
+    @GetMapping("/{mantenimiento:meta}")
+    public String irPaginaMantenimientoMeta(@PathVariable String mantenimiento, ModelMap model)
     {
         model.addAttribute("mantenimiento", mantenimiento);
         return "seguras/mantenimiento/mantenimiento";
