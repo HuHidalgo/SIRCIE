@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cenpro.sircie.mapper.IConceptoMapper;
 import com.cenpro.sircie.mapper.base.IMantenibleMapper;
+import com.cenpro.sircie.model.mantenimiento.Campania;
 import com.cenpro.sircie.model.mantenimiento.Concepto;
 import com.cenpro.sircie.service.IConceptoService;
 import com.cenpro.sircie.service.excepcion.MantenimientoException;
@@ -39,19 +40,27 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 		
 		return this.buscar(new Concepto(), Verbo.GETS);
 	}
-
+	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void registrarConcepto(Concepto concepto) {
-		/*
+	public List<Concepto> buscarPorCodigoUnidadIdConcepto(String codigoUnidad, Integer idConcepto) {
+
+		Concepto concepto = Concepto.builder().codigoUnidad(codigoUnidad).idConcepto(idConcepto).build();
+		System.out.println("---->"+ concepto);
+		return this.buscar(concepto, Verbo.GET);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public int registrarConcepto(Concepto concepto) {
+
 		List<Concepto> conceptos = this.registrarAutoIncrementable(concepto);
+		System.out.println("en registro ---->"+ conceptos);
         if (!conceptos.isEmpty() && conceptos.get(0).getIdConcepto() != null)
         {
             return conceptos.get(0).getIdConcepto();
         } else
         {
             throw new MantenimientoException(ConstantesExcepciones.ERROR_REGISTRO);
-        }*/
-		this.registrar(concepto);
+        }
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)

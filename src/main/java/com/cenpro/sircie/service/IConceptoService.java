@@ -3,6 +3,7 @@ package com.cenpro.sircie.service;
 import java.util.List;
 
 import com.cenpro.sircie.model.mantenimiento.Concepto;
+import com.cenpro.sircie.model.mantenimiento.Escuela;
 
 public interface IConceptoService extends IMantenibleService<Concepto>{
 	
@@ -11,8 +12,9 @@ public interface IConceptoService extends IMantenibleService<Concepto>{
 	public List<Concepto> buscarPorId(int idConcepto);
 	
     //public List<Concepto> buscarTodosT();
+	public List<Concepto> buscarPorCodigoUnidadIdConcepto(String codigoUnidad, Integer idConcepto);
     
-    public void registrarConcepto(Concepto concepto);
+    public int registrarConcepto(Concepto concepto);
     
     public void actualizarConcepto(Concepto concepto);
     

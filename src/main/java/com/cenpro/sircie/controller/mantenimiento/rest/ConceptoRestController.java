@@ -29,16 +29,18 @@ public @RestController class ConceptoRestController {
 
     @PostMapping
     public ResponseEntity<?> registrarConcepto(@RequestBody Concepto concepto)
-    {
-        conceptoService.registrarConcepto(concepto);
-        return ResponseEntity.ok(ConstantesGenerales.REGISTRO_EXITOSO);
+    {	
+    	//System.out.println(concepto);
+        int idConcepto = conceptoService.registrarConcepto(concepto);
+        return ResponseEntity.ok(conceptoService.buscarPorCodigoUnidadIdConcepto(concepto.getCodigoUnidad(), idConcepto));
     }
 
     @PutMapping
     public ResponseEntity<?> actualizarConcepto(@RequestBody Concepto concepto)
     {
         conceptoService.actualizarConcepto(concepto);
-        return ResponseEntity.ok(ConstantesGenerales.ACTUALIZACION_EXITOSA);
+        return ResponseEntity.ok(conceptoService.buscarPorCodigoUnidadIdConcepto(concepto.getCodigoUnidad(), 
+        		concepto.getIdConcepto()));
     }
     
     @DeleteMapping
