@@ -8,7 +8,7 @@ public interface IPartidaService extends IMantenibleService<Partida>
 {
 	public List<Partida> buscarTodos();
     
-    public List<Partida> buscarPorId();
+    public List<Partida> buscarPorCodigoTarea(Integer codigoTarea);
     
     public void registrarPartida(Partida partida);
     

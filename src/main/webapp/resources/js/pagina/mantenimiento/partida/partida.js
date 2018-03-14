@@ -47,14 +47,16 @@ $(document).ready(function() {
 			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
 		"columns" : [ {
+			"data" : function(row) {
+				return $funcionUtil.unirCodigoDescripcion(row.codigoTarea, row.nomTarea);
+			},
+			"title" : "Tarea"
+		}, {
 			"data" : "clasificador",
-			"title" : "Codigo"
+			"title" : "Clasificador"
 		}, {
 			"data" : "descripcion",
-			"title" : "Nombre"
-		}, {
-			"data" : "nombreTarea",
-			"title" : "Unidad"
+			"title" : "Descripcion"
 		}, {
 			"data" : null,
 			"title" : 'Acción'
@@ -69,7 +71,7 @@ $(document).ready(function() {
 		title : "Mantenimiento de Partida",
 		autoOpen : false,
 		modal : false,
-		height : 390,
+		height : 450,
 		width : 626
 	});
 
@@ -107,8 +109,6 @@ $(document).ready(function() {
 			return;
 		}
 		var partida = $formMantenimiento.serializeJSON();
-		partida.CodigoTarea = $local.$tareas.val();
-		partida.nombreTarea = $("#tareas option:selected").text();
 		$.ajax({
 			type : "POST",
 			url : $variableUtil.root + "mantenimiento/partida",
@@ -124,9 +124,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(response) {
-				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row.add(partida).draw();
+			success : function(partidas) {
+				$funcionUtil.notificarException($variableUtil.registroExitoso, "fa-check", "Aviso", "success");
+				var row = $local.tablaMantenimiento.row.add(partidas[0]).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");
@@ -171,9 +171,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(response) {
-				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(partida).draw();
+			success : function(partidas) {
+				$funcionUtil.notificarException($variableUtil.actualizacionExitosa, "fa-check", "Aviso", "success");
+				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(partidas[0]).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");

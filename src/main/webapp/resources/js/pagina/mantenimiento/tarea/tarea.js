@@ -62,10 +62,10 @@ $(document).ready(function() {
 			"title" : "Meta"
 		}, {
 			"data" : "codigoTarea",
-			"title" : "Codigo Tarea"
+			"title" : "Código Tarea"
 		}, {
 			"data" : "nomTarea",
-			"title" : "Nombre de Tarea"
+			"title" : "Nombre Tarea"
 		},{
 			"data" : null,
 			"title" : 'Acción'

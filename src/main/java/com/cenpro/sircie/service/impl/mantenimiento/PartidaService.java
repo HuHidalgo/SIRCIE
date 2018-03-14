@@ -33,10 +33,11 @@ public class PartidaService extends MantenibleService<Partida> implements IParti
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public List<Partida> buscarPorId() {
-		return this.buscar(new Partida(), Verbo.GET);
-	}
+	public List<Partida> buscarPorCodigoTarea(Integer codigoTarea) {
 
+		Partida partida = Partida.builder().codigoTarea(codigoTarea).build();
+		return this.buscar(partida, Verbo.GET);
+	}
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void registrarPartida(Partida partida) {
 		this.registrar(partida);
@@ -51,5 +52,4 @@ public class PartidaService extends MantenibleService<Partida> implements IParti
 	public void eliminarPartida(Partida partida) {
 		this.eliminar(partida);
 	}
-
 }

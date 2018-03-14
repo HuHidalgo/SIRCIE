@@ -32,14 +32,14 @@ public @RestController class PartidaRestController
     public ResponseEntity<?> registrarPartida(@RequestBody Partida partida)
     {
     	partidaService.registrarPartida(partida);
-        return ResponseEntity.ok(ConstantesGenerales.REGISTRO_EXITOSO);
+        return ResponseEntity.ok(partidaService.buscarPorCodigoTarea(partida.getCodigoTarea()));
     }
 
     @PutMapping
     public ResponseEntity<?> actualizarPartida(@RequestBody Partida partida)
     {
     	partidaService.actualizarPartida(partida);
-        return ResponseEntity.ok(ConstantesGenerales.ACTUALIZACION_EXITOSA);
+        return ResponseEntity.ok(partidaService.buscarPorCodigoTarea(partida.getCodigoTarea()));
     }
     
     @DeleteMapping

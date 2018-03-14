@@ -17,6 +17,7 @@ public interface IPartidaMapper extends IMantenibleMapper<Partida>
             + "#{objeto.clasificador, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.descripcion, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.descDetallada, jdbcType = VARCHAR, mode = IN},"
+            + "#{objeto.codigoTarea, jdbcType = INTEGER, mode = IN},"
             + "#{userAudit, jdbcType = VARCHAR, mode = IN})}" })
     @Options(statementType = StatementType.CALLABLE)
     public List<Partida> mantener(Parametro parametro);
