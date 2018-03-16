@@ -15,7 +15,7 @@ public interface IConceptoMapper extends IMantenibleMapper<Concepto>{
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.idConcepto, jdbcType = INTEGER, mode = IN},"
             + "#{objeto.codigoUnidad, jdbcType = VARCHAR, mode = IN},"
-            + "#{objeto.nroConceptoEsp, jdbcType = INTEGER, mode = IN},"
+            + "#{objeto.nroConceptoEsp, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.nomConceptoEsp, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.descConceptoEsp, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.importe, jdbcType = NUMERIC, mode = IN},"

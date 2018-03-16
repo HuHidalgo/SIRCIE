@@ -24,11 +24,11 @@ $(document).ready(function() {
 		},
 		messages : {
 			codigoUnidad : {
-				required : "Ingrese el C&oacute;digo de Unidad.",
+				required : "Elija una Unidad.",
 				notOnlySpace : "El C&oacute;digo de Unidad no debe contener solo espacios en blanco."
 			},
 			nroMeta : {
-				required : "Ingrese el N&uacute;mero de Meta.",
+				required : "Elija una Meta.",
 				notOnlySpace : "El N&uacute;mero de Meta no debe contener solo espacios en blanco.",
 				range : "El N&uacute;mero de Meta debe estar entre 1 y 99."
 			},

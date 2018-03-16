@@ -32,16 +32,15 @@ public @RestController class TareaRestController
     {	
         tareaService.registrarTarea(tarea);
         return ResponseEntity.ok(tareaService.buscarPorCodigoUnidadNroMeta(tarea.getCodigoUnidad(), 
-        						tarea.getNroMeta()));
+        						tarea.getNroMeta(), tarea.getCodigoTarea()));
     }
 
     @PutMapping
     public ResponseEntity<?> actualizarTarea(@RequestBody Tarea tarea)
     {
-    	System.out.println("----> "+tarea);
         tareaService.actualizarTarea(tarea);
         return ResponseEntity.ok(tareaService.buscarPorCodigoUnidadNroMeta(tarea.getCodigoUnidad(), 
-								tarea.getNroMeta()));
+								tarea.getNroMeta(), tarea.getCodigoTarea()));
     }
     
     @DeleteMapping

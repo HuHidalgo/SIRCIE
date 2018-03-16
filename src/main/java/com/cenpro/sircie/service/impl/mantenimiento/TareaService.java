@@ -38,8 +38,9 @@ public class TareaService extends MantenibleService<Tarea> implements ITareaServ
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public List<Tarea> buscarPorCodigoUnidadNroMeta(String codigoUnidad, Integer nroMeta) {
-		Tarea tarea = Tarea.builder().codigoUnidad(codigoUnidad).nroMeta(nroMeta).build();
+	public List<Tarea> buscarPorCodigoUnidadNroMeta(String codigoUnidad, Integer nroMeta, Integer codigoTarea) {
+		
+		Tarea tarea = Tarea.builder().codigoUnidad(codigoUnidad).nroMeta(nroMeta).codigoTarea(codigoTarea).build();
 		return this.buscar(tarea, Verbo.GET);
 	}
 	

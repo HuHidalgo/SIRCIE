@@ -72,7 +72,7 @@ $(document).ready(function() {
 		autoOpen : false,
 		modal : false,
 		height : 450,
-		width : 626
+		width : 660
 	});
 
 	$local.$aniadirMantenimento.on("click", function() {

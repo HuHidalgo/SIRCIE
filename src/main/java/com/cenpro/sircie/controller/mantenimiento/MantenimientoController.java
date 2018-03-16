@@ -12,6 +12,7 @@ import com.cenpro.sircie.aspecto.enumeracion.Accion;
 import com.cenpro.sircie.aspecto.enumeracion.Comentario;
 import com.cenpro.sircie.aspecto.enumeracion.Tipo;
 import com.cenpro.sircie.controller.excepcion.anotacion.Vista;
+import com.cenpro.sircie.service.IConceptoService;
 import com.cenpro.sircie.service.IFacultadService;
 import com.cenpro.sircie.service.IMetaService;
 import com.cenpro.sircie.service.IMultiTabDetService;
@@ -31,6 +32,7 @@ public @Controller class MantenimientoController
     private @Autowired IMetaService metaService;
     private @Autowired ITareaService tareaService;
     private @Autowired IUnidadService unidadService;
+    private @Autowired IConceptoService conceptoService;
 
     @Audit(tipo = Tipo.Persona)
     @GetMapping("/{mantenimiento:persona}")
@@ -103,6 +105,7 @@ public @Controller class MantenimientoController
         model.addAttribute("tiposMoneda",
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_MONEDA));
         model.addAttribute("unidades", unidadService.buscarTodos());
+        model.addAttribute("conceptos", conceptoService.buscarTodos());
         return "seguras/mantenimiento/mantenimiento";
     }
     
@@ -157,6 +160,14 @@ public @Controller class MantenimientoController
     public String irPaginaMantenimientoMeta(@PathVariable String mantenimiento, ModelMap model)
     {
         model.addAttribute("mantenimiento", mantenimiento);
+        return "seguras/mantenimiento/mantenimiento";
+    }
+    
+    @GetMapping("/{mantenimiento:curso}")
+    public String irPaginaMantenimientoCurso(@PathVariable String mantenimiento, ModelMap model)
+    {
+        model.addAttribute("mantenimiento", mantenimiento);
+        model.addAttribute("conceptos", conceptoService.buscarTodos());
         return "seguras/mantenimiento/mantenimiento";
     }
 }

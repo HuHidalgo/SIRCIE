@@ -73,12 +73,12 @@
 					<div class="group">
 						<label class="col-lg-2 control-label">Unidad</label>
 						<div class="col-lg-10">
-							<select id="unidades" class="form-control select2 elemento-desactivable" name="codigoUnidad">
+							<select id="unidades" class="form-control select2" name="codigoUnidad">
 								<option value="" disabled="disabled" selected="selected">
 									Seleccione una Unidad
 								</option>
 								<option th:each="unidad : ${unidades}" th:value="${unidad.codigoUnidad}"
-									th:text="|${unidad.codigoUnidad} - ${unidad.nroConcepto} - ${unidad.nombreUnidad}|"></option>
+									th:text="|${unidad.nroConcepto} - ${unidad.nombreUnidad}|"></option>
 							</select>
 						</div>
 					</div>
@@ -86,17 +86,17 @@
 				<div class="form-group">
 					<div class="group">
 						<label class="col-lg-2 control-label">Concepto</label>
-						<div class="col-lg-4">
-							<select id="facultades" class="form-control select2" name="codigoFacultad">
-								<option value="" disabled="disabled" selected="selected">Seleccione un Concepto</option>
-								<option th:each="facultad : ${facultades}" th:value="${facultad.codigoFacultad}"
-									th:text="|${facultad.codigoFacultad} - ${facultad.descripcion}|"></option>
+						<div class="col-lg-10">
+							<select id="conceptos" class="form-control select2" name="idConcepto">
+								<option value="" disabled="disabled" selected="selected">Seleccione un Concepto de pago</option>
 							</select>
 						</div>
 					</div>
+				</div>
+				<div class="form-group">
 					<div class="group">
 						<label class="col-lg-2 control-label">Curso</label>
-						<div class="col-lg-4">
+						<div class="col-lg-10">
 							<select id="cursos" class="form-control select2" name="codigoCurso">
 								<option value="" selected="selected" disabled="disabled">Seleccione un Curso</option>
 							</select>
@@ -128,7 +128,7 @@
 						</div>
 					</div>
 					<div class="group">
-						<label class="col-lg-2 control-label">Descripcíon (Razón del descuento)</label>
+						<label class="col-lg-2 control-label">Descripcíón (Razón del descuento)</label>
 						<div class="col-lg-4">
 							<textarea class="form-control" name="descDescuento" style="resize: none;"
 							rows = "3" data-skip-falsy="true" data-value-type="string"></textarea>
@@ -160,23 +160,23 @@
 					<label class="col-lg-2 control-label">Nro. de Voucher</label>
 					<div class="col-lg-4">
 						<input class="form-control numbersOnly" name="nroVoucher" data-skip-falsy="true" 
-						data-value-type="string">
+						data-value-type="string" maxlength="15">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="group">
 						<label class="col-lg-2 control-label">Nro. de Factura</label>
 						<div class="col-lg-4">
-							<input class="form-control numbersOnly" maxlength="20" name="nroFactura" data-skip-falsy="true" 
-							data-value-type="string">
+							<input class="form-control numbersOnly" maxlength="15" name="nroFactura" 
+							data-skip-falsy="true" data-value-type="string">
 						</div>
 					</div>
 					<div class="group">
-						<label class="col-lg-2 control-label">Fecha de Factura</label>
+						<label class="col-lg-2 control-label">Fecha de Voucher</label>
 						<div class="col-lg-4">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input id="fechaVF" type="text" class="form-control"/>
+								<input id="fechaVF" type="text" class="form-control" name="fechaVF"/>
 							</div>						
 						</div>
 					</div>
@@ -185,8 +185,8 @@
 					<div class="group">
 						<label class="col-lg-2 control-label">Nro. Recibo de Ingreso</label>
 						<div class="col-lg-4">
-							<input class="form-control numbersOnly" maxlength="15" name="nroReciboIngreso" data-skip-falsy="true" 
-							data-value-type="string">
+							<input class="form-control numbersOnly" maxlength="15" name="nroReciboIngreso" 
+							data-skip-falsy="true" data-value-type="string">
 						</div>
 					</div>
 					<div class="group">
@@ -194,7 +194,7 @@
 						<div class="col-lg-4">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input id="fechaRI" type="text" class="form-control"/>
+								<input id="fechaRI" type="text" class="form-control" name="fechaRI"/>
 							</div>
 						</div>
 					</div>
@@ -254,7 +254,7 @@
 			<label class="col-lg-2 control-label">Descripción Concepto</label>
 			<div class="col-lg-10">
 				<textarea class="form-control upperCase" name="descConceptoEsp" style="resize: none;"
-				rows = "3" data-skip-falsy="true" data-value-type="string"></textarea>
+				rows = "3"></textarea>
 			</div>
 		</div>
 		<div class="form-group">
@@ -308,7 +308,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Codigo de Tarea</label>
+			<label class="col-lg-2 control-label">Código de Tarea</label>
 			<div class="col-lg-10">
 				<input class="form-control numbersOnly elemento-desactivable" name="codigoTarea">
 			</div>
@@ -343,16 +343,47 @@
 			<label class="col-lg-2 control-label">Descripción</label>
 			<div class="col-lg-10">
 				<textarea class="form-control upperCase" name="descripcion" style="resize: none;"
-				rows = "2" data-skip-falsy="true" data-value-type="string"></textarea>
+				rows = "2"></textarea>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-lg-2 control-label">Descripción Detallada</label>
 			<div class="col-lg-10">
 				<textarea class="form-control upperCase" name="descDetallada" style="resize: none;"
-				rows = "5" data-skip-falsy="true" data-value-type="string"></textarea>
+				rows = "5"></textarea>
 			</div>
 		</div>
+	</th:block>
+	
+	<th:block th:fragment="curso">
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Concepto</label>
+			<div class="col-lg-10">
+				<select id="conceptos" class="form-control select2" name="idConcepto">
+					<option value="" disabled="disabled" selected="selected">Elija Concepto</option>
+					<option th:each="concepto: ${conceptos}" th:value="${concepto.idConcepto}"
+						th:text="|${concepto.nroConceptoEsp} - ${concepto.nomConceptoEsp}|"></option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Código</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase elemento-desactivable" name="codigoCurso">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Nombre</label>
+			<div class="col-lg-10">
+				<input class="form-control upperCase" name="nombreCurso">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-2 control-label">Semestres</label>
+			<div class="col-lg-10">
+				<input class="form-control numbersOnly" name="nroSemestre">
+			</div>
+		</div>		
 	</th:block>
 	
 	<th:block th:fragment="persona">
@@ -557,7 +588,8 @@
 						<div class="col-lg-4">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input id="fechaNacimiento" type="text" class="form-control" readonly="readonly" name="fechaNacimiento"/>
+								<input id="fechaNacimiento" type="text" class="form-control" readonly="readonly" 
+								name="fechaNacimiento"/>
 							</div>
 						</div>
 					</div>

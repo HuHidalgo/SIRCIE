@@ -9,14 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Concepto {
-	private Integer idConcepto;
-	private String nroConceptoEsp;
-	private String nomConceptoEsp;
-	private String descConceptoEsp;
-	private Float importe;
+public class Curso 
+{
+	private Integer codigoCurso;
+	private String nombreCurso;
+	private Integer nroSemestres;
 	
-	private String codigoUnidad;
-	private String nroConceptoUnidad;
-	private String nombreUnidad;
+	private Integer idConcepto;
+	private String nomConceptoEsp;
+	private String nroConceptoEsp;
 }

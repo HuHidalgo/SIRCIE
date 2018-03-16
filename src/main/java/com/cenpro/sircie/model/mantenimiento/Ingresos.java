@@ -29,14 +29,14 @@ public class Ingresos {
 	private String nroDocCliente;
 	
 	private String idConcepto;
-	private String nroConcepto;
-	private String nomConcepto;
+	private String nroConceptoEsp;
+	private String nomConceptoEsp;
 	private Double importe;
 	
 	private Double importeDescontado;
 	private String descDescuento;
 	
-	private int idCurso;
+	private int codigoCurso;
 	private String nombreCurso;
 	private int nroCuota;
 	

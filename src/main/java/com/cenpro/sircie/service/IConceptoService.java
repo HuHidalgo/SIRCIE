@@ -11,7 +11,8 @@ public interface IConceptoService extends IMantenibleService<Concepto>{
     
 	public List<Concepto> buscarPorId(int idConcepto);
 	
-    //public List<Concepto> buscarTodosT();
+    public List<Concepto> buscarPorCodigoUnidad(String codigoUnidad);
+    
 	public List<Concepto> buscarPorCodigoUnidadIdConcepto(String codigoUnidad, Integer idConcepto);
     
     public int registrarConcepto(Concepto concepto);

@@ -13,12 +13,17 @@ $(document).ready(function() {
 		$fechaVF : $("#fechaVF"),
 		$fechaRI : $("#fechaRI"),
 		codigoIngresoSeleccionado : 0,
-		$unidades : $("#unidades")
+		codigoUnidadSeleccionado : "",
+		codigoConceptoSeleccionado : "",
+		//codigoIngresoSeleccionado : 0,
+		$unidades : $("#unidades"),
+		$conceptos : $("#conceptos")
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
 	
 	$funcionUtil.crearSelect2($local.$unidades, "Seleccione una Unidad");
+	$funcionUtil.crearSelect2($local.$conceptos, "Seleccione un Concepto de pago");
 	$funcionUtil.crearSelect2($local.$tiposDocumento, "Seleccione un Tipo de Documento");
 	$funcionUtil.crearSelect2($local.$tiposMoneda, "Seleccione un Tipo de Moneda");
 	$funcionUtil.crearDatePickerSimple($local.$fechaVF, "DD/MM/YYYY");
@@ -47,22 +52,35 @@ $(document).ready(function() {
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2 ],
+			"targets" : [ 0, 1, 2, 3, 4, 5 ],
 			"className" : "all filtrable",
 		}, {
-			"targets" : 3,
+			"targets" : 6,
 			"className" : "all dt-center",
 			"defaultContent" : $variableUtil.botonActualizar
 		} ],
 		"columns" : [ {
-			"data" : "codigoIngreso",
-			"title" : "Código de Ingreso"
+			"data" : "fechaVF",
+			"title" : "Fecha"
 		}, {
-			"data" : "nombreAlumno",
-			"title" : "Nombre de alumno"
+			"data" : function(row) {
+				return $funcionUtil.unirCodigoDescripcion(row.nroConceptoUnidad, row.nombreUnidad);
+			},
+			"title" : "Unidad"
 		}, {
-			"data" : "concepto",
+			"data" : function(row) {
+				return $funcionUtil.unirCodigoDescripcion(row.nroConceptoEsp, row.nomConceptoEsp);
+			},
 			"title" : "Concepto"
+		}, {
+			"data" : "importe",
+			"title" : "Importe"
+		}, {
+			"data" : "importeDescontado",
+			"title" : "Descuento"
+		}, {
+			"data" : "nombreCurso",
+			"title" : "Curso"
 		}, {
 			"data" : null,
 			"title" : 'Acción'
@@ -94,6 +112,8 @@ $(document).ready(function() {
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
 		$local.codigoIngresoSeleccionado = 0;
+		$codigoUnidadSeleccionado : "";
+		$codigoConceptoSeleccionado : "";
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
@@ -109,7 +129,40 @@ $(document).ready(function() {
 			}
 		}
 	});
-
+	
+	$local.$unidades.on("change", function(event, opcionSeleccionada) {
+		var codigoUnidad = $(this).val();
+		if (codigoUnidad == null || codigoUnidad == undefined) {
+			$local.$conceptos.find("option:not(:eq(0))").remove();
+			return;
+		}
+		$.ajax({
+			type : "GET",
+			url : $variableUtil.root + "mantenimiento/concepto/unidad/" + codigoUnidad,
+			beforeSend : function(xhr) {
+				$local.$conceptos.find("option:not(:eq(0))").remove();
+				$local.$conceptos.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando Conceptos</span>")
+			},
+			statusCode : {
+				400 : function(response) {
+					$funcionUtil.limpiarMensajesDeError($formMantenimiento);
+					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
+				}
+			},
+			success : function(conceptos) {
+				$.each(conceptos, function(i, concepto) {
+					$local.$conceptos.append($("<option />").val(this.idConcepto).text(this.nroConceptoEsp + " - " + this.nomConceptoEsp + " - " + this.importe));
+				});
+				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
+					$local.$conceptos.val(opcionSeleccionada).trigger("change.select2");
+				}
+			},
+			complete : function() {
+				$local.$conceptos.parent().find(".cargando").remove();
+			}
+		});
+	});
+	
 	$local.$registrarMantenimiento.on("click", function() {
 		if (!$formMantenimiento.valid()) {
 			return;
@@ -153,6 +206,8 @@ $(document).ready(function() {
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var ingresos = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
 		$local.codigoIngresoSeleccionado = ingresos.codigoIngreso;
+		$local.codigoUnidadSeleccionado = ingresos.codigoUnidad;
+		$local.codigoConceptoSeleccionado = ingresos.idConcepto;
 		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
@@ -165,6 +220,8 @@ $(document).ready(function() {
 		}
 		var ingresos = $formMantenimiento.serializeJSON();
 		ingresos.codigoIngreso = $local.codigoIngresoSeleccionado;
+		ingresos.codigoUnidad = $local.codigoUnidadSeleccionado;
+		ingresos.idConcepto = $local.codigoConceptoSeleccionado;
 		$.ajax({
 			type : "PUT",
 			url : $variableUtil.root + "mantenimiento/ingresos",

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import com.cenpro.sircie.aspecto.enumeracion.Accion;
 import com.cenpro.sircie.aspecto.enumeracion.Comentario;
 import com.cenpro.sircie.aspecto.enumeracion.Dato;
 import com.cenpro.sircie.aspecto.enumeracion.Tipo;
+import com.cenpro.sircie.model.mantenimiento.Escuela;
 import com.cenpro.sircie.model.mantenimiento.Ingresos;
 import com.cenpro.sircie.service.IIngresosService;
 import com.cenpro.sircie.utilitario.ConstantesGenerales;
@@ -25,7 +27,7 @@ import com.cenpro.sircie.utilitario.ConstantesGenerales;
 public @RestController class IngresosRestController {
 	
 	private @Autowired IIngresosService ingresosService;
-	
+		
 	//@Audit(accion = Accion.Consulta, comentario = Comentario.ConsultaTodos)
 	@GetMapping(params = "accion=buscarTodos")
 	public List<Ingresos> buscarTodos(){
@@ -36,9 +38,9 @@ public @RestController class IngresosRestController {
 	//@Audit(accion = Accion.Registro, comentario = Comentario.Registro)
 	@PostMapping
 	public ResponseEntity<?> registrarIngresos(@RequestBody Ingresos ingresos){
-		
+		//System.out.println("1 ----> "+ingresos);
 		int idIngreso = ingresosService.registrarIngresos(ingresos);
-		System.out.println(ResponseEntity.ok(ingresosService.buscarPorId(idIngreso)));
+		//System.out.println("2 ----> "+ResponseEntity.ok(ingresosService.buscarPorId(idIngreso)));
 		return ResponseEntity.ok(ingresosService.buscarPorId(idIngreso));
 	}
 	
@@ -46,7 +48,7 @@ public @RestController class IngresosRestController {
 	@PutMapping
 	public ResponseEntity<?> actualizarIngresos(@RequestBody Ingresos ingresos){
 		
-		ingresosService.actualizarIngresos(ingresos);;
+		ingresosService.actualizarIngresos(ingresos);
 		return ResponseEntity.ok(ConstantesGenerales.ACTUALIZACION_EXITOSA);
 	}
 

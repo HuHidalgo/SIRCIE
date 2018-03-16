@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cenpro.sircie.mapper.IConceptoMapper;
 import com.cenpro.sircie.mapper.base.IMantenibleMapper;
-import com.cenpro.sircie.model.mantenimiento.Campania;
 import com.cenpro.sircie.model.mantenimiento.Concepto;
 import com.cenpro.sircie.service.IConceptoService;
 import com.cenpro.sircie.service.excepcion.MantenimientoException;
@@ -23,9 +22,19 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	@SuppressWarnings("unused")
 	private IConceptoMapper conceptoMapper;
 	
+	private static final String GET_UNI = "GET_UNI";
+	
 	public ConceptoService(@Qualifier("IConceptoMapper") IMantenibleMapper<Concepto> mapper) {
 		super(mapper);
 		this.conceptoMapper = (IConceptoMapper) mapper;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public List<Concepto> buscarPorCodigoUnidad(String codigoUnidad) {
+		
+		Concepto concepto = Concepto.builder().codigoUnidad(codigoUnidad).build();
+		System.out.println("1 >>>>>>>>> "+concepto);
+        return this.buscar(concepto, GET_UNI);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -74,5 +83,4 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 		
 		this.eliminar(concepto);
 	}
-
 }

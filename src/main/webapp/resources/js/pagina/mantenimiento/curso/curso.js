@@ -8,17 +8,14 @@ $(document).ready(function() {
 		$registrarMantenimiento : $("#registrarMantenimiento"),
 		$filaSeleccionada : "",
 		$actualizarMantenimiento : $("#actualizarMantenimiento"),
-		codigoTareaSeleccionada : 0,
-		codigoUnidadSeleccionada : "",
-		codigoMetaSeleccionada : 0,
-		$unidades : $("#unidades"),
-		$metas : $("#metas")
+		codigoCursoSeleccionado : 0,
+		$conceptos : $("#conceptos"),
+		conceptoSeleccionar : 0
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
 	
-	$funcionUtil.crearSelect2($local.$unidades, "Elija Unidad");
-	$funcionUtil.crearSelect2($local.$metas, "Elija Meta");
+	$funcionUtil.crearSelect2($local.$conceptos, "Elija Concepto");
 	
 	$.fn.dataTable.ext.errMode = 'none';
 
@@ -32,40 +29,39 @@ $(document).ready(function() {
 
 	$local.tablaMantenimiento = $local.$tablaMantenimiento.DataTable({
 		"ajax" : {
-			"url" : $variableUtil.root + "mantenimiento/tarea?accion=buscarTodos",
+			"url" : $variableUtil.root + "mantenimiento/curso?accion=buscarTodos",
 			"dataSrc" : ""
 		},
 		"language" : {
-			"emptyTable" : "No hay Tareas registradas."
+			"emptyTable" : "No hay Cursos registrados."
 		},
 		"initComplete" : function() {
 			$local.$tablaMantenimiento.wrap("<div class='table-responsive'></div>");
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2, 3 ],
+			"targets" : [ 0, 1, 2 ,3],
 			"className" : "all filtrable",
 		}, {
 			"targets" : 4,
 			"className" : "all dt-center",
 			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
-		"columns" : [ {
+		"columns" : [ 
+		{
 			"data" : function(row) {
-				return $funcionUtil.unirCodigoDescripcion(row.codigoUnidad, row.nombreUnidad);
+				return $funcionUtil.unirCodigoDescripcion(row.nroConceptoEsp, row.nomConceptoEsp);
 			},
-			"title" : "Unidad"
+			"title" : "Concepto"
 		}, {
-			"data" : function(row) {
-				return $funcionUtil.unirCodigoDescripcion(row.nroMeta, row.nomMeta);
-			},
-			"title" : "Meta"
+			"data" : "codigoCurso",
+			"title" : "Código"
 		}, {
-			"data" : "codigoTarea",
-			"title" : "Código Tarea"
+			"data" : "nombreCurso",
+			"title" : "Nombre"
 		}, {
-			"data" : "nomTarea",
-			"title" : "Nombre Tarea"
+			"data" : "nroSemestres",
+			"title" : "Semestres"
 		},{
 			"data" : null,
 			"title" : 'Acción'
@@ -77,10 +73,10 @@ $(document).ready(function() {
 	});
 
 	$local.$modalMantenimiento.PopupWindow({
-		title : "Mantenimiento de Tarea",
+		title : "Mantenimiento de Curso",
 		autoOpen : false,
 		modal : false,
-		height : 410,
+		height : 450,
 		width : 626
 	});
 
@@ -96,9 +92,8 @@ $(document).ready(function() {
 	});
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
-		$local.codigoTareaSeleccionada = 0;
-		$local.codigoUnidadSeleccionada = "";
-		$local.codigoMetaSeleccionada = 0;
+		$local.codigoCursoSeleccionado = 0;
+		$local.conceptoSeleccionar = 0;
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
@@ -119,11 +114,11 @@ $(document).ready(function() {
 		if (!$formMantenimiento.valid()) {
 			return;
 		}
-		var tarea = $formMantenimiento.serializeJSON();
+		var curso = $formMantenimiento.serializeJSON();
 		$.ajax({
 			type : "POST",
-			url : $variableUtil.root + "mantenimiento/tarea",
-			data : JSON.stringify(tarea),
+			url : $variableUtil.root + "mantenimiento/curso",
+			data : JSON.stringify(curso),
 			beforeSend : function(xhr) {
 				$local.$registrarMantenimiento.attr("disabled", true).find("i").removeClass("fa-floppy-o").addClass("fa-spinner fa-pulse fa-fw");
 				xhr.setRequestHeader('Content-Type', 'application/json');
@@ -135,9 +130,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(tareas) {
+			success : function(cursos) {
 				$funcionUtil.notificarException($variableUtil.registroExitoso, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row.add(tareas[0]).draw();
+				var row = $local.tablaMantenimiento.row.add(cursos[0]).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");
@@ -153,11 +148,10 @@ $(document).ready(function() {
 	$local.$tablaMantenimiento.children("tbody").on("click", ".actualizar", function() {
 		$funcionUtil.prepararFormularioActualizacion($formMantenimiento);
 		$local.$filaSeleccionada = $(this).parents("tr");
-		var tarea = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
-		$local.codigoTareaSeleccionada = tarea.codigoTarea;
-		$local.codigoUnidadSeleccionada = tarea.codigoUnidad;
-		$local.codigoMetaSeleccionada = tarea.nroMeta;
-		$funcionUtil.llenarFormulario(tarea, $formMantenimiento);
+		var curso = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
+		$local.codigoCursoSeleccionado = curso.codigoCurso;
+		$local.conceptoSeleccionar = curso.idConcepto;
+		$funcionUtil.llenarFormulario(curso, $formMantenimiento);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
 		$local.$modalMantenimiento.PopupWindow("open");
@@ -167,14 +161,13 @@ $(document).ready(function() {
 		if (!$formMantenimiento.valid()) {
 			return;
 		}
-		var tarea = $formMantenimiento.serializeJSON();
-		tarea.codigoTarea = $local.codigoTareaSeleccionada;
-		tarea.codigoUnidad = $local.codigoUnidadSeleccionada;
-		tarea.nroMeta = $local.codigoMetaSeleccionada;
+		var curso = $formMantenimiento.serializeJSON();
+		curso.codigoCurso = $local.codigoCursoSeleccionado;
+		curso.idConcepto = $local.conceptoSeleccionar;
 		$.ajax({
 			type : "PUT",
-			url : $variableUtil.root + "mantenimiento/tarea",
-			data : JSON.stringify(tarea),
+			url : $variableUtil.root + "mantenimiento/curso",
+			data : JSON.stringify(curso),
 			beforeSend : function(xhr) {
 				$local.$actualizarMantenimiento.attr("disabled", true).find("i").removeClass("fa-pencil-square").addClass("fa-spinner fa-pulse fa-fw");
 				xhr.setRequestHeader('Content-Type', 'application/json');
@@ -186,9 +179,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(tareas) {
+			success : function(cursos) {
 				$funcionUtil.notificarException($variableUtil.actualizacionExitosa, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(tareas[0]).draw();
+				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(cursos[0]).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");
@@ -203,11 +196,11 @@ $(document).ready(function() {
 
 	$local.$tablaMantenimiento.children("tbody").on("click", ".eliminar", function() {
 		$local.$filaSeleccionada = $(this).parents("tr");
-		var tarea = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
+		var curso = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
 		$.confirm({
 			icon : "fa fa-info-circle",
 			title : "Aviso",
-			content : "¿Desea eliminar la tarea <b>'" + tarea.codigoTarea + " - " + tarea.nomTarea + "'<b/>?",
+			content : "¿Desea eliminar el cursos <b>'" + curso.codigoCurso + " - " + curso.nombreCurso + "'<b/>?",
 			theme : "bootstrap",
 			buttons : {
 				Aceptar : {
@@ -220,8 +213,8 @@ $(document).ready(function() {
 								self.buttons.close.hide();
 								$.ajax({
 									type : "DELETE",
-									url : $variableUtil.root + "mantenimiento/tarea",
-									data : JSON.stringify(tarea),
+									url : $variableUtil.root + "mantenimiento/curso",
+									data : JSON.stringify(curso),
 									autoclose : true,
 									beforeSend : function(xhr) {
 										xhr.setRequestHeader('Content-Type', 'application/json');
@@ -238,7 +231,7 @@ $(document).ready(function() {
 										$funcionUtil.notificarException($funcionUtil.obtenerMensajeErrorEnCadena(xhr.responseJSON), "fa-warning", "Aviso", "warning");
 										break;
 									case 409:
-										var mensaje = $funcionUtil.obtenerMensajeError("La tarea <b>" + tarea.codigoTarea + " - " + tarea.nomTarea + "</b>", xhr.responseJSON, $variableUtil.accionEliminado);
+										var mensaje = $funcionUtil.obtenerMensajeError("El cursos <b>'" + curso.codigoCurso + " - " + curso.nombreCurso + "</b>", xhr.responseJSON, $variableUtil.accionEliminado);
 										$funcionUtil.notificarException(mensaje, "fa-warning", "Aviso", "warning");
 										break;
 									}
