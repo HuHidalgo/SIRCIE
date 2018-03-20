@@ -19,7 +19,6 @@ public interface IPersonaMapper extends IMantenibleMapper<Persona>
             + "#{objeto.nombres, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.apellidoPaterno, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.apellidoMaterno, jdbcType = VARCHAR, mode = IN},"
-            + "#{objeto.idSexo, jdbcType = VARCHAR, mode = IN},"
             + "#{userAudit, jdbcType = VARCHAR, mode = IN})}" })
     @Options(statementType = StatementType.CALLABLE)
     public List<Persona> mantener(Parametro parametro);

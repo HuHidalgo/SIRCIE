@@ -153,7 +153,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter implements Applica
         ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();
         bean.setBasenames("classpath:/message/validacion", "classpath:/message/mantenimiento",
                 "classpath:/message/reporte", "classpath:/message/exception",
-                "classpath:/message/consulta", "classpath:/message/seguridad");
+                "classpath:/message/consulta", "classpath:/message/seguridad",
+                "classpath:/message/ingresos");
         bean.setDefaultEncoding("UTF-8");
         bean.setUseCodeAsDefaultMessage(false);
         return bean;

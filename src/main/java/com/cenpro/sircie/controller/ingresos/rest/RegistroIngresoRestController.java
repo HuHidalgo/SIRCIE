@@ -1,4 +1,4 @@
-package com.cenpro.sircie.controller.mantenimiento.rest;
+package com.cenpro.sircie.controller.ingresos.rest;
 
 import java.util.List;
 
@@ -17,16 +17,15 @@ import com.cenpro.sircie.aspecto.enumeracion.Accion;
 import com.cenpro.sircie.aspecto.enumeracion.Comentario;
 import com.cenpro.sircie.aspecto.enumeracion.Dato;
 import com.cenpro.sircie.aspecto.enumeracion.Tipo;
-import com.cenpro.sircie.model.mantenimiento.Escuela;
-import com.cenpro.sircie.model.mantenimiento.Ingresos;
-import com.cenpro.sircie.service.IIngresosService;
+import com.cenpro.sircie.model.ingresos.Ingresos;
+import com.cenpro.sircie.service.IRegistroIngresoService;
 import com.cenpro.sircie.utilitario.ConstantesGenerales;
 
 //@Audit(tipo = Tipo.Ingresos, datos = Dato.Ingresos)
-@RequestMapping("/mantenimiento/ingresos")
-public @RestController class IngresosRestController {
+@RequestMapping("/ingresos/ingresos")
+public @RestController class RegistroIngresoRestController {
 	
-	private @Autowired IIngresosService ingresosService;
+	private @Autowired IRegistroIngresoService ingresosService;
 		
 	//@Audit(accion = Accion.Consulta, comentario = Comentario.ConsultaTodos)
 	@GetMapping(params = "accion=buscarTodos")
@@ -38,18 +37,18 @@ public @RestController class IngresosRestController {
 	//@Audit(accion = Accion.Registro, comentario = Comentario.Registro)
 	@PostMapping
 	public ResponseEntity<?> registrarIngresos(@RequestBody Ingresos ingresos){
-		//System.out.println("1 ----> "+ingresos);
+		System.out.println(ingresos);
 		int idIngreso = ingresosService.registrarIngresos(ingresos);
-		//System.out.println("2 ----> "+ResponseEntity.ok(ingresosService.buscarPorId(idIngreso)));
+		System.out.println(idIngreso);
 		return ResponseEntity.ok(ingresosService.buscarPorId(idIngreso));
 	}
 	
 	//@Audit(accion = Accion.Actualizacion, comentario = Comentario.Actualizacion)
 	@PutMapping
 	public ResponseEntity<?> actualizarIngresos(@RequestBody Ingresos ingresos){
-		
+		System.out.println("actua>>>>> "+ingresos);
 		ingresosService.actualizarIngresos(ingresos);
-		return ResponseEntity.ok(ConstantesGenerales.ACTUALIZACION_EXITOSA);
+		return ResponseEntity.ok(ingresosService.buscarPorId(ingresos.getIdIngreso()));
 	}
 
 }

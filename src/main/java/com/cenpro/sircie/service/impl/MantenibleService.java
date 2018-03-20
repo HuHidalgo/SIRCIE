@@ -76,7 +76,7 @@ public class MantenibleService<T> implements IMantenibleService<T>
     @Transactional(propagation = Propagation.MANDATORY)
     public List<T> buscar(T dto, String verbo)
     {
-    	System.out.println("2 >>>>> "+mantenimientoMapper.mantener(new Parametro(verbo, dto)));
+    	//System.out.println("3>>>>> "+mantenimientoMapper.mantener(new Parametro(verbo, dto)));
         return mantenimientoMapper.mantener(new Parametro(verbo, dto));
     }
 

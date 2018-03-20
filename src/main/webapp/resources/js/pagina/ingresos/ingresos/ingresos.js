@@ -15,15 +15,20 @@ $(document).ready(function() {
 		codigoIngresoSeleccionado : 0,
 		codigoUnidadSeleccionado : "",
 		codigoConceptoSeleccionado : "",
-		//codigoIngresoSeleccionado : 0,
+		codigoCursoSeleccionado : 0,
+		codigoClienteSeleccionado : "",
+		importe : 0,
 		$unidades : $("#unidades"),
-		$conceptos : $("#conceptos")
+		$conceptos : $("#conceptos"),
+		$cursos : $("#cursos"),
+		$importe : $("#importe")
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
 	
 	$funcionUtil.crearSelect2($local.$unidades, "Seleccione una Unidad");
 	$funcionUtil.crearSelect2($local.$conceptos, "Seleccione un Concepto de pago");
+	$funcionUtil.crearSelect2($local.$cursos, "Seleccione un Curso");
 	$funcionUtil.crearSelect2($local.$tiposDocumento, "Seleccione un Tipo de Documento");
 	$funcionUtil.crearSelect2($local.$tiposMoneda, "Seleccione un Tipo de Moneda");
 	$funcionUtil.crearDatePickerSimple($local.$fechaVF, "DD/MM/YYYY");
@@ -41,7 +46,7 @@ $(document).ready(function() {
 
 	$local.tablaMantenimiento = $local.$tablaMantenimiento.DataTable({
 		"ajax" : {
-			"url" : $variableUtil.root + "mantenimiento/ingresos?accion=buscarTodos",
+			"url" : $variableUtil.root + "ingresos/ingresos?accion=buscarTodos",
 			"dataSrc" : ""
 		},
 		"language" : {
@@ -60,7 +65,9 @@ $(document).ready(function() {
 			"defaultContent" : $variableUtil.botonActualizar
 		} ],
 		"columns" : [ {
-			"data" : "fechaVF",
+			"data" : function(row) {
+				return $funcionUtil.convertirDeFormatoAFormato(row.fechaVF, "YYYY-MM-DD", "DD/MM/YYYY");
+			},
 			"title" : "Fecha"
 		}, {
 			"data" : function(row) {
@@ -79,7 +86,9 @@ $(document).ready(function() {
 			"data" : "importeDescontado",
 			"title" : "Descuento"
 		}, {
-			"data" : "nombreCurso",
+			"data" : function(row) {
+				return $funcionUtil.unirCodigoDescripcion(row.codigoCurso, row.nombreCurso);
+			},
 			"title" : "Curso"
 		}, {
 			"data" : null,
@@ -90,7 +99,12 @@ $(document).ready(function() {
 	$local.$tablaMantenimiento.find("thead").on('keyup', 'input.filtrable', function() {
 		$local.tablaMantenimiento.column($(this).parent().index() + ':visible').search(this.value).draw();
 	});
-
+	
+	$local.$tablaMantenimiento.find("thead").on('change', 'select', function() {
+		var val = $.fn.dataTable.util.escapeRegex($(this).val());
+		$local.tablaMantenimiento.column($(this).parent().index() + ':visible').search(val ? '^' + val + '$' : '', true, false).draw();
+	});
+	
 	$local.$modalMantenimiento.PopupWindow({
 		title : "Mantenimiento de Ingresos",
 		autoOpen : false,
@@ -114,6 +128,8 @@ $(document).ready(function() {
 		$local.codigoIngresoSeleccionado = 0;
 		$codigoUnidadSeleccionado : "";
 		$codigoConceptoSeleccionado : "";
+		$codigoCursoSeleccionado: 0;
+		$importe : 0;
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
@@ -151,7 +167,7 @@ $(document).ready(function() {
 			},
 			success : function(conceptos) {
 				$.each(conceptos, function(i, concepto) {
-					$local.$conceptos.append($("<option />").val(this.idConcepto).text(this.nroConceptoEsp + " - " + this.nomConceptoEsp + " - " + this.importe));
+					$local.$conceptos.append($("<option />").val(this.idConcepto).text(this.nroConceptoEsp + " - " + this.nomConceptoEsp + " - S/ " + this.importe));
 				});
 				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
 					$local.$conceptos.val(opcionSeleccionada).trigger("change.select2");
@@ -159,6 +175,40 @@ $(document).ready(function() {
 			},
 			complete : function() {
 				$local.$conceptos.parent().find(".cargando").remove();
+			}
+		});
+	});
+		
+	$local.$conceptos.on("change", function(event, opcionSeleccionada) {
+		var codigoConcepto = $(this).val();
+		if (codigoConcepto == null || codigoConcepto == undefined) {
+			$local.$cursos.find("option:not(:eq(0))").remove();
+			return;
+		}
+		$.ajax({
+			type : "GET",
+			url : $variableUtil.root + "mantenimiento/curso/concepto/" + codigoConcepto,
+			beforeSend : function(xhr) {
+				$local.$cursos.find("option:not(:eq(0))").remove();
+				$local.$cursos.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando Cursos</span>")
+			},
+			statusCode : {
+				400 : function(response) {
+					$funcionUtil.limpiarMensajesDeError($formMantenimiento);
+					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
+				}
+			},
+			success : function(cursos) {
+				$.each(cursos, function(i, curso) {
+					$local.$cursos.append($("<option />").val(this.codigoCurso).text(this.codigoCurso + " - " + this.nombreCurso));
+					$local.$importe.val(this.importe);
+				});
+				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
+					$local.$cursos.val(opcionSeleccionada).trigger("change.select2");
+				}
+			},
+			complete : function() {
+				$local.$cursos.parent().find(".cargando").remove();
 			}
 		});
 	});
@@ -172,7 +222,7 @@ $(document).ready(function() {
 		ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
 		$.ajax({
 			type : "POST",
-			url : $variableUtil.root + "mantenimiento/ingresos",
+			url : $variableUtil.root + "ingresos/ingresos",
 			data : JSON.stringify(ingresos),
 			beforeSend : function(xhr) {
 				$local.$registrarMantenimiento.attr("disabled", true).find("i").removeClass("fa-floppy-o").addClass("fa-spinner fa-pulse fa-fw");
@@ -205,10 +255,16 @@ $(document).ready(function() {
 		$funcionUtil.prepararFormularioActualizacion($formMantenimiento);
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var ingresos = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
-		$local.codigoIngresoSeleccionado = ingresos.codigoIngreso;
+		$local.codigoIngresoSeleccionado = ingresos.idIngreso;
+		$local.importe = ingresos.importe;
 		$local.codigoUnidadSeleccionado = ingresos.codigoUnidad;
 		$local.codigoConceptoSeleccionado = ingresos.idConcepto;
+		$local.codigoCursoSeleccionado = ingresos.codigoCurso;
+		$local.codigoClienteSeleccionado = ingresos.nroDocCliente;
 		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
+		$local.$unidades.trigger("change", [ ingresos.idConcepto ]);
+		$local.$conceptos.trigger("load", [ ingresos.codigoCurso ]);
+		$local.$importe.val(ingresos.importe);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
 		$local.$modalMantenimiento.PopupWindow("open");
@@ -219,12 +275,16 @@ $(document).ready(function() {
 			return;
 		}
 		var ingresos = $formMantenimiento.serializeJSON();
-		ingresos.codigoIngreso = $local.codigoIngresoSeleccionado;
+		ingresos.idIngreso = $local.codigoIngresoSeleccionado;
+		ingresos.importe = $local.importe;
 		ingresos.codigoUnidad = $local.codigoUnidadSeleccionado;
 		ingresos.idConcepto = $local.codigoConceptoSeleccionado;
+		ingresos.codigoCurso = $local.codigoCursoSeleccionado;
+		ingresos.nroDocCliente = $local.codigoClienteSeleccionado;
+		ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
 		$.ajax({
 			type : "PUT",
-			url : $variableUtil.root + "mantenimiento/ingresos",
+			url : $variableUtil.root + "ingresos/ingresos",
 			data : JSON.stringify(ingresos),
 			beforeSend : function(xhr) {
 				$local.$actualizarMantenimiento.attr("disabled", true).find("i").removeClass("fa-pencil-square").addClass("fa-spinner fa-pulse fa-fw");
@@ -237,9 +297,9 @@ $(document).ready(function() {
 					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
 				}
 			},
-			success : function(response) {
-				$funcionUtil.notificarException(response, "fa-check", "Aviso", "success");
-				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(ingresos).draw();
+			success : function(ingresos) {
+				$funcionUtil.notificarException($variableUtil.actualizacionExitosa, "fa-check", "Aviso", "success");
+				var row = $local.tablaMantenimiento.row($local.$filaSeleccionada).data(ingresos[0]).draw();
 				row.show().draw(false);
 				$(row.node()).animateHighlight();
 				$local.$modalMantenimiento.PopupWindow("close");

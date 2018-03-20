@@ -14,7 +14,7 @@ public class Concepto {
 	private String nroConceptoEsp;
 	private String nomConceptoEsp;
 	private String descConceptoEsp;
-	private Float importe;
+	private Double importe;
 	
 	private String codigoUnidad;
 	private String nroConceptoUnidad;

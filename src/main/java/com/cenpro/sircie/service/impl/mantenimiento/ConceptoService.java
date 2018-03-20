@@ -23,6 +23,7 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	private IConceptoMapper conceptoMapper;
 	
 	private static final String GET_UNI = "GET_UNI";
+	private static final String GET_T = "GET_T";
 	
 	public ConceptoService(@Qualifier("IConceptoMapper") IMantenibleMapper<Concepto> mapper) {
 		super(mapper);
@@ -30,10 +31,14 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public List<Concepto> buscarConceptosDeCursos() {
+		return this.buscar(new Concepto(), GET_T);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Concepto> buscarPorCodigoUnidad(String codigoUnidad) {
 		
 		Concepto concepto = Concepto.builder().codigoUnidad(codigoUnidad).build();
-		System.out.println("1 >>>>>>>>> "+concepto);
         return this.buscar(concepto, GET_UNI);
 	}
 	
@@ -46,15 +51,15 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Concepto> buscarTodos() {
-		
+
 		return this.buscar(new Concepto(), Verbo.GETS);
+		
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Concepto> buscarPorCodigoUnidadIdConcepto(String codigoUnidad, Integer idConcepto) {
 
 		Concepto concepto = Concepto.builder().codigoUnidad(codigoUnidad).idConcepto(idConcepto).build();
-		System.out.println("---->"+ concepto);
 		return this.buscar(concepto, Verbo.GET);
 	}
 	
@@ -62,7 +67,6 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	public int registrarConcepto(Concepto concepto) {
 
 		List<Concepto> conceptos = this.registrarAutoIncrementable(concepto);
-		System.out.println("en registro ---->"+ conceptos);
         if (!conceptos.isEmpty() && conceptos.get(0).getIdConcepto() != null)
         {
             return conceptos.get(0).getIdConcepto();
@@ -83,4 +87,5 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 		
 		this.eliminar(concepto);
 	}
+
 }

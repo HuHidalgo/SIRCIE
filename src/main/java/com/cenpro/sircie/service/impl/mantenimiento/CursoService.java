@@ -20,6 +20,8 @@ public class CursoService extends MantenibleService<Curso> implements ICursoServ
 	@SuppressWarnings("unused")
     private ICursoMapper cursoMapper;
 	
+	private static final String GET_CUR = "GET_CUR";
+	
 	public CursoService(@Qualifier("ICursoMapper") IMantenibleMapper<Curso> mapper)
     {
         super(mapper);
@@ -27,13 +29,20 @@ public class CursoService extends MantenibleService<Curso> implements ICursoServ
     }
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public List<Curso> buscarPorIdConcepto(Integer idConcepto) {
-		Curso curso = Curso.builder().idConcepto(idConcepto).build();
+	public List<Curso> buscarPorCodigoConcepto(Integer codigoConcepto) {
+		Curso curso = Curso.builder().idConcepto(codigoConcepto).build();
+		return this.buscar(curso, GET_CUR);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public List<Curso> buscarPorIdConceptoCodigoCurso(Integer idConcepto, Integer codCurso) {
+		Curso curso = Curso.builder().idConcepto(idConcepto).codigoCurso(codCurso).build();
 		return this.buscar(curso, Verbo.GET);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Curso> buscarTodos() {
+
 		return this.buscar(new Curso(), Verbo.GETS);
 	}
 

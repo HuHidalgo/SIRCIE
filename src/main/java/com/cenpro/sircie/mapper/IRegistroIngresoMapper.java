@@ -7,10 +7,10 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.mapping.StatementType;
 
 import com.cenpro.sircie.mapper.base.IMantenibleMapper;
-import com.cenpro.sircie.model.mantenimiento.Ingresos;
+import com.cenpro.sircie.model.ingresos.Ingresos;
 import com.cenpro.sircie.model.parametro.Parametro;
 
-public interface IIngresosMapper extends IMantenibleMapper<Ingresos>{
+public interface IRegistroIngresoMapper extends IMantenibleMapper<Ingresos>{
 	
 	@Select(value = { "{call MANT_INGRESOS ( "
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
@@ -21,6 +21,7 @@ public interface IIngresosMapper extends IMantenibleMapper<Ingresos>{
             + "#{objeto.apellidosCliente, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.tipoDocCliente, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.idConcepto, jdbcType = INTEGER, mode = IN},"
+            + "#{objeto.importe, jdbcType = NUMERIC, mode = IN},"
             + "#{objeto.importeDescontado, jdbcType = NUMERIC, mode = IN},"
             + "#{objeto.descDescuento, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.codigoCurso, jdbcType = VARCHAR, mode = IN},"

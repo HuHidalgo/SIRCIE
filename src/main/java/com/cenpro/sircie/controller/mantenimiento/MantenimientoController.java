@@ -41,7 +41,6 @@ public @Controller class MantenimientoController
         model.addAttribute("mantenimiento", mantenimiento);
         model.addAttribute("tiposDocumento",
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO));
-        model.addAttribute("sexos", multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_SEXO));
         return "seguras/mantenimiento/mantenimiento";
     }
 
@@ -94,7 +93,7 @@ public @Controller class MantenimientoController
         model.addAttribute("mantenimiento", mantenimiento);
         return "seguras/mantenimiento/mantenimiento";
     }
-    
+    /*
     //@Audit(tipo = Tipo.Ingresos)
     @GetMapping("/{mantenimiento:ingresos}")
     public String irPaginaMantenimientoIngresos(@PathVariable String mantenimiento, ModelMap model)
@@ -108,7 +107,7 @@ public @Controller class MantenimientoController
         model.addAttribute("conceptos", conceptoService.buscarTodos());
         return "seguras/mantenimiento/mantenimiento";
     }
-    
+    */
     @GetMapping("/{mantenimiento:escuela}")
     public String irPaginaMantenimientoEscuela(@PathVariable String mantenimiento, ModelMap model)
     {
@@ -167,7 +166,7 @@ public @Controller class MantenimientoController
     public String irPaginaMantenimientoCurso(@PathVariable String mantenimiento, ModelMap model)
     {
         model.addAttribute("mantenimiento", mantenimiento);
-        model.addAttribute("conceptos", conceptoService.buscarTodos());
+        model.addAttribute("conceptos", conceptoService.buscarConceptosDeCursos());
         return "seguras/mantenimiento/mantenimiento";
     }
 }

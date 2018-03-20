@@ -18,4 +18,5 @@ public class Curso
 	private Integer idConcepto;
 	private String nomConceptoEsp;
 	private String nroConceptoEsp;
+	private Double importe;
 }

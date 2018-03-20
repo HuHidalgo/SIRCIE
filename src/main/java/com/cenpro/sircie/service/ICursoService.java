@@ -8,8 +8,10 @@ import com.cenpro.sircie.model.mantenimiento.Curso;
 public interface ICursoService extends IMantenibleService<Curso>
 {
 	public List<Curso> buscarTodos();
+	
+	public List<Curso> buscarPorCodigoConcepto(Integer codigoConcepto); 
     
-    public List<Curso> buscarPorIdConcepto(Integer idConcepto);
+    public List<Curso> buscarPorIdConceptoCodigoCurso(Integer idConceptom, Integer codCurso);
     
     public void registrarCurso(Curso curso);
     

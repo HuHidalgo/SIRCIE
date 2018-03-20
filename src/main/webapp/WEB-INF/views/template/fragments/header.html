@@ -52,13 +52,13 @@
 				</a>
 				<ul>
 					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
-						<a th:href="@{/mantenimiento/ingresos}">
+						<a th:href="@{/ingresos/ingresos}">
 							<span class="fa fa-list-alt"></span> 
 							<span>Registro</span>
 						</a>
 					</li>
 					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
-						<a th:href="@{/carga/alumno}">
+						<a th:href="@{/ingresos/reporte}">
 							<span class="fa fa-file"></span> 
 							<span>Reportes</span>
 						</a>
@@ -155,12 +155,18 @@
 							<span class="fa fa-wrench"></span> Curso
 						</a>
 					</li>
+					<li>
+						<a th:href="@{/mantenimiento/persona}">
+							<span class="fa fa-wrench"></span> Persona
+						</a>
+					</li>
 					<!--
 					<li>
 						<a th:href="@{/mantenimiento/campania}">
 							<span class="fa fa-wrench"></span> Campaña
 						</a>
 					</li>
+					
 					<li>
 						<a th:href="@{/mantenimiento/facultad}">
 							<span class="fa fa-wrench"></span> Facultad

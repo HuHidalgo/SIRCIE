@@ -1,4 +1,4 @@
-package com.cenpro.sircie.service.impl.mantenimiento;
+package com.cenpro.sircie.service.impl.ingresos;
 
 import java.util.List;
 
@@ -7,25 +7,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cenpro.sircie.mapper.IIngresosMapper;
+import com.cenpro.sircie.mapper.IRegistroIngresoMapper;
 import com.cenpro.sircie.mapper.base.IMantenibleMapper;
-import com.cenpro.sircie.model.mantenimiento.Ingresos;
-import com.cenpro.sircie.service.IIngresosService;
+import com.cenpro.sircie.model.ingresos.Ingresos;
+import com.cenpro.sircie.service.IRegistroIngresoService;
 import com.cenpro.sircie.service.excepcion.MantenimientoException;
 import com.cenpro.sircie.service.impl.MantenibleService;
 import com.cenpro.sircie.utilitario.ConstantesExcepciones;
 import com.cenpro.sircie.utilitario.Verbo;
 
 @Service
-public class IngresosService extends MantenibleService<Ingresos> implements IIngresosService{
+public class RegistroIngresoService extends MantenibleService<Ingresos> implements IRegistroIngresoService{
 	
 	@SuppressWarnings("unused")
-	private IIngresosMapper ingresosMapper;
+	private IRegistroIngresoMapper ingresosMapper;
 	
-	public IngresosService(@Qualifier("IIngresosMapper") IMantenibleMapper<Ingresos> mapper) {
+	public RegistroIngresoService(@Qualifier("IRegistroIngresoMapper") IMantenibleMapper<Ingresos> mapper) {
 		
 		super(mapper);
-		this.ingresosMapper = (IIngresosMapper) mapper;
+		this.ingresosMapper = (IRegistroIngresoMapper) mapper;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -45,6 +45,7 @@ public class IngresosService extends MantenibleService<Ingresos> implements IIng
 	public int registrarIngresos(Ingresos ingresos) {
 		
 		List<Ingresos> ingreso = this.registrarAutoIncrementable(ingresos);
+		System.out.println(ingreso);
         if (!ingreso.isEmpty() && ingreso.get(0).getIdIngreso() != null)
         {
             return ingreso.get(0).getIdIngreso();

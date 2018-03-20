@@ -1,4 +1,4 @@
-package com.cenpro.sircie.model.mantenimiento;
+package com.cenpro.sircie.model.ingresos;
 
 import java.util.Date;
 
@@ -36,7 +36,7 @@ public class Ingresos {
 	private Double importeDescontado;
 	private String descDescuento;
 	
-	private int codigoCurso;
+	private String codigoCurso;
 	private String nombreCurso;
 	private int nroCuota;
 	

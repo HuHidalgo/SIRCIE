@@ -25,7 +25,6 @@ public @RestController class ConceptoRestController {
 	@GetMapping("/unidad/{codigoUnidad}")
     public List<Concepto> buscarPorCodigoUnidad(@PathVariable String codigoUnidad)
     {
-		//System.out.println("1 >>>>>>>>> "+conceptoService.buscarPorCodigoUnidad(codigoUnidad));
         return conceptoService.buscarPorCodigoUnidad(codigoUnidad);
     }
 	
@@ -38,7 +37,6 @@ public @RestController class ConceptoRestController {
     @PostMapping
     public ResponseEntity<?> registrarConcepto(@RequestBody Concepto concepto)
     {	
-    	//System.out.println(concepto);
         int idConcepto = conceptoService.registrarConcepto(concepto);
         return ResponseEntity.ok(conceptoService.buscarPorCodigoUnidadIdConcepto(concepto.getCodigoUnidad(), idConcepto));
     }

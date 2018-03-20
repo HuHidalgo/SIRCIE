@@ -73,12 +73,11 @@ public @RestController class PersonaRestController
 
     @Audit(accion = Accion.Eliminacion, comentario = Comentario.Eliminacion)
     @DeleteMapping
-    public ResponseEntity<?> eliminarPersona(
-            @Validated(ISecuenciaValidacionEliminacion.class) @RequestBody Persona persona,
-            Errors error)
-    {
-        if (error.hasErrors())
-        {
+    public ResponseEntity<?> eliminarPersona(@Validated(ISecuenciaValidacionEliminacion.class) 
+    										@RequestBody Persona persona,Errors error){
+
+        if (error.hasErrors()){
+        	
             throw new BadRequestException(ValidatorUtil.obtenerMensajeValidacionError(error));
         }
         personaService.eliminarPersona(persona);

@@ -2,9 +2,9 @@ package com.cenpro.sircie.service;
 
 import java.util.List;
 
-import com.cenpro.sircie.model.mantenimiento.Ingresos;
+import com.cenpro.sircie.model.ingresos.Ingresos;
 
-public interface IIngresosService extends IMantenibleService<Ingresos>{
+public interface IRegistroIngresoService extends IMantenibleService<Ingresos>{
 	
 	public List<Ingresos> buscarTodos();
 	

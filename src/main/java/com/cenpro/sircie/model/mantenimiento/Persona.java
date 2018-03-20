@@ -47,9 +47,5 @@ public class Persona
     @Length(min = 3, max = 100, message = "{Length.Persona.apellidoMaterno}")
     private String apellidoMaterno;
 
-    @MultitabDet(campoIdItem = "idSexo", idTabla = MultiTablaUtil.TABLA_SEXO, min = 1, max = 1)
-    private String idSexo;
-
     private String descripcionTipoDocumento;
-    private String descripcionSexo;
 }
