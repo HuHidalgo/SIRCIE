@@ -13,4 +13,5 @@ public class Perfil
 {
     private String idPerfil;
     private String descripcion;
+    private String nombrePerfil;
 }

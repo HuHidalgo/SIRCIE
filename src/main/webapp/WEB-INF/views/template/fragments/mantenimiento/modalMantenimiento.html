@@ -520,7 +520,7 @@
 				<select id="perfiles" class="form-control select2" name="idPerfil">
 					<option value="" disabled="disabled" selected="selected">Seleccione un Perfil</option>
 					<option th:each="perfil : ${perfiles}" th:value="${perfil.idPerfil}"
-						th:text="|${perfil.idPerfil} - ${perfil.descripcion}|"></option>
+						th:text="|${perfil.idPerfil} - ${perfil.nombrePerfil}|"></option>
 				</select>
 			</div>
 		</div>

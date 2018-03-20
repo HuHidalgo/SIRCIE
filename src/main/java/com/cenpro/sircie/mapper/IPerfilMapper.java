@@ -16,6 +16,7 @@ public interface IPerfilMapper extends IMantenibleMapper<Perfil>
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.idPerfil, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.descripcion, jdbcType = VARCHAR, mode = IN},"
+            + "#{objeto.nombrePerfil, jdbcType = VARCHAR, mode = IN},"
             + "#{userAudit, jdbcType = VARCHAR, mode = IN})}" })
     @Options(statementType = StatementType.CALLABLE)
     public List<Perfil> mantener(Parametro parametro);

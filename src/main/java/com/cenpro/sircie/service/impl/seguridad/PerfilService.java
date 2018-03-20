@@ -31,4 +31,19 @@ public class PerfilService extends MantenibleService<Perfil> implements IPerfilS
     {
         return this.buscar(new Perfil(), Verbo.GETS);
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void registrarPerfil(Perfil perfil) {
+    	this.registrar(perfil);
+	}
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void actualizarPerfil(Perfil perfil) {
+    	this.actualizar(perfil);	
+	}
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void eliminarPerfil(Perfil perfil) {
+    	this.eliminar(perfil);
+	}
 }

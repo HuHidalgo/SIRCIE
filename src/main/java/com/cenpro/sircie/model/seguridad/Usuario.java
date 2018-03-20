@@ -18,7 +18,7 @@ public class Usuario
 	private String contrasenia;
 	private boolean activo;
 	private int idPerfil;
-	private String descripcionPerfil;
+	private String nombrePerfil;
 	private String nombres;
 	private String apellidoPaterno;
 	private String apellidoMaterno;

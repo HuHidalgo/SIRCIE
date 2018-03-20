@@ -3,6 +3,7 @@ package com.cenpro.sircie.controller.seguridad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,5 +49,12 @@ public @Controller class SeguridadController
         model.addAttribute("accionesAuditoria",
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_ACCION_AUDITORIA));
         return "seguras/auditoria/auditoria";
+    }
+    
+    @GetMapping(value = "/{mantenimiento:perfil}")
+    public String irPaginaMantenimientoPefil(@PathVariable String mantenimiento, ModelMap model)
+    {
+        model.addAttribute("mantenimiento", mantenimiento);
+        return "seguras/seguridad/mantenimiento";
     }
 }

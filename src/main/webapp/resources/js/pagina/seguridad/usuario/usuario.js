@@ -74,7 +74,7 @@ $(document).ready(function() {
 			"title" : "Nombres"
 		}, {
 			"data" : function(row) {
-				return $funcionUtil.unirCodigoDescripcion(row.idPerfil, row.descripcionPerfil);
+				return $funcionUtil.unirCodigoDescripcion(row.idPerfil, row.nombrePerfil);
 			},
 			"title" : "Perfil"
 		}, {
