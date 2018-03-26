@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -28,11 +30,13 @@ public class Ingresos {
 	private String tipoDocCliente;
 	private String nroDocCliente;
 	
-	private String idConcepto;
+	private Integer idConcepto;
 	private String nroConceptoEsp;
 	private String nomConceptoEsp;
 	private Double importe;
 	
+	private Double importeTotal;
+	private Double descuento;
 	private Double importeDescontado;
 	private String descDescuento;
 	
@@ -44,15 +48,17 @@ public class Ingresos {
 	private Double tipoCambio;
 	private String nroVoucher;
 	private String nroFactura;
+	private String nroReciboIngreso;
 	
-	//@NotNull(message = "{NotNull.Alumno.fechaNacimiento}")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "EST")
     private Date fechaVF;
     
-    private String nroReciboIngreso;
-    
-    //@NotNull(message = "{NotNull.Alumno.fechaNacimiento}")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "EST")
     private Date fechaRI;
-
+    /*
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date fechaVF;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date fechaFin;
+*/
 }

@@ -35,8 +35,8 @@ public class CursoService extends MantenibleService<Curso> implements ICursoServ
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public List<Curso> buscarPorIdConceptoCodigoCurso(Integer idConcepto, Integer codCurso) {
-		Curso curso = Curso.builder().idConcepto(idConcepto).codigoCurso(codCurso).build();
+	public List<Curso> buscarPorIdConceptoCodigoCurso(Integer idConcepto, String codCurso, String codUnidad) {
+		Curso curso = Curso.builder().idConcepto(idConcepto).codigoCurso(codCurso).codigoUnidad(codUnidad).build();
 		return this.buscar(curso, Verbo.GET);
 	}
 	

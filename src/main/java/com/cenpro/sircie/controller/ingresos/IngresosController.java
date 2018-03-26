@@ -13,14 +13,11 @@ import com.cenpro.sircie.aspecto.enumeracion.Comentario;
 import com.cenpro.sircie.aspecto.enumeracion.Tipo;
 import com.cenpro.sircie.controller.excepcion.anotacion.Vista;
 import com.cenpro.sircie.service.IConceptoService;
-import com.cenpro.sircie.service.IFacultadService;
-import com.cenpro.sircie.service.IMetaService;
+import com.cenpro.sircie.service.ICursoService;
 import com.cenpro.sircie.service.IMultiTabDetService;
-import com.cenpro.sircie.service.IPersonaService;
-import com.cenpro.sircie.service.ITareaService;
 import com.cenpro.sircie.service.IUnidadService;
 import com.cenpro.sircie.utilitario.MultiTablaUtil;
-//seguridad
+
 @Vista
 @Audit(accion = Accion.Visita, comentario = Comentario.Visita)
 @RequestMapping("/ingresos")
@@ -29,6 +26,7 @@ public @Controller class IngresosController
     private @Autowired IMultiTabDetService multiTabDetService;
     private @Autowired IUnidadService unidadService;
     private @Autowired IConceptoService conceptoService;
+    private @Autowired ICursoService cursoService;
     
     //@Audit(tipo = Tipo.Ingresos)
     @GetMapping(value = "/{mantenimiento:ingresos}")
@@ -41,7 +39,17 @@ public @Controller class IngresosController
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_MONEDA));
         model.addAttribute("unidades", unidadService.buscarTodos());
         model.addAttribute("conceptos", conceptoService.buscarTodos());
+        model.addAttribute("cursos", cursoService.buscarTodos());
         return "seguras/ingresos/mantenimiento";
+    }
+    
+    @GetMapping("{reporteIngresos:reporte}")
+    public String irPaginaReporteIngresos(ModelMap model)
+    {
+    	model.addAttribute("unidades", unidadService.buscarTodos());
+        model.addAttribute("conceptos", conceptoService.buscarTodos());
+        model.addAttribute("cursos", cursoService.buscarTodos());;
+        return "seguras/ingresos/reporteIngresos";
     }
     
 }

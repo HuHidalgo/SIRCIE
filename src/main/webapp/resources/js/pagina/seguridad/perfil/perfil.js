@@ -41,7 +41,7 @@ $(document).ready(function() {
 		}, {
 			"targets" : 3,
 			"className" : "all dt-center",
-			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
+			"defaultContent" : $variableUtil.botonActualizar
 		} ],
 		"columns" : [ {
 			"data" : "idPerfil",

@@ -23,16 +23,10 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	private IConceptoMapper conceptoMapper;
 	
 	private static final String GET_UNI = "GET_UNI";
-	private static final String GET_T = "GET_T";
 	
 	public ConceptoService(@Qualifier("IConceptoMapper") IMantenibleMapper<Concepto> mapper) {
 		super(mapper);
 		this.conceptoMapper = (IConceptoMapper) mapper;
-	}
-	
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public List<Concepto> buscarConceptosDeCursos() {
-		return this.buscar(new Concepto(), GET_T);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)

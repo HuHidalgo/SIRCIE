@@ -178,13 +178,28 @@
 	
 	<th:block th:fragment="curso">
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Concepto</label>
-			<div class="col-lg-10">
-				<select id="conceptos" class="form-control select2" name="idConcepto">
-					<option value="" disabled="disabled" selected="selected">Elija Concepto</option>
-					<option th:each="concepto: ${conceptos}" th:value="${concepto.idConcepto}"
-						th:text="|${concepto.nroConceptoEsp} - ${concepto.nomConceptoEsp}|"></option>
-				</select>
+			<div class="group">
+				<label class="col-lg-2 control-label">Unidad</label>
+				<div class="col-lg-10">
+					<select id="unidades" class="form-control select2" name="codigoUnidad">
+						<option value="" disabled="disabled" selected="selected">
+							Seleccione una Unidad
+						</option>
+						<option th:each="unidad : ${unidades}" th:value="${unidad.codigoUnidad}"
+							th:text="|${unidad.nroConcepto} - ${unidad.nombreUnidad}|"></option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="group">
+				<label class="col-lg-2 control-label">Concepto</label>
+				<div class="col-lg-10">
+					<select id="conceptos" class="form-control select2" name="idConcepto">
+						<option value="" disabled="disabled" selected="selected">
+						Seleccione un Concepto de pago</option>
+					</select>
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
@@ -243,42 +258,6 @@
 				<label class="col-lg-2 control-label">Apellido Materno</label>
 				<div class="col-lg-4">
 					<input class="form-control upperCase" name="apellidoMaterno">
-				</div>
-			</div>
-		</div>
-	</th:block>
-
-	<th:block th:fragment="medico">
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Persona</label>
-			<div class="col-lg-10">
-				<select id="personas" class="form-control select2 elemento-desactivable" name="idPersona">
-					<option value="" disabled="disabled" selected="selected">Seleccione una Persona</option>
-					<option th:each="persona : ${personas}"
-						th:value="|${persona.idTipoDocumento}/${persona.numeroDocumento}|"
-						th:text="|${persona.numeroDocumento} - ${persona.apellidoPaterno} ${persona.apellidoMaterno}, ${persona.nombres}|"></option>
-				</select>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Colegio Médico</label>
-			<div class="col-lg-10">
-				<input class="form-control numbersOnly" maxlength="6" name="colegioMedico">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Registro Nac. de Esp.</label>
-			<div class="col-lg-10">
-				<input class="form-control numbersOnly" maxlength="6" name="registroNacionalEspecialidad">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Director</label>
-			<div class="col-lg-10">
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" value="true" data-unchecked-value="false" name="director" />
-					</label>
 				</div>
 			</div>
 		</div>
@@ -444,146 +423,11 @@
 		</div>
 	</th:block>
 
-	<th:block th:fragment="campania">
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Descripción</label>
-			<div class="col-lg-10">
-				<input class="form-control upperCase" name="descripcion">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Descripción Corta</label>
-			<div class="col-lg-10">
-				<input class="form-control upperCase" name="descripcionCorta">
-			</div>
-		</div>
-
-		<div class="form-group">
-			<div class="group">
-				<label class="col-lg-2 control-label">Fecha de Ejecución</label>
-				<div class="col-lg-4">
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-						<input id="fechaEjecucion" type="text" class="form-control"/>
-					</div>
-				</div>
-			</div>
-			<div class="group">
-				<label class="col-lg-2 control-label">Activo</label>
-				<div class="col-lg-4">
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" value="true" data-unchecked-value="false" name="activo" />
-						</label>
-					</div>
-				</div>
-			</div>
-		</div>
-	</th:block>
-
 	<th:block th:fragment="multiTabCab">
 		<div class="form-group">
 			<label class="col-lg-2 control-label">Descripción</label>
 			<div class="col-lg-10">
 				<input class="form-control upperCase" name="descripcion">
-			</div>
-		</div>
-	</th:block>
-
-	<th:block th:fragment="usuario">
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Persona</label>
-			<div class="col-lg-10">
-				<select id="personas" class="form-control select2" name="idPersona">
-					<option value="" disabled="disabled" selected="selected">Seleccione una Persona</option>
-					<option th:each="persona : ${personas}"
-						th:value="|${persona.idTipoDocumento}/${persona.numeroDocumento}|"
-						th:text="|${persona.numeroDocumento} - ${persona.apellidoPaterno} ${persona.apellidoMaterno}, ${persona.nombres}|"></option>
-				</select>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Usuario</label>
-			<div class="col-lg-10">
-				<input class="form-control elemento-desactivable" maxlength="20" name="idUsuario">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Contraseña</label>
-			<div class="col-lg-10">
-				<input class="form-control elemento-desactivable" maxlength="20" name="contrasenia">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Perfiles</label>
-			<div class="col-lg-10">
-				<select id="perfiles" class="form-control select2" name="idPerfil">
-					<option value="" disabled="disabled" selected="selected">Seleccione un Perfil</option>
-					<option th:each="perfil : ${perfiles}" th:value="${perfil.idPerfil}"
-						th:text="|${perfil.idPerfil} - ${perfil.nombrePerfil}|"></option>
-				</select>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Activo</label>
-			<div class="col-lg-4">
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" value="true" data-unchecked-value="false" name="activo" />
-					</label>
-				</div>
-			</div>
-		</div>
-	</th:block>
-
-	<th:block th:fragment="facultad">
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Código de Facultad</label>
-			<div class="col-lg-10">
-				<input class="form-control numbersOnly elemento-desactivable" name="codigoFacultad">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Descripción</label>
-			<div class="col-lg-10">
-				<input class="form-control upperCase" name="descripcion" maxlength="250">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Correo Asistenta</label>
-			<div class="col-lg-10">
-				<input class="form-control" name="correoAsistenta" maxlength="50">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Correo Decano</label>
-			<div class="col-lg-10">
-				<input class="form-control" name="correoFacultad" maxlength="50">
-			</div>
-		</div>
-	</th:block>
-
-	<th:block th:fragment="escuela">
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Código de Escuela</label>
-			<div class="col-lg-10">
-				<input class="form-control numbersOnly elemento-desactivable" name="codigoEscuela">
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Facultad</label>
-			<div class="col-lg-10">
-				<select id="facultades" class="form-control select2 elemento-desactivable" name="codigoFacultad">
-					<option value="" disabled="disabled" selected="selected">Seleccione una Facultad</option>
-					<option th:each="facultad : ${facultades}" th:value="${facultad.codigoFacultad}"
-						th:text="|${facultad.codigoFacultad} - ${facultad.descripcion}|"></option>
-				</select>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Descripción</label>
-			<div class="col-lg-10">
-				<input class="form-control upperCase" name="descripcion" maxlength="250">
 			</div>
 		</div>
 	</th:block>

@@ -32,24 +32,25 @@ private @Autowired ICursoService cursoService;
 	@GetMapping(params = "accion=buscarTodos")
     public List<Curso> buscarTodos()
     {
-		System.out.println(" aca curso ----> ");
         return cursoService.buscarTodos();
     }
 
     @PostMapping
     public ResponseEntity<?> registrarCurso(@RequestBody Curso curso)
     {
+    	System.out.println(curso);
     	cursoService.registrarCurso(curso);
         return ResponseEntity.ok(cursoService.buscarPorIdConceptoCodigoCurso(curso.getIdConcepto(),
-        		curso.getCodigoCurso()));
+        		curso.getCodigoCurso(), curso.getCodigoUnidad()));
     }
 
     @PutMapping
     public ResponseEntity<?> actualizarCurso(@RequestBody Curso curso)
     {
+    	System.out.println(curso);
     	cursoService.actualizarCurso(curso);
         return ResponseEntity.ok(cursoService.buscarPorIdConceptoCodigoCurso(curso.getIdConcepto(),
-        		curso.getCodigoCurso()));
+        		curso.getCodigoCurso(), curso.getCodigoUnidad()));
     }
     
     @DeleteMapping

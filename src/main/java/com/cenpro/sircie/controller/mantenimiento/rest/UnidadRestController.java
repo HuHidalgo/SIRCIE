@@ -24,7 +24,7 @@ public @RestController class UnidadRestController {
     @GetMapping(params = "accion=buscarTodos")
     public List<Unidad> buscarTodosT()
     {
-        return unidadService.buscarTodosT();
+        return unidadService.buscarTodos();
     }
 
     @PostMapping

@@ -11,7 +11,7 @@ public interface ICursoService extends IMantenibleService<Curso>
 	
 	public List<Curso> buscarPorCodigoConcepto(Integer codigoConcepto); 
     
-    public List<Curso> buscarPorIdConceptoCodigoCurso(Integer idConceptom, Integer codCurso);
+    public List<Curso> buscarPorIdConceptoCodigoCurso(Integer idConcepto, String codCurso, String codUnidad);
     
     public void registrarCurso(Curso curso);
     

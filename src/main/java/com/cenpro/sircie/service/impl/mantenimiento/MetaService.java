@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cenpro.sircie.mapper.IMetaMapper;
 import com.cenpro.sircie.mapper.base.IMantenibleMapper;
-import com.cenpro.sircie.model.mantenimiento.Facultad;
 import com.cenpro.sircie.model.mantenimiento.Meta;
 import com.cenpro.sircie.service.IMetaService;
 import com.cenpro.sircie.service.impl.MantenibleService;

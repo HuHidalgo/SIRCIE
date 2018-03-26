@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Curso 
 {
-	private Integer codigoCurso;
+	private String codigoCurso;
 	private String nombreCurso;
 	private Integer nroSemestres;
 	
@@ -19,4 +19,8 @@ public class Curso
 	private String nomConceptoEsp;
 	private String nroConceptoEsp;
 	private Double importe;
+	
+	private String codigoUnidad;
+	private String nroConceptoUnidad;
+	private String nombreUnidad;
 }

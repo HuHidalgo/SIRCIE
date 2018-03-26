@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cenpro.sircie.aspecto.anotacion.Audit;
 import com.cenpro.sircie.aspecto.enumeracion.Accion;
 import com.cenpro.sircie.aspecto.enumeracion.Comentario;
-import com.cenpro.sircie.aspecto.enumeracion.Dato;
-import com.cenpro.sircie.aspecto.enumeracion.Tipo;
 import com.cenpro.sircie.model.mantenimiento.Alumno;
 import com.cenpro.sircie.service.IAlumnoService;
 import com.cenpro.sircie.service.excepcion.BadRequestException;
@@ -28,7 +26,6 @@ import com.cenpro.sircie.validacion.grupo.secuencia.ISecuenciaValidacionActualiz
 import com.cenpro.sircie.validacion.grupo.secuencia.ISecuenciaValidacionEliminacion;
 import com.cenpro.sircie.validacion.grupo.secuencia.ISecuenciaValidacionRegistro;
 
-@Audit(tipo = Tipo.Alumno, datos = Dato.Alumno)
 @RequestMapping("/mantenimiento/alumno")
 public @RestController class AlumnoRestController
 {

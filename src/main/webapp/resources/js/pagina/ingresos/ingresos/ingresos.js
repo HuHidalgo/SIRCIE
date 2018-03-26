@@ -57,10 +57,10 @@ $(document).ready(function() {
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2, 3, 4, 5 ],
+			"targets" : [ 0, 1, 2, 3, 4, 5, 6 ],
 			"className" : "all filtrable",
 		}, {
-			"targets" : 6,
+			"targets" : 7,
 			"className" : "all dt-center",
 			"defaultContent" : $variableUtil.botonActualizar
 		} ],
@@ -83,9 +83,12 @@ $(document).ready(function() {
 			"data" : "importe",
 			"title" : "Importe"
 		}, {
-			"data" : "importeDescontado",
+			"data" : "descuento",
 			"title" : "Descuento"
 		}, {
+			"data" : "importeTotal",
+			"title" : "Ingreso Total"
+		},{
 			"data" : function(row) {
 				return $funcionUtil.unirCodigoDescripcion(row.codigoCurso, row.nombreCurso);
 			},
@@ -100,10 +103,7 @@ $(document).ready(function() {
 		$local.tablaMantenimiento.column($(this).parent().index() + ':visible').search(this.value).draw();
 	});
 	
-	$local.$tablaMantenimiento.find("thead").on('change', 'select', function() {
-		var val = $.fn.dataTable.util.escapeRegex($(this).val());
-		$local.tablaMantenimiento.column($(this).parent().index() + ':visible').search(val ? '^' + val + '$' : '', true, false).draw();
-	});
+
 	
 	$local.$modalMantenimiento.PopupWindow({
 		title : "Mantenimiento de Ingresos",
@@ -126,9 +126,9 @@ $(document).ready(function() {
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
 		$local.codigoIngresoSeleccionado = 0;
-		$codigoUnidadSeleccionado : "";
-		$codigoConceptoSeleccionado : "";
-		$codigoCursoSeleccionado: 0;
+		//$codigoUnidadSeleccionado : "";
+		//$codigoConceptoSeleccionado : "";
+		//$codigoCursoSeleccionado: 0;
 		$importe : 0;
 	});
 
@@ -219,7 +219,7 @@ $(document).ready(function() {
 		}
 		var ingresos = $formMantenimiento.serializeJSON();
 		ingresos.fechaVF = $local.$fechaVF.data("daterangepicker").startDate.format('YYYY-MM-DD');
-		ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
+		//ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
 		$.ajax({
 			type : "POST",
 			url : $variableUtil.root + "ingresos/ingresos",
@@ -257,13 +257,13 @@ $(document).ready(function() {
 		var ingresos = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
 		$local.codigoIngresoSeleccionado = ingresos.idIngreso;
 		$local.importe = ingresos.importe;
-		$local.codigoUnidadSeleccionado = ingresos.codigoUnidad;
-		$local.codigoConceptoSeleccionado = ingresos.idConcepto;
-		$local.codigoCursoSeleccionado = ingresos.codigoCurso;
+		//$local.codigoUnidadSeleccionado = ingresos.codigoUnidad;
+		//$local.codigoConceptoSeleccionado = ingresos.idConcepto;
+		//$local.codigoCursoSeleccionado = ingresos.codigoCurso;
 		$local.codigoClienteSeleccionado = ingresos.nroDocCliente;
 		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
 		$local.$unidades.trigger("change", [ ingresos.idConcepto ]);
-		$local.$conceptos.trigger("load", [ ingresos.codigoCurso ]);
+		$local.$conceptos.trigger("change", [ ingresos.codigoCurso ]);
 		$local.$importe.val(ingresos.importe);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
@@ -277,9 +277,9 @@ $(document).ready(function() {
 		var ingresos = $formMantenimiento.serializeJSON();
 		ingresos.idIngreso = $local.codigoIngresoSeleccionado;
 		ingresos.importe = $local.importe;
-		ingresos.codigoUnidad = $local.codigoUnidadSeleccionado;
-		ingresos.idConcepto = $local.codigoConceptoSeleccionado;
-		ingresos.codigoCurso = $local.codigoCursoSeleccionado;
+		//ingresos.codigoUnidad = $local.codigoUnidadSeleccionado;
+		//ingresos.idConcepto = $local.codigoConceptoSeleccionado;
+		//ingresos.codigoCurso = $local.codigoCursoSeleccionado;
 		ingresos.nroDocCliente = $local.codigoClienteSeleccionado;
 		ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
 		$.ajax({

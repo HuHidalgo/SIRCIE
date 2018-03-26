@@ -13,7 +13,6 @@ import com.cenpro.sircie.aspecto.enumeracion.Comentario;
 import com.cenpro.sircie.aspecto.enumeracion.Tipo;
 import com.cenpro.sircie.controller.excepcion.anotacion.Vista;
 import com.cenpro.sircie.service.IConceptoService;
-import com.cenpro.sircie.service.IFacultadService;
 import com.cenpro.sircie.service.IMetaService;
 import com.cenpro.sircie.service.IMultiTabDetService;
 import com.cenpro.sircie.service.IPersonaService;
@@ -27,7 +26,6 @@ import com.cenpro.sircie.utilitario.MultiTablaUtil;
 public @Controller class MantenimientoController
 {
     private @Autowired IPersonaService personaService;
-    private @Autowired IFacultadService facultadService;
     private @Autowired IMultiTabDetService multiTabDetService;
     private @Autowired IMetaService metaService;
     private @Autowired ITareaService tareaService;
@@ -44,15 +42,6 @@ public @Controller class MantenimientoController
         return "seguras/mantenimiento/mantenimiento";
     }
 
-    @Audit(tipo = Tipo.Medico)
-    @GetMapping("/{mantenimiento:medico}")
-    public String irPaginaMantenimientoMedico(@PathVariable String mantenimiento, ModelMap model)
-    {
-        model.addAttribute("personas", personaService.buscarTodos());
-        model.addAttribute("mantenimiento", mantenimiento);
-        return "seguras/mantenimiento/mantenimiento";
-    }
-
     @Audit(tipo = Tipo.Alumno)
     @GetMapping("/{mantenimiento:alumno}")
     public String irPaginaMantenimientoAlumno(@PathVariable String mantenimiento, ModelMap model)
@@ -65,17 +54,6 @@ public @Controller class MantenimientoController
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_ALUMNO));
         model.addAttribute("discapacidades",
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_DISCAPACIDAD));
-        model.addAttribute("facultades", facultadService.buscarTodos());
-        return "seguras/mantenimiento/mantenimiento";
-    }
-
-    @Audit(tipo = Tipo.Campania)
-    @GetMapping("/{mantenimiento:campania}")
-    public String irPaginaMantenimientoCampania(@PathVariable String mantenimiento, ModelMap model)
-    {
-        model.addAttribute("mantenimiento", mantenimiento);
-        model.addAttribute("tiposCertificado",
-                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO));
         return "seguras/mantenimiento/mantenimiento";
     }
 
@@ -86,36 +64,7 @@ public @Controller class MantenimientoController
         model.addAttribute("mantenimiento", mantenimiento);
         return "seguras/mantenimiento/multiTabla";
     }
-
-    @GetMapping("/{mantenimiento:facultad}")
-    public String irPaginaMantenimientoFacultad(@PathVariable String mantenimiento, ModelMap model)
-    {
-        model.addAttribute("mantenimiento", mantenimiento);
-        return "seguras/mantenimiento/mantenimiento";
-    }
-    /*
-    //@Audit(tipo = Tipo.Ingresos)
-    @GetMapping("/{mantenimiento:ingresos}")
-    public String irPaginaMantenimientoIngresos(@PathVariable String mantenimiento, ModelMap model)
-    {
-        model.addAttribute("mantenimiento", mantenimiento);
-        model.addAttribute("tiposDocumento",
-                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO));
-        model.addAttribute("tiposMoneda",
-                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_MONEDA));
-        model.addAttribute("unidades", unidadService.buscarTodos());
-        model.addAttribute("conceptos", conceptoService.buscarTodos());
-        return "seguras/mantenimiento/mantenimiento";
-    }
-    */
-    @GetMapping("/{mantenimiento:escuela}")
-    public String irPaginaMantenimientoEscuela(@PathVariable String mantenimiento, ModelMap model)
-    {
-        model.addAttribute("mantenimiento", mantenimiento);
-        model.addAttribute("facultades", facultadService.buscarTodos());
-        return "seguras/mantenimiento/mantenimiento";
-    }
-    
+   
     @GetMapping("/{mantenimiento:unidad}")
     public String irPaginaMantenimientoUnidad(@PathVariable String mantenimiento, ModelMap model)
     {
@@ -131,13 +80,6 @@ public @Controller class MantenimientoController
         return "seguras/mantenimiento/mantenimiento";
     }
     
-    @GetMapping("/{mantenimiento:procesoAutomatico}")
-    public String irPaginaMantenimientoProcesoAutomatico(@PathVariable String mantenimiento, ModelMap model)
-    {
-        model.addAttribute("mantenimiento", mantenimiento);
-        return "seguras/mantenimiento/mantenimiento";
-    }
-
     @GetMapping("/{mantenimiento:tarea}")
     public String irPaginaMantenimientoTarea(@PathVariable String mantenimiento, ModelMap model)
     {
@@ -166,7 +108,8 @@ public @Controller class MantenimientoController
     public String irPaginaMantenimientoCurso(@PathVariable String mantenimiento, ModelMap model)
     {
         model.addAttribute("mantenimiento", mantenimiento);
-        model.addAttribute("conceptos", conceptoService.buscarConceptosDeCursos());
+        model.addAttribute("unidades", unidadService.buscarTodos());
+        //model.addAttribute("conceptos", conceptoService.buscarTodos());
         return "seguras/mantenimiento/mantenimiento";
     }
 }

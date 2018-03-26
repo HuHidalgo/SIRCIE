@@ -20,6 +20,8 @@ public class UnidadService extends MantenibleService<Unidad> implements IUnidadS
 	
 	@SuppressWarnings("unused")
 	private IUnidadMapper unidadMapper;
+	
+	private static final String GETS_UNI = "GETS_UNI";
 		
 	public UnidadService(@Qualifier("IUnidadMapper") IMantenibleMapper<Unidad> mapper) {
 		super(mapper);
@@ -33,9 +35,9 @@ public class UnidadService extends MantenibleService<Unidad> implements IUnidadS
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public List<Unidad> buscarTodosT() {
+	public List<Unidad> buscarUnidades() {
 		
-		return this.buscar(new Unidad(), Verbo.GETS_T);
+		return this.buscar(new Unidad(), GETS_UNI);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)

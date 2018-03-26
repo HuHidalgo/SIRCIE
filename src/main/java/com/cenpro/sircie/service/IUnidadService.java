@@ -8,7 +8,7 @@ public interface IUnidadService extends IMantenibleService<Unidad> {
 	
 	public List<Unidad> buscarTodos();
     
-    public List<Unidad> buscarTodosT();
+    public List<Unidad> buscarUnidades();
     
     public void registrarUnidad(Unidad unidad);
     
