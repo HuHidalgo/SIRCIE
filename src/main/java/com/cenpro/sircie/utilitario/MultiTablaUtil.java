@@ -17,4 +17,5 @@ public class MultiTablaUtil
     public static final int TABLA_TIPO_EXAMEN_MEDICO = 16;
     public static final int TABLA_TIPO_MONEDA = 17;
     public static final int TABLA_TIPO_ADQUISICION = 18;
+    public static final int TABLA_MESES = 18;
 }
