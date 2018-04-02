@@ -15,11 +15,6 @@ public class Curso
 	private String nombreCurso;
 	private Integer nroSemestres;
 	
-	private Integer idConcepto;
-	private String nomConceptoEsp;
-	private String nroConceptoEsp;
-	private Double importe;
-	
 	private String codigoUnidad;
 	private String nroConceptoUnidad;
 	private String nombreUnidad;

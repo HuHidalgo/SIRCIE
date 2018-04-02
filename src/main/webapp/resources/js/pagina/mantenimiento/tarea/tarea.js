@@ -9,8 +9,6 @@ $(document).ready(function() {
 		$filaSeleccionada : "",
 		$actualizarMantenimiento : $("#actualizarMantenimiento"),
 		codigoTareaSeleccionada : 0,
-		codigoUnidadSeleccionada : "",
-		codigoMetaSeleccionada : 0,
 		$unidades : $("#unidades"),
 		$metas : $("#metas")
 	};
@@ -97,8 +95,6 @@ $(document).ready(function() {
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
 		$local.codigoTareaSeleccionada = 0;
-		$local.codigoUnidadSeleccionada = "";
-		$local.codigoMetaSeleccionada = 0;
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
@@ -155,8 +151,6 @@ $(document).ready(function() {
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var tarea = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
 		$local.codigoTareaSeleccionada = tarea.codigoTarea;
-		$local.codigoUnidadSeleccionada = tarea.codigoUnidad;
-		$local.codigoMetaSeleccionada = tarea.nroMeta;
 		$funcionUtil.llenarFormulario(tarea, $formMantenimiento);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
@@ -169,8 +163,6 @@ $(document).ready(function() {
 		}
 		var tarea = $formMantenimiento.serializeJSON();
 		tarea.codigoTarea = $local.codigoTareaSeleccionada;
-		tarea.codigoUnidad = $local.codigoUnidadSeleccionada;
-		tarea.nroMeta = $local.codigoMetaSeleccionada;
 		$.ajax({
 			type : "PUT",
 			url : $variableUtil.root + "mantenimiento/tarea",

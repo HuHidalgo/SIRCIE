@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.cenpro.sircie.utilitario.MultiTablaUtil;
 import com.cenpro.sircie.utilitario.Regex;
-import com.cenpro.sircie.validacion.CodigoAlumno;
 import com.cenpro.sircie.validacion.MultitabDet;
 import com.cenpro.sircie.validacion.grupo.ILlave;
 import com.cenpro.sircie.validacion.grupo.accion.IActualizacion;
@@ -28,8 +27,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@CodigoAlumno(existe = true, groups = IActualizacion.class)
-@CodigoAlumno(existe = false, groups = IRegistro.class)
+
 public class Alumno
 {
     // DATO PER

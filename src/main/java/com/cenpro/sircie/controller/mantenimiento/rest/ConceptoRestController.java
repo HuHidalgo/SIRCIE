@@ -25,8 +25,15 @@ public @RestController class ConceptoRestController {
 	@GetMapping("/unidad/{codigoUnidad}")
     public List<Concepto> buscarPorCodigoUnidad(@PathVariable String codigoUnidad)
     {
-		System.out.println(codigoUnidad);
         return conceptoService.buscarPorCodigoUnidad(codigoUnidad);
+    }
+	
+	@GetMapping("/conceptos/{codigoConcepto}")
+    public List<Concepto> buscarPorCodigoConcepto(@PathVariable String codigoConcepto)
+    {
+		Integer idConcepto = Integer.parseInt(codigoConcepto);
+		System.out.println(idConcepto);
+        return conceptoService.buscarPorId(idConcepto);
     }
 	
     @GetMapping(params = "accion=buscarTodos")

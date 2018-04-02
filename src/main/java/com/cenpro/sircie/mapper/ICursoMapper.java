@@ -16,7 +16,6 @@ public interface ICursoMapper extends IMantenibleMapper<Curso>
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.codigoCurso, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.codigoUnidad, jdbcType = VARCHAR, mode = IN},"
-            + "#{objeto.idConcepto, jdbcType = INTEGER, mode = IN},"
             + "#{objeto.nombreCurso, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.nroSemestres, jdbcType = INTEGER, mode = IN},"
 			+ "#{userAudit, jdbcType = VARCHAR, mode = IN})}" })

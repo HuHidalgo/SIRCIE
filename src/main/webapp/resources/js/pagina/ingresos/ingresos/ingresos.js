@@ -15,10 +15,11 @@ $(document).ready(function() {
 		codigoIngresoSeleccionado : 0,
 		codigoUnidadSeleccionado : "",
 		codigoConceptoSeleccionado : "",
-		codigoCursoSeleccionado : 0,
+		codigoCursoSeleccionado : "",
 		codigoClienteSeleccionado : "",
 		importe : 0,
 		$unidades : $("#unidades"),
+		$unidades2 : $("#unidades"),
 		$conceptos : $("#conceptos"),
 		$cursos : $("#cursos"),
 		$importe : $("#importe")
@@ -33,6 +34,8 @@ $(document).ready(function() {
 	$funcionUtil.crearSelect2($local.$tiposMoneda, "Seleccione un Tipo de Moneda");
 	$funcionUtil.crearDatePickerSimple($local.$fechaVF, "DD/MM/YYYY");
 	$funcionUtil.crearDatePickerSimple($local.$fechaRI, "DD/MM/YYYY");
+	
+	$local.$unidades2 = $local.$unidades;
 	
 	$.fn.dataTable.ext.errMode = 'none';
 
@@ -56,6 +59,7 @@ $(document).ready(function() {
 			$local.$tablaMantenimiento.wrap("<div class='table-responsive'></div>");
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
+		"ordering" : false,
 		"columnDefs" : [ {
 			"targets" : [ 0, 1, 2, 3, 4, 5, 6 ],
 			"className" : "all filtrable",
@@ -128,7 +132,7 @@ $(document).ready(function() {
 		$local.codigoIngresoSeleccionado = 0;
 		//$codigoUnidadSeleccionado : "";
 		//$codigoConceptoSeleccionado : "";
-		//$codigoCursoSeleccionado: 0;
+		$codigoCursoSeleccionado: "";
 		$importe : 0;
 	});
 
@@ -178,16 +182,47 @@ $(document).ready(function() {
 			}
 		});
 	});
-		
+	
 	$local.$conceptos.on("change", function(event, opcionSeleccionada) {
 		var codigoConcepto = $(this).val();
 		if (codigoConcepto == null || codigoConcepto == undefined) {
+			$local.$importe.find("option:not(:eq(0))").remove();
+			return;
+		}
+		$.ajax({
+			type : "GET",
+			url : $variableUtil.root + "mantenimiento/concepto/conceptos/" + codigoConcepto,
+			beforeSend : function(xhr) {
+				$local.$importe.find("option:not(:eq(0))").remove();
+				$local.$importe.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando importe</span>")
+			},
+			statusCode : {
+				400 : function(response) {
+					$funcionUtil.limpiarMensajesDeError($formMantenimiento);
+					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
+				}
+			},
+			success : function(conceptos) {
+				$.each(conceptos, function(i, concepto) {
+					
+					$local.$importe.val(this.importe);
+				});
+			},
+			complete : function() {
+				$local.$importe.parent().find(".cargando").remove();
+			}
+		});
+	});
+	
+	$local.$unidades2.on("change", function(event, opcionSeleccionada) {
+		var codigoUnidad = $(this).val();
+		if (codigoUnidad == null || codigoUnidad == undefined) {
 			$local.$cursos.find("option:not(:eq(0))").remove();
 			return;
 		}
 		$.ajax({
 			type : "GET",
-			url : $variableUtil.root + "mantenimiento/curso/concepto/" + codigoConcepto,
+			url : $variableUtil.root + "mantenimiento/curso/unidad/" + codigoUnidad,
 			beforeSend : function(xhr) {
 				$local.$cursos.find("option:not(:eq(0))").remove();
 				$local.$cursos.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando Cursos</span>")
@@ -201,7 +236,6 @@ $(document).ready(function() {
 			success : function(cursos) {
 				$.each(cursos, function(i, curso) {
 					$local.$cursos.append($("<option />").val(this.codigoCurso).text(this.codigoCurso + " - " + this.nombreCurso));
-					$local.$importe.val(this.importe);
 				});
 				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
 					$local.$cursos.val(opcionSeleccionada).trigger("change.select2");
@@ -255,15 +289,14 @@ $(document).ready(function() {
 		$funcionUtil.prepararFormularioActualizacion($formMantenimiento);
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var ingresos = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
+		console.log(ingresos);
 		$local.codigoIngresoSeleccionado = ingresos.idIngreso;
 		$local.importe = ingresos.importe;
-		//$local.codigoUnidadSeleccionado = ingresos.codigoUnidad;
 		//$local.codigoConceptoSeleccionado = ingresos.idConcepto;
-		//$local.codigoCursoSeleccionado = ingresos.codigoCurso;
 		$local.codigoClienteSeleccionado = ingresos.nroDocCliente;
 		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
 		$local.$unidades.trigger("change", [ ingresos.idConcepto ]);
-		$local.$conceptos.trigger("change", [ ingresos.codigoCurso ]);
+		$local.$unidades2.trigger("change", [ ingresos.codigoCurso ]);
 		$local.$importe.val(ingresos.importe);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
@@ -278,8 +311,8 @@ $(document).ready(function() {
 		ingresos.idIngreso = $local.codigoIngresoSeleccionado;
 		ingresos.importe = $local.importe;
 		//ingresos.codigoUnidad = $local.codigoUnidadSeleccionado;
-		//ingresos.idConcepto = $local.codigoConceptoSeleccionado;
-		//ingresos.codigoCurso = $local.codigoCursoSeleccionado;
+		ingresos.idConcepto = $local.codigoConceptoSeleccionado;
+		ingresos.codigoCurso = $local.codigoCursoSeleccionado;
 		ingresos.nroDocCliente = $local.codigoClienteSeleccionado;
 		ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
 		$.ajax({

@@ -8,7 +8,7 @@ public interface IConceptoService extends IMantenibleService<Concepto>{
 	
 	public List<Concepto> buscarTodos();
     
-	public List<Concepto> buscarPorId(int idConcepto);
+	public List<Concepto> buscarPorId(Integer idConcepto);
 	
     public List<Concepto> buscarPorCodigoUnidad(String codigoUnidad);
     

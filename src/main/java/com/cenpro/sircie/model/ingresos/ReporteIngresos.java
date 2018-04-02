@@ -36,5 +36,19 @@ public class ReporteIngresos {
     
     private Double importe;
     private Double ingresoTotal;
+    
+    private String mes;
+    private Double importeEnero;
+    private Double importeFebrero;
+    private Double importeMarzo;
+    private Double importeAbril;
+    private Double importeMayo;
+    private Double importeJunio;
+    private Double importeJulio;
+    private Double importeAgosto;
+    private Double importeSetiembre;
+    private Double importeOctubre;
+    private Double importeNoviembre;
+    private Double importeDiciembre;
 
 }

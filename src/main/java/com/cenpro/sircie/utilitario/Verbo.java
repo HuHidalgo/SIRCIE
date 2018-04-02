@@ -4,6 +4,7 @@ public class Verbo
 {
     // Verbo de Mantenimiento
     public static final String GET = "GET";
+    public static final String GET_IMP = "GET_IMP";
     public static final String GET_FECHA = "GET_FECHA";
     public static final String GET_PASS = "GET_PASS";
     public static final String GET_USUARIO_S = "GET_USUARIO_S";
@@ -30,8 +31,6 @@ public class Verbo
     public static final String UPDATE = "UPDATE";
     public static final String REMOVE = "REMOVE";
     public static final String EXIST = "EXIST";
-    public static final String GET_UNI_PARTIDA = "GET_UNI_PARTIDA";
-    public static final String GET_UNI = "GET_UNI";
 
     // Verbo de Reporte
     public static final String COMISION_BANCO_ADMINISTRADOR = "COMISION_BANCO_ADMINISTRADOR";

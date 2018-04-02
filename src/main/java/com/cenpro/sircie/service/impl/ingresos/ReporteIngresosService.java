@@ -20,11 +20,6 @@ public class ReporteIngresosService implements IReporteIngresosService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<ReporteIngresos> buscarIngresosDiarios(CriterioBusquedaIngresos criterioBusquedaIngresos) {
 		
-		if (criterioBusquedaIngresos.getCodigoUnidad() == null) 
-			criterioBusquedaIngresos.setVerbo("UNIDADES");
-		else
-			criterioBusquedaIngresos.setVerbo("CONCEPTOS");
-		
 		return reporteIngresosMapper.buscarIngresosDiarios(criterioBusquedaIngresos);
 	}
 

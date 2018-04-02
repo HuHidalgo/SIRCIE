@@ -9,16 +9,12 @@ $(document).ready(function() {
 		$filaSeleccionada : "",
 		$actualizarMantenimiento : $("#actualizarMantenimiento"),
 		codigoCursoSeleccionado : "",
-		codigoUnidadSeleccionado : "",
 		$unidades : $("#unidades"),
-		$conceptos : $("#conceptos"),
-		conceptoSeleccionar : 0
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
 	
 	$funcionUtil.crearSelect2($local.$unidades, "Seleccione una Unidad");
-	$funcionUtil.crearSelect2($local.$conceptos, "Seleccione un Concepto");
 	
 	$.fn.dataTable.ext.errMode = 'none';
 
@@ -43,10 +39,10 @@ $(document).ready(function() {
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2 ,3],
+			"targets" : [ 0, 1, 2 ],
 			"className" : "all filtrable",
 		}, {
-			"targets" : 4,
+			"targets" : 3,
 			"className" : "all dt-center",
 			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
@@ -55,11 +51,6 @@ $(document).ready(function() {
 				return $funcionUtil.unirCodigoDescripcion(row.nroConceptoUnidad, row.nombreUnidad);
 			},
 			"title" : "Unidad"
-		},{
-			"data" : function(row) {
-				return $funcionUtil.unirCodigoDescripcion(row.nroConceptoEsp, row.nomConceptoEsp);
-			},
-			"title" : "Concepto"
 		}, {
 			"data" : "codigoCurso",
 			"title" : "Código Curso"
@@ -85,8 +76,8 @@ $(document).ready(function() {
 		title : "Mantenimiento de Curso",
 		autoOpen : false,
 		modal : false,
-		height : 450,
-		width : 700
+		height : 380,
+		width : 600
 	});
 
 	$local.$aniadirMantenimento.on("click", function() {
@@ -102,8 +93,6 @@ $(document).ready(function() {
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
 		$local.codigoCursoSeleccionado = "";
-		//$local.codigoUnidadSeleccionado = "";
-		//$local.conceptoSeleccionar = 0;
 	});
 
 	$formMantenimiento.find("input").keypress(function(event) {
@@ -120,39 +109,6 @@ $(document).ready(function() {
 		}
 	});
 	
-	$local.$unidades.on("change", function(event, opcionSeleccionada) {
-		var codigoUnidad = $(this).val();
-		if (codigoUnidad == null || codigoUnidad == undefined) {
-			$local.$conceptos.find("option:not(:eq(0))").remove();
-			return;
-		}
-		$.ajax({
-			type : "GET",
-			url : $variableUtil.root + "mantenimiento/concepto/unidad/" + codigoUnidad,
-			beforeSend : function(xhr) {
-				$local.$conceptos.find("option:not(:eq(0))").remove();
-				$local.$conceptos.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando Conceptos</span>")
-			},
-			statusCode : {
-				400 : function(response) {
-					$funcionUtil.limpiarMensajesDeError($formMantenimiento);
-					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
-				}
-			},
-			success : function(conceptos) {
-				$.each(conceptos, function(i, concepto) {
-					$local.$conceptos.append($("<option />").val(this.idConcepto).text(this.nroConceptoEsp + " - " + this.nomConceptoEsp));
-				});
-				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
-					$local.$conceptos.val(opcionSeleccionada).trigger("change.select2");
-				}
-			},
-			complete : function() {
-				$local.$conceptos.parent().find(".cargando").remove();
-			}
-		});
-	});
-
 	$local.$registrarMantenimiento.on("click", function() {
 		if (!$formMantenimiento.valid()) {
 			return;
@@ -193,10 +149,7 @@ $(document).ready(function() {
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var curso = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
 		$local.codigoCursoSeleccionado = curso.codigoCurso;
-		//$local.codigoUnidadSeleccionado = curso.codigoUnidad;
-		//$local.conceptoSeleccionar = curso.idConcepto;
 		$funcionUtil.llenarFormulario(curso, $formMantenimiento);
-		$local.$unidades.trigger("change", [ curso.idConcepto ]);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
 		$local.$modalMantenimiento.PopupWindow("open");
@@ -208,8 +161,6 @@ $(document).ready(function() {
 		}
 		var curso = $formMantenimiento.serializeJSON();
 		curso.codigoCurso = $local.codigoCursoSeleccionado;
-		//curso.codigoUnidad = $local.codigoUnidadSeleccionado;
-		//curso.idConcepto = $local.conceptoSeleccionar;
 		$.ajax({
 			type : "PUT",
 			url : $variableUtil.root + "mantenimiento/curso",

@@ -100,13 +100,13 @@
 				</a>
 				<ul>
 					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
-						<a th:href="@{/presupuesto/ingreso}">
+						<a th:href="@{/consulta/atencion/laboratorio}">
 							<span class="fa fa-list-alt"></span>
 							<span> Ingresos</span>
 						</a>
 					</li>
 					<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')">
-						<a th:href="@{/presupuesto/egreso}">
+						<a th:href="@{/consulta/atencion/radiologia}">
 							<span class="fa fa-list-alt"></span>
 							<span> Egresos</span>
 						</a>

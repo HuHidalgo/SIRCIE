@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cenpro.sircie.mapper.ICursoMapper;
 import com.cenpro.sircie.mapper.base.IMantenibleMapper;
+import com.cenpro.sircie.model.mantenimiento.Concepto;
 import com.cenpro.sircie.model.mantenimiento.Curso;
 import com.cenpro.sircie.service.ICursoService;
 import com.cenpro.sircie.service.impl.MantenibleService;
@@ -21,23 +22,24 @@ public class CursoService extends MantenibleService<Curso> implements ICursoServ
     private ICursoMapper cursoMapper;
 	
 	private static final String GET_CUR = "GET_CUR";
-	
+		
 	public CursoService(@Qualifier("ICursoMapper") IMantenibleMapper<Curso> mapper)
     {
         super(mapper);
         this.cursoMapper = (ICursoMapper) mapper;
     }
-	
+		
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public List<Curso> buscarPorCodigoConcepto(Integer codigoConcepto) {
-		Curso curso = Curso.builder().idConcepto(codigoConcepto).build();
-		return this.buscar(curso, GET_CUR);
+	public List<Curso> buscarPorCodigoUnidadCodigoCurso(String codCurso, String codUnidad) {
+		Curso curso = Curso.builder().codigoCurso(codCurso).codigoUnidad(codUnidad).build();
+		return this.buscar(curso, Verbo.GET);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public List<Curso> buscarPorIdConceptoCodigoCurso(Integer idConcepto, String codCurso, String codUnidad) {
-		Curso curso = Curso.builder().idConcepto(idConcepto).codigoCurso(codCurso).codigoUnidad(codUnidad).build();
-		return this.buscar(curso, Verbo.GET);
+	public List<Curso> buscarPorCodigoUnidad(String codigoUnidad) {
+		
+		Curso curso = Curso.builder().codigoUnidad(codigoUnidad).build();
+        return this.buscar(curso, GET_CUR);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)

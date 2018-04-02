@@ -28,5 +28,5 @@ public class CriterioBusquedaIngresos {
     private String nroDocCliente;
     
     private String descripcionRangoFecha;
-
+    
 }

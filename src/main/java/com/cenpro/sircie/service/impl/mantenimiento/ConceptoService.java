@@ -22,7 +22,7 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	@SuppressWarnings("unused")
 	private IConceptoMapper conceptoMapper;
 	
-	private static final String GET_UNI = "GET_UNI";
+	private static final String GET_CON = "GET_CON";
 	
 	public ConceptoService(@Qualifier("IConceptoMapper") IMantenibleMapper<Concepto> mapper) {
 		super(mapper);
@@ -33,14 +33,15 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	public List<Concepto> buscarPorCodigoUnidad(String codigoUnidad) {
 		
 		Concepto concepto = Concepto.builder().codigoUnidad(codigoUnidad).build();
-        return this.buscar(concepto, GET_UNI);
+        return this.buscar(concepto, GET_CON);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public List<Concepto> buscarPorId(int idConcepto) {
+	public List<Concepto> buscarPorId(Integer idConcepto) {
 
 		Concepto concepto = Concepto.builder().idConcepto(idConcepto).build();
-        return this.buscar(concepto, Verbo.GET);
+		//System.out.println(concepto);
+        return this.buscar(concepto, Verbo.GET_IMP);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)

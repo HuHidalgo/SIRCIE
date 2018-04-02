@@ -3,11 +3,10 @@ $(document).ready(function() {
 	var $local = {
 		tablaReporteIngresosDetalle : "",
 		$tablaReporteIngresosDetalle : $("#tablaReporteIngresosDetalle"),
-		tablaReporteIngresosClientes : "",
-		$tablaReporteIngresosClientes : $("#tablaReporteIngresosClientes"),
+		tablaReporteIngresosGeneral : "",
+		$tablaReporteIngresosGeneral : $("#tablaReporteIngresosGeneral"),
 		$buscar : $("#buscar"),
 		$exportar : $("#exportar"),
-		//$tiposExamenMedico : $("#tiposExamenMedico"),
 		$unidades: $("#unidades"),
 		$conceptos : $("#conceptos"),
 		$cursos : $("#cursos"),
@@ -50,7 +49,7 @@ $(document).ready(function() {
 			"title" : "Conceptos de Pago"
 		}, {
 			"data" : function(row) {
-				return $funcionUtil.unirCodigoDescripcion(row.codigoCurso, row.nombreCurso);
+			return $funcionUtil.unirCodigoDescripcion(row.codigoCurso, row.nombreCurso);
 			},
 			"title" : "Cursos"
 		}, {
@@ -68,36 +67,64 @@ $(document).ready(function() {
 		$local.tablaReporteIngresosDetalle.column($(this).parent().index() + ':visible').search(val ? '^' + val + '$' : '', true, false).draw();
 	});
 	
-/*
-	$local.tablaReporteAtencionesDiariaGeneral = $local.$tablaReporteAtencionesDiariaGeneral.DataTable({
+	$local.tablaReporteIngresosGeneral = $local.$tablaReporteIngresosGeneral.DataTable({
 		"language" : {
 			"emptyTable" : "No hay resultados para la búsqueda."
 		},
 		"initComplete" : function() {
-			$local.$tablaReporteAtencionesDiariaGeneral.wrap("<div class='table-responsive'></div>");
-			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaReporteAtencionesDiariaGeneral);
+			$local.$tablaReporteIngresosGeneral.wrap("<div class='table-responsive'></div>");
+			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaReporteIngresosGeneral);
 		},
 		"ordering" : false,
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2 ],
+			"targets" : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ],
 			"className" : "all filtrable",
 			"defaultContent" : "-"
 		} ],
 		"columns" : [ {
-			"data" : "soloFechaGeneracionNumeroRegistro",
-			"title" : "Fecha Num. Reg."
+			"data" : "nroConceptoUnidad",
+			"title" : "Unidad"
 		}, {
-			"data" : function(row) {
-				return $funcionUtil.unirCodigoDescripcion(row.codigoFacultad, row.descripcionFacultad);
-			},
-			"title" : "Facultad"
+			"data" : "nroConceptoEsp",
+			"title" : "Concepto"
 		}, {
-			"data" : "cantidad",
-			"title" : "Cantidad"
-		} ]
+			"data" : "importeEnero",
+			"title" : "Enero"
+		}, {
+			"data" : "importeFebrero",
+			"title" : "Febrero"
+		} , {
+			"data" : "importeMarzo",
+			"title" : "Marzo"
+		} , {
+			"data" : "importeAbril",
+			"title" : "Abril"
+		} , {
+			"data" : "importeMayo",
+			"title" : "Mayo"
+		} , {
+			"data" : "importeJunio",
+			"title" : "Junio"
+		} , {
+			"data" : "importeJulio",
+			"title" : "Julio"
+		} , {
+			"data" : "importeAgosto",
+			"title" : "Agosto"
+		} , {
+			"data" : "importeSetiembre",
+			"title" : "Setiembre"
+		} , {
+			"data" : "importeOctubre",
+			"title" : "Octubre"
+		} , {
+			"data" : "importeNoviembre",
+			"title" : "Noviembre"
+		} , {
+			"data" : "importeDiciembre",
+			"title" : "Diciembre"
+		}  ]
 	});
-*/
-
 	
 	$local.$unidades.on("change", function(event, opcionSeleccionada) {
 		var codigoUnidad = $(this).val();
@@ -154,7 +181,6 @@ $(document).ready(function() {
 			success : function(cursos) {
 				$.each(cursos, function(i, curso) {
 					$local.$cursos.append($("<option />").val(this.codigoCurso).text(this.codigoCurso + " - " + this.nombreCurso));
-					$local.$importe.val(this.importe);
 				});
 				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
 					$local.$cursos.val(opcionSeleccionada).trigger("change.select2");
@@ -178,6 +204,7 @@ $(document).ready(function() {
 		var rangoFecha = $funcionUtil.obtenerFechasDateRangePicker($local.$rangoFechaBusqueda);
 		criterioBusqueda.fechaInicio = rangoFecha.fechaInicio;
 		criterioBusqueda.fechaFin = rangoFecha.fechaFin;
+		criterioBusqueda.verbo = "DETALLE";
 		$.ajax({
 			type : "GET",
 			url : $variableUtil.root + "ingresos/reporte?accion=buscar",
@@ -197,26 +224,26 @@ $(document).ready(function() {
 				$local.$buscar.attr("disabled", false).find("i").removeClass("fa-spinner fa-pulse fa-fw").addClass("fa-search");
 			}
 		});
-/*
-		criterioBusqueda.tipoReporte = "GENERAL";
+
+		criterioBusqueda.verbo = "GENERAL";
 		$.ajax({
 			type : "GET",
-			url : $variableUtil.root + "reporte/atencion/diaria?accion=buscar",
+			url : $variableUtil.root + "ingresos/reporte?accion=buscar2",
 			data : criterioBusqueda,
 			beforeSend : function() {
-				$local.tablaReporteAtencionesDiariaGeneral.clear().draw();
+				$local.tablaReporteIngresosGeneral.clear().draw();
 			},
-			success : function(atencionesDiarias) {
-				if (atencionesDiarias.length == 0) {
+			success : function(ingresos) {
+				if (ingresos.length == 0) {
 					$funcionUtil.notificarException($variableUtil.busquedaSinResultados, "fa-exclamation-circle", "Información", "info");
 					return;
 				}
-				$local.tablaReporteAtencionesDiariaGeneral.rows.add(atencionesDiarias).draw();
+				$local.tablaReporteIngresosGeneral.rows.add(ingresos).draw();
 			},
 			complete : function() {
 				$local.$buscar.attr("disabled", false).find("i").addClass("fa-search").removeClass("fa-spinner fa-pulse fa-fw");
 			}
-		});*/
+		});
 	});
 
 	$local.$exportar.on("click", function() {
