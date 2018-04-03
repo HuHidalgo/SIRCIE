@@ -26,7 +26,7 @@ public @RestController class CursoRestController
 	@GetMapping("/unidad/{codigoUnidad}")
     public List<Curso> buscarPorCodigoUnidad(@PathVariable String codigoUnidad)
     {
-		System.out.println(codigoUnidad);
+		System.out.println("unidad" + codigoUnidad);
         return cursoService.buscarPorCodigoUnidad(codigoUnidad);
     }
 	

@@ -59,4 +59,10 @@ public class TareaService extends MantenibleService<Tarea> implements ITareaServ
 	public void eliminarTarea(Tarea tarea) {
 		this.eliminar(tarea);
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public List<Tarea> buscarUnidad(String codigoUnidad) {
+		Tarea tarea = Tarea.builder().codigoUnidad(codigoUnidad).build();
+		return this.buscar(tarea, Verbo.GET_UNI);
+	}
 }

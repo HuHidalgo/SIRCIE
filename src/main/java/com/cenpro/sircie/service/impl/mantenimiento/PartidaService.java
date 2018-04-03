@@ -38,6 +38,7 @@ public class PartidaService extends MantenibleService<Partida> implements IParti
 		Partida partida = Partida.builder().codigoTarea(codigoTarea).build();
 		return this.buscar(partida, Verbo.GET);
 	}
+	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void registrarPartida(Partida partida) {
 		this.registrar(partida);

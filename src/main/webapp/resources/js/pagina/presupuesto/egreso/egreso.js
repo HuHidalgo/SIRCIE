@@ -70,7 +70,7 @@ $(document).ready(function() {
 			"data" : function(row) {
 				return $funcionUtil.unirCodigoDescripcion(row.codigoTarea, row.nombreTarea);
 			},
-			"title" : "Concepto"
+			"title" : "Tarea"
 		}, {
 			"data" : function(row) {
 				return $funcionUtil.unirCodigoDescripcion(row.clasificador, row.descripcionPartida);

@@ -132,7 +132,7 @@ $(document).ready(function() {
 		$local.codigoIngresoSeleccionado = 0;
 		//$codigoUnidadSeleccionado : "";
 		//$codigoConceptoSeleccionado : "";
-		$codigoCursoSeleccionado: "";
+		//$codigoCursoSeleccionado: "";
 		$importe : 0;
 	});
 
@@ -215,14 +215,14 @@ $(document).ready(function() {
 	});
 	
 	$local.$unidades2.on("change", function(event, opcionSeleccionada) {
-		var codigoUnidad = $(this).val();
-		if (codigoUnidad == null || codigoUnidad == undefined) {
+		var codigoUnidad2 = $(this).val();
+		if (codigoUnidad2 == null || codigoUnidad2 == undefined) {
 			$local.$cursos.find("option:not(:eq(0))").remove();
 			return;
 		}
 		$.ajax({
 			type : "GET",
-			url : $variableUtil.root + "mantenimiento/curso/unidad/" + codigoUnidad,
+			url : $variableUtil.root + "mantenimiento/curso/unidad/" + codigoUnidad2,
 			beforeSend : function(xhr) {
 				$local.$cursos.find("option:not(:eq(0))").remove();
 				$local.$cursos.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando Cursos</span>")
@@ -234,6 +234,7 @@ $(document).ready(function() {
 				}
 			},
 			success : function(cursos) {
+				$("#cursos").empty();
 				$.each(cursos, function(i, curso) {
 					$local.$cursos.append($("<option />").val(this.codigoCurso).text(this.codigoCurso + " - " + this.nombreCurso));
 				});
@@ -294,9 +295,10 @@ $(document).ready(function() {
 		$local.importe = ingresos.importe;
 		//$local.codigoConceptoSeleccionado = ingresos.idConcepto;
 		$local.codigoClienteSeleccionado = ingresos.nroDocCliente;
+		//$local.codigoCursoSeleccionado = ingresos.codigoCurso;
 		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
 		$local.$unidades.trigger("change", [ ingresos.idConcepto ]);
-		$local.$unidades2.trigger("change", [ ingresos.codigoCurso ]);
+		//$local.$unidades2.trigger("change", [ ingresos.codigoCurso ]);
 		$local.$importe.val(ingresos.importe);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
@@ -312,7 +314,7 @@ $(document).ready(function() {
 		ingresos.importe = $local.importe;
 		//ingresos.codigoUnidad = $local.codigoUnidadSeleccionado;
 		ingresos.idConcepto = $local.codigoConceptoSeleccionado;
-		ingresos.codigoCurso = $local.codigoCursoSeleccionado;
+		//ingresos.codigoCurso = $local.codigoCursoSeleccionado;
 		ingresos.nroDocCliente = $local.codigoClienteSeleccionado;
 		ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
 		$.ajax({

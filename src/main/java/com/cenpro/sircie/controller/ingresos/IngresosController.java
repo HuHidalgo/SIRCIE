@@ -38,8 +38,8 @@ public @Controller class IngresosController
         model.addAttribute("tiposMoneda",
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_MONEDA));
         model.addAttribute("unidades", unidadService.buscarTodos());
-        //model.addAttribute("conceptos", conceptoService.buscarTodos());
-        //model.addAttribute("cursos", cursoService.buscarTodos());
+        model.addAttribute("conceptos", conceptoService.buscarTodos());
+        model.addAttribute("cursos", cursoService.buscarTodos());
         return "seguras/ingresos/mantenimiento";
     }
     

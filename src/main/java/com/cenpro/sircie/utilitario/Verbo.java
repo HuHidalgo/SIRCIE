@@ -31,6 +31,8 @@ public class Verbo
     public static final String UPDATE = "UPDATE";
     public static final String REMOVE = "REMOVE";
     public static final String EXIST = "EXIST";
+    public static final String GET_UNI_PARTIDA = "GET_UNI_PARTIDA";
+    public static final String GET_UNI = "GET_UNI";
 
     // Verbo de Reporte
     public static final String COMISION_BANCO_ADMINISTRADOR = "COMISION_BANCO_ADMINISTRADOR";

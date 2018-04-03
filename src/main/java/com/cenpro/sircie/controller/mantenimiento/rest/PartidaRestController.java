@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,12 @@ public @RestController class PartidaRestController
         return partidaService.buscarTodos();
     }
 
+	@GetMapping("/tarea/{codigoTarea}")
+    public List<Partida> buscarPorCodigoTarea(@PathVariable Integer codigoTarea)
+    {
+        return partidaService.buscarPorCodigoTarea(codigoTarea);
+    }
+	
     @PostMapping
     public ResponseEntity<?> registrarPartida(@RequestBody Partida partida)
     {
