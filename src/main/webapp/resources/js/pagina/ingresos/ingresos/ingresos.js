@@ -22,7 +22,9 @@ $(document).ready(function() {
 		$unidades2 : $("#unidades"),
 		$conceptos : $("#conceptos"),
 		$cursos : $("#cursos"),
-		$importe : $("#importe")
+		$importe : $("#importe"),
+		$a:$("#a"),
+		$b:$("#b")
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
@@ -181,6 +183,7 @@ $(document).ready(function() {
 				$local.$conceptos.parent().find(".cargando").remove();
 			}
 		});
+
 	});
 	
 	$local.$conceptos.on("change", function(event, opcionSeleccionada) {
@@ -215,14 +218,14 @@ $(document).ready(function() {
 	});
 	
 	$local.$unidades2.on("change", function(event, opcionSeleccionada) {
-		var codigoUnidad2 = $(this).val();
-		if (codigoUnidad2 == null || codigoUnidad2 == undefined) {
+		var codigoUnidad = $(this).val();
+		if (codigoUnidad == null || codigoUnidad == undefined) {
 			$local.$cursos.find("option:not(:eq(0))").remove();
 			return;
 		}
 		$.ajax({
 			type : "GET",
-			url : $variableUtil.root + "mantenimiento/curso/unidad/" + codigoUnidad2,
+			url : $variableUtil.root + "mantenimiento/curso/unidad/" + codigoUnidad,
 			beforeSend : function(xhr) {
 				$local.$cursos.find("option:not(:eq(0))").remove();
 				$local.$cursos.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando Cursos</span>")
@@ -239,7 +242,11 @@ $(document).ready(function() {
 					$local.$cursos.append($("<option />").val(this.codigoCurso).text(this.codigoCurso + " - " + this.nombreCurso));
 				});
 				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
-					$local.$cursos.val(opcionSeleccionada).trigger("change.select2");
+					$local.$cursos.val($local.codigoCursoSeleccionado).trigger("change.select2");
+					//$local.$a.val(opcionSeleccionada);
+				}
+				else{
+					//$local.$b.val("no paso");
 				}
 			},
 			complete : function() {
@@ -295,10 +302,10 @@ $(document).ready(function() {
 		$local.importe = ingresos.importe;
 		//$local.codigoConceptoSeleccionado = ingresos.idConcepto;
 		$local.codigoClienteSeleccionado = ingresos.nroDocCliente;
-		//$local.codigoCursoSeleccionado = ingresos.codigoCurso;
+		$local.codigoCursoSeleccionado = ingresos.codigoCurso;
 		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
+		$local.$unidades2.trigger("change", [ ingresos.codigoCurso ]);
 		$local.$unidades.trigger("change", [ ingresos.idConcepto ]);
-		//$local.$unidades2.trigger("change", [ ingresos.codigoCurso ]);
 		$local.$importe.val(ingresos.importe);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");
