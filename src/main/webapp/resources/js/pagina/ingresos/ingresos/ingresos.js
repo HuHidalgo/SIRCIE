@@ -23,8 +23,7 @@ $(document).ready(function() {
 		$conceptos : $("#conceptos"),
 		$cursos : $("#cursos"),
 		$importe : $("#importe"),
-		$a:$("#a"),
-		$b:$("#b")
+		flag : 0,
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
@@ -36,8 +35,6 @@ $(document).ready(function() {
 	$funcionUtil.crearSelect2($local.$tiposMoneda, "Seleccione un Tipo de Moneda");
 	$funcionUtil.crearDatePickerSimple($local.$fechaVF, "DD/MM/YYYY");
 	$funcionUtil.crearDatePickerSimple($local.$fechaRI, "DD/MM/YYYY");
-	
-	$local.$unidades2 = $local.$unidades;
 	
 	$.fn.dataTable.ext.errMode = 'none';
 
@@ -63,10 +60,10 @@ $(document).ready(function() {
 		},
 		"ordering" : false,
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2, 3, 4, 5, 6 ],
+			"targets" : [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ],
 			"className" : "all filtrable",
 		}, {
-			"targets" : 7,
+			"targets" : 9,
 			"className" : "all dt-center",
 			"defaultContent" : $variableUtil.botonActualizar
 		} ],
@@ -86,6 +83,21 @@ $(document).ready(function() {
 			},
 			"title" : "Concepto"
 		}, {
+			"data" : function(row) {
+				return $funcionUtil.unirCodigoDescripcion(row.codigoCurso, row.nombreCurso);
+			},
+			"title" : "Curso"
+		}, {
+			"data" : function(row) {
+				return $funcionUtil.unirCodigoDescripcion(row.tipoDocCliente, row.nroDocCliente);
+			},
+			"title" : "Documento"
+		}, {
+			"data" : function(row) {
+				return row.nombresCliente + " " + row.apellidosCliente;
+			},
+			"title" : "Aportante"
+		}, {
 			"data" : "importe",
 			"title" : "Importe"
 		}, {
@@ -95,11 +107,6 @@ $(document).ready(function() {
 			"data" : "importeTotal",
 			"title" : "Ingreso Total"
 		},{
-			"data" : function(row) {
-				return $funcionUtil.unirCodigoDescripcion(row.codigoCurso, row.nombreCurso);
-			},
-			"title" : "Curso"
-		}, {
 			"data" : null,
 			"title" : 'Acción'
 		} ]
@@ -132,9 +139,6 @@ $(document).ready(function() {
 
 	$local.$modalMantenimiento.on("close.popupwindow", function() {
 		$local.codigoIngresoSeleccionado = 0;
-		//$codigoUnidadSeleccionado : "";
-		//$codigoConceptoSeleccionado : "";
-		//$codigoCursoSeleccionado: "";
 		$importe : 0;
 	});
 
@@ -217,51 +221,84 @@ $(document).ready(function() {
 		});
 	});
 	
-	$local.$unidades2.on("change", function(event, opcionSeleccionada) {
-		var codigoUnidad = $(this).val();
-		if (codigoUnidad == null || codigoUnidad == undefined) {
-			$local.$cursos.find("option:not(:eq(0))").remove();
-			return;
-		}
-		$.ajax({
-			type : "GET",
-			url : $variableUtil.root + "mantenimiento/curso/unidad/" + codigoUnidad,
-			beforeSend : function(xhr) {
+	$local.$unidades.on("change", function(event, opcionSeleccionada) {
+		if($local.flag == 1){
+			var codigoUnidad = $(this).val();
+			if (codigoUnidad == null || codigoUnidad == undefined) {
 				$local.$cursos.find("option:not(:eq(0))").remove();
-				$local.$cursos.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando Cursos</span>")
-			},
-			statusCode : {
-				400 : function(response) {
-					$funcionUtil.limpiarMensajesDeError($formMantenimiento);
-					$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
-				}
-			},
-			success : function(cursos) {
-				$("#cursos").empty();
-				$.each(cursos, function(i, curso) {
-					$local.$cursos.append($("<option />").val(this.codigoCurso).text(this.codigoCurso + " - " + this.nombreCurso));
-				});
-				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
-					$local.$cursos.val($local.codigoCursoSeleccionado).trigger("change.select2");
-					//$local.$a.val(opcionSeleccionada);
-				}
-				else{
-					//$local.$b.val("no paso");
-				}
-			},
-			complete : function() {
-				$local.$cursos.parent().find(".cargando").remove();
+				return;
 			}
-		});
+			$.ajax({
+				type : "GET",
+				url : $variableUtil.root + "mantenimiento/curso/unidad/" + codigoUnidad,
+				beforeSend : function(xhr) {
+					$local.$cursos.find("option:not(:eq(0))").remove();
+					$local.$cursos.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando Cursos</span>")
+				},
+				statusCode : {
+					400 : function(response) {
+						$funcionUtil.limpiarMensajesDeError($formMantenimiento);
+						$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
+					}
+				},
+				success : function(cursos) {
+					$("#cursos").empty();
+					$.each(cursos, function(i, curso) {
+						$local.$cursos.append($("<option />").val(this.codigoCurso).text(this.codigoCurso + " - " + this.nombreCurso));
+					});
+					if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
+						$local.$cursos.val($local.codigoCursoSeleccionado).trigger("change.select2");
+					}
+					else{
+						//$local.$b.val("no paso");
+					}
+				},
+				complete : function() {
+					$local.$cursos.parent().find(".cargando").remove();
+				}
+			});
+			
+		}
+		else{
+			var codigoUnidad = $(this).val();
+			if (codigoUnidad == null || codigoUnidad == undefined) {
+				$local.$cursos.find("option:not(:eq(0))").remove();
+				return;
+			}
+			$.ajax({
+				type : "GET",
+				url : $variableUtil.root + "mantenimiento/curso/unidad/" + codigoUnidad,
+				beforeSend : function(xhr) {
+					$local.$cursos.find("option:not(:eq(0))").remove();
+					$local.$cursos.parent().append("<span class='help-block cargando'><i class='fa fa-spinner fa-pulse fa-fw'></i> Cargando Cursos</span>")
+				},
+				statusCode : {
+					400 : function(response) {
+						$funcionUtil.limpiarMensajesDeError($formMantenimiento);
+						$funcionUtil.mostrarMensajeDeError(response.responseJSON, $formMantenimiento);
+					}
+				},
+				success : function(cursos) {
+					$.each(cursos, function(i, curso) {
+						$local.$cursos.append($("<option />").val(this.codigoCurso).text(this.codigoCurso + " - " + this.nombreCurso));
+					});
+					if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
+						$local.$cursos.val(opcionSeleccionada).trigger("change.select2");
+					}
+				},
+				complete : function() {
+					$local.$cursos.parent().find(".cargando").remove();
+				}
+			});
+		}
 	});
-	
+		
 	$local.$registrarMantenimiento.on("click", function() {
 		if (!$formMantenimiento.valid()) {
 			return;
 		}
 		var ingresos = $formMantenimiento.serializeJSON();
 		ingresos.fechaVF = $local.$fechaVF.data("daterangepicker").startDate.format('YYYY-MM-DD');
-		//ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
 		$.ajax({
 			type : "POST",
 			url : $variableUtil.root + "ingresos/ingresos",
@@ -294,17 +331,17 @@ $(document).ready(function() {
 	});
 
 	$local.$tablaMantenimiento.children("tbody").on("click", ".actualizar", function() {
+		$local.flag = 1;
 		$funcionUtil.prepararFormularioActualizacion($formMantenimiento);
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var ingresos = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
 		console.log(ingresos);
 		$local.codigoIngresoSeleccionado = ingresos.idIngreso;
 		$local.importe = ingresos.importe;
-		//$local.codigoConceptoSeleccionado = ingresos.idConcepto;
 		$local.codigoClienteSeleccionado = ingresos.nroDocCliente;
 		$local.codigoCursoSeleccionado = ingresos.codigoCurso;
 		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
-		$local.$unidades2.trigger("change", [ ingresos.codigoCurso ]);
+		$local.$unidades.trigger("change", [ ingresos.codigoCurso ]);
 		$local.$unidades.trigger("change", [ ingresos.idConcepto ]);
 		$local.$importe.val(ingresos.importe);
 		$local.$actualizarMantenimiento.removeClass("hidden");
@@ -319,9 +356,7 @@ $(document).ready(function() {
 		var ingresos = $formMantenimiento.serializeJSON();
 		ingresos.idIngreso = $local.codigoIngresoSeleccionado;
 		ingresos.importe = $local.importe;
-		//ingresos.codigoUnidad = $local.codigoUnidadSeleccionado;
 		ingresos.idConcepto = $local.codigoConceptoSeleccionado;
-		//ingresos.codigoCurso = $local.codigoCursoSeleccionado;
 		ingresos.nroDocCliente = $local.codigoClienteSeleccionado;
 		ingresos.fechaRI = $local.$fechaRI.data("daterangepicker").startDate.format('YYYY-MM-DD');
 		$.ajax({

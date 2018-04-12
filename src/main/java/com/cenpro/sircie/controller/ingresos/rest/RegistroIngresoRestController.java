@@ -21,32 +21,29 @@ import com.cenpro.sircie.model.ingresos.Ingresos;
 import com.cenpro.sircie.service.IRegistroIngresoService;
 import com.cenpro.sircie.utilitario.ConstantesGenerales;
 
-//@Audit(tipo = Tipo.Ingresos, datos = Dato.Ingresos)
+@Audit(tipo = Tipo.Ingresos, datos = Dato.Ingresos)
 @RequestMapping("/ingresos/ingresos")
 public @RestController class RegistroIngresoRestController {
 	
 	private @Autowired IRegistroIngresoService ingresosService;
 		
-	//@Audit(accion = Accion.Consulta, comentario = Comentario.ConsultaTodos)
+	@Audit(accion = Accion.Consulta, comentario = Comentario.ConsultaTodos)
 	@GetMapping(params = "accion=buscarTodos")
 	public List<Ingresos> buscarTodos(){
 		
 		return ingresosService.buscarTodos();
 	}
 	
-	//@Audit(accion = Accion.Registro, comentario = Comentario.Registro)
+	@Audit(accion = Accion.Registro, comentario = Comentario.Registro)
 	@PostMapping
 	public ResponseEntity<?> registrarIngresos(@RequestBody Ingresos ingresos){
-		System.out.println(ingresos);
 		int idIngreso = ingresosService.registrarIngresos(ingresos);
-		System.out.println(idIngreso);
 		return ResponseEntity.ok(ingresosService.buscarPorId(idIngreso));
 	}
 	
-	//@Audit(accion = Accion.Actualizacion, comentario = Comentario.Actualizacion)
+	@Audit(accion = Accion.Actualizacion, comentario = Comentario.Actualizacion)
 	@PutMapping
 	public ResponseEntity<?> actualizarIngresos(@RequestBody Ingresos ingresos){
-		System.out.println("actua>>>>> "+ingresos);
 		ingresosService.actualizarIngresos(ingresos);
 		return ResponseEntity.ok(ingresosService.buscarPorId(ingresos.getIdIngreso()));
 	}

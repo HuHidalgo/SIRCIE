@@ -34,7 +34,7 @@ public @Controller class IngresosController
     {
         model.addAttribute("mantenimiento", mantenimiento);
         model.addAttribute("tiposDocumento",
-                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO));
+                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO_IDENTIDAD));
         model.addAttribute("tiposMoneda",
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_MONEDA));
         model.addAttribute("unidades", unidadService.buscarTodos());
@@ -47,6 +47,7 @@ public @Controller class IngresosController
     public String irPaginaReporteIngresos(ModelMap model)
     {
     	model.addAttribute("unidades", unidadService.buscarTodos());
+    	model.addAttribute("unidades1", unidadService.buscarTodos());
         model.addAttribute("conceptos", conceptoService.buscarTodos());
         model.addAttribute("cursos", cursoService.buscarTodos());;
         return "seguras/ingresos/reporteIngresos";

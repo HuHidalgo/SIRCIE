@@ -18,7 +18,7 @@ public @Controller class CargaController
     public String irPaginaCargaAlumno(ModelMap model)
     {
         model.addAttribute("tiposAlumno",
-                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_ALUMNO));
+                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_ESTADO));
         return "seguras/carga/alumno";
     }
 }

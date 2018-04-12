@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cenpro.sircie.mapper.IReporteIngresosMapper;
 import com.cenpro.sircie.model.criterio.CriterioBusquedaIngresos;
 import com.cenpro.sircie.model.ingresos.ReporteIngresos;
 import com.cenpro.sircie.service.IReporteIngresosService;
@@ -18,48 +17,68 @@ public @RestController class ReporteIngresoRestController {
 
 	private @Autowired IReporteIngresosService reporteIngresosService;
 
-	private List<ReporteIngresos> listIngresos = new ArrayList<ReporteIngresos>();
+	static List<ReporteIngresos> listIngresos = new ArrayList<ReporteIngresos>();
+	static List<ReporteIngresos> listIngresos1 = new ArrayList<ReporteIngresos>();
+	static List<ReporteIngresos> listIngresos2 = new ArrayList<ReporteIngresos>();
+	static List<ReporteIngresos> listIngresos3 = new ArrayList<ReporteIngresos>();
 
 	@GetMapping(params = "accion=buscar")
-	public List<ReporteIngresos> buscarIngresosDiariosDetalle(CriterioBusquedaIngresos criterioBusquedaIngresos) {
-		System.out.println("REPORTE: " + criterioBusquedaIngresos);
-		return reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos);
+	public List<ReporteIngresos> buscarIngresosDetalleConceptos(CriterioBusquedaIngresos criterioBusquedaIngresos) {
+		
+		if(criterioBusquedaIngresos.getVerbo().equals("DET_LIMPIAR_CONCEPTOS")) {
+			listIngresos = new ArrayList<ReporteIngresos>();
+			return listIngresos;
+		}
+		else {
+			for(ReporteIngresos ri : reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos)) {
+				listIngresos.add(ri);
+			}
+			return listIngresos;
+		}
 	}
 
-	@GetMapping(params = "accion=buscar2")
-    public List<ReporteIngresos> buscarIngresosDiariosGeneral(CriterioBusquedaIngresos criterioBusquedaIngresos)
-    {
-		listIngresos = reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos);
-		for(ReporteIngresos ri : listIngresos){
-			switch (ri.getMes()) {
-				case "1":	ri.setImporteEnero(ri.getIngresoTotal());
-					break;
-				case "2":	ri.setImporteFebrero(ri.getIngresoTotal());
-					break;
-				case "3":	ri.setImporteMarzo(ri.getIngresoTotal());
-					break;
-				case "4":	ri.setImporteAbril(ri.getIngresoTotal());
-					break;
-				case "5":	ri.setImporteMayo(ri.getIngresoTotal());
-					break;
-				case "6":	ri.setImporteJunio(ri.getIngresoTotal());
-					break;
-				case "7":	ri.setImporteJulio(ri.getIngresoTotal());
-					break;
-				case "8":	ri.setImporteAgosto(ri.getIngresoTotal());
-					break;
-				case "9":	ri.setImporteSetiembre(ri.getIngresoTotal());
-					break;
-				case "10":	ri.setImporteOctubre(ri.getIngresoTotal());
-					break;
-				case "11":	ri.setImporteNoviembre(ri.getIngresoTotal());
-					break;
-				case "12":	ri.setImporteDiciembre(ri.getIngresoTotal());
-					break;
-			}		
+	@GetMapping(params = "accion=buscar1")
+    public List<ReporteIngresos> buscarIngresosGeneralConceptos(CriterioBusquedaIngresos criterioBusquedaIngresos){
+		
+		if(criterioBusquedaIngresos.getVerbo().equals("GEN_LIMPIAR_CONCEPTOS")) {
+			listIngresos1 = new ArrayList<ReporteIngresos>();
+			return listIngresos1;
 		}
-		System.out.println(listIngresos.get(0));
-		System.out.println(listIngresos.get(1));
-        return listIngresos;
+		else {
+			for(ReporteIngresos ri : reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos)) {
+				listIngresos1.add(ri);
+			}
+			return listIngresos1;
+		}
+    }
+	
+	@GetMapping(params = "accion=buscar2")
+    public List<ReporteIngresos> buscarIngresosDetalleCursos(CriterioBusquedaIngresos criterioBusquedaIngresos){
+		
+		if(criterioBusquedaIngresos.getVerbo().equals("DET_LIMPIAR_CURSOS")) {
+			listIngresos2 = new ArrayList<ReporteIngresos>();
+			return listIngresos2;
+		}
+		else {
+			for(ReporteIngresos ri : reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos)) {
+				listIngresos2.add(ri);
+			}
+			return listIngresos2;
+		}
+    }
+	
+	@GetMapping(params = "accion=buscar3")
+    public List<ReporteIngresos> buscarIngresosGeneralCursos(CriterioBusquedaIngresos criterioBusquedaIngresos){
+		
+		if(criterioBusquedaIngresos.getVerbo().equals("GEN_LIMPIAR_CURSOS")) {
+			listIngresos3 = new ArrayList<ReporteIngresos>();
+			return listIngresos3;
+		}
+		else {
+			for(ReporteIngresos ri : reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos)) {
+				listIngresos3.add(ri);
+			}
+			return listIngresos3;
+		}
     }
 }

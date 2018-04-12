@@ -32,7 +32,6 @@ public @RestController class ConceptoRestController {
     public List<Concepto> buscarPorCodigoConcepto(@PathVariable String codigoConcepto)
     {
 		Integer idConcepto = Integer.parseInt(codigoConcepto);
-		System.out.println(idConcepto);
         return conceptoService.buscarPorId(idConcepto);
     }
 	
@@ -46,7 +45,8 @@ public @RestController class ConceptoRestController {
     public ResponseEntity<?> registrarConcepto(@RequestBody Concepto concepto)
     {	
         int idConcepto = conceptoService.registrarConcepto(concepto);
-        return ResponseEntity.ok(conceptoService.buscarPorCodigoUnidadIdConcepto(concepto.getCodigoUnidad(), idConcepto));
+        return ResponseEntity.ok(conceptoService.buscarPorCodigoUnidadIdConcepto(concepto.getCodigoUnidad(), 
+        						idConcepto));
     }
 
     @PutMapping

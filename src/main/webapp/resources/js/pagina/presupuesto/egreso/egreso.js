@@ -102,8 +102,8 @@ $(document).ready(function() {
 		title : "Mantenimiento de Egreso presupuesto",
 		autoOpen : false,
 		modal : false,
-		height : 450,
-		width : 626
+		height : 510,
+		width : 706
 	});
 
 	$local.$aniadirMantenimento.on("click", function() {

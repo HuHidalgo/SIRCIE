@@ -1,11 +1,6 @@
 package com.cenpro.sircie.model.ingresos;
 
 import java.util.Date;
-
-import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -55,10 +50,5 @@ public class Ingresos {
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "EST")
     private Date fechaRI;
-    /*
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fechaVF;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fechaFin;
-*/
+
 }

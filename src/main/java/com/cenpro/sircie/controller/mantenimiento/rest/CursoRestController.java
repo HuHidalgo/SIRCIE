@@ -26,7 +26,6 @@ public @RestController class CursoRestController
 	@GetMapping("/unidad/{codigoUnidad}")
     public List<Curso> buscarPorCodigoUnidad(@PathVariable String codigoUnidad)
     {
-		System.out.println("unidad" + codigoUnidad);
         return cursoService.buscarPorCodigoUnidad(codigoUnidad);
     }
 	
@@ -39,7 +38,6 @@ public @RestController class CursoRestController
     @PostMapping
     public ResponseEntity<?> registrarCurso(@RequestBody Curso curso)
     {
-    	System.out.println(curso);
     	cursoService.registrarCurso(curso);
         return ResponseEntity.ok(cursoService.buscarPorCodigoUnidadCodigoCurso(
         		curso.getCodigoCurso(), curso.getCodigoUnidad()));
@@ -48,7 +46,6 @@ public @RestController class CursoRestController
     @PutMapping
     public ResponseEntity<?> actualizarCurso(@RequestBody Curso curso)
     {
-    	System.out.println(curso);
     	cursoService.actualizarCurso(curso);
         return ResponseEntity.ok(cursoService.buscarPorCodigoUnidadCodigoCurso(
         		curso.getCodigoCurso(), curso.getCodigoUnidad()));

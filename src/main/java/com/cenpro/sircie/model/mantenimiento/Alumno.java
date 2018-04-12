@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 public class Alumno
 {
     // DATO PER
-    @MultitabDet(campoIdItem = "idTipoDocumento", idTabla = MultiTablaUtil.TABLA_TIPO_DOCUMENTO, min = 1, max = 5)
+    @MultitabDet(campoIdItem = "idTipoDocumento", idTabla = MultiTablaUtil.TABLA_TIPO_DOCUMENTO_IDENTIDAD, min = 1, max = 5)
     private String idTipoDocumento;
 
     @NotNull(message = "{NotNull.Persona.numeroDocumento}")
@@ -54,7 +54,7 @@ public class Alumno
     @Length(min = 3, max = 100, message = "{Length.Persona.apellidoMaterno}")
     private String apellidoMaterno;
 
-    @MultitabDet(campoIdItem = "idSexo", idTabla = MultiTablaUtil.TABLA_SEXO, min = 1, max = 1)
+    @MultitabDet(campoIdItem = "idSexo", idTabla = MultiTablaUtil.TABLA_ESTADO, min = 1, max = 1)
     private String idSexo;
 
     // DATO ALUMNO
@@ -63,7 +63,7 @@ public class Alumno
     @Length(min = 6, max = 8, message = "{Length.Alumno.codigoAlumno}", groups = ILlave.class)
     private String codigoAlumno;
 
-    @MultitabDet(campoIdItem = "tipoAlumno", idTabla = MultiTablaUtil.TABLA_TIPO_ALUMNO, min = 1, max = 1, groups = ILlave.class)
+    @MultitabDet(campoIdItem = "tipoAlumno", idTabla = MultiTablaUtil.TABLA_TIPO_DOCUMENTO_IDENTIDAD, min = 1, max = 1, groups = ILlave.class)
     private String tipoAlumno;
 
     @NotNull(message = "{NotNull.Alumno.direccion}")
@@ -88,7 +88,7 @@ public class Alumno
     @Pattern(regexp = Regex.SOLO_DIGITOS, message = "{Pattern.Alumno.telefonoMovil}")
     private String telefonoMovil;
 
-    @MultitabDet(campoIdItem = "idDiscapacidad", idTabla = MultiTablaUtil.TABLA_DISCAPACIDAD, min = 1, max = 3)
+    @MultitabDet(campoIdItem = "idDiscapacidad", idTabla = MultiTablaUtil.TABLA_ESTADO, min = 1, max = 3)
     private String idDiscapacidad;
 
     @NotNull(message = "{NotNull.Alumno.codigoFacultad}")

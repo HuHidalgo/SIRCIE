@@ -38,22 +38,7 @@ public @Controller class MantenimientoController
     {
         model.addAttribute("mantenimiento", mantenimiento);
         model.addAttribute("tiposDocumento",
-                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO));
-        return "seguras/mantenimiento/mantenimiento";
-    }
-
-    @Audit(tipo = Tipo.Alumno)
-    @GetMapping("/{mantenimiento:alumno}")
-    public String irPaginaMantenimientoAlumno(@PathVariable String mantenimiento, ModelMap model)
-    {
-        model.addAttribute("mantenimiento", mantenimiento);
-        model.addAttribute("tiposDocumento",
-                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO));
-        model.addAttribute("sexos", multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_SEXO));
-        model.addAttribute("tiposAlumno",
-                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_ALUMNO));
-        model.addAttribute("discapacidades",
-                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_DISCAPACIDAD));
+                multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO_IDENTIDAD));
         return "seguras/mantenimiento/mantenimiento";
     }
 

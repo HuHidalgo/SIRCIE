@@ -74,7 +74,7 @@
 						<label class="col-lg-2 control-label">Unidad</label>
 						<div class="col-lg-10">
 							<select id="unidades" class="form-control select2 elemento-desactivable" name="codigoUnidad">
-								<option value="" disabled="disabled" selected="selected">
+								<option value="-1" selected="selected">
 									Seleccione una Unidad
 								</option>
 								<option th:each="unidad : ${unidades}" th:value="${unidad.codigoUnidad}"
@@ -88,7 +88,7 @@
 						<label class="col-lg-2 control-label">Concepto</label>
 						<div class="col-lg-10">
 							<select id="conceptos" class="form-control select2 elemento-desactivable" name="idConcepto">
-								<option value="" disabled="disabled" selected="selected">
+								<option value="-1" selected="selected">
 								Seleccione un Concepto de pago</option>
 							</select>
 						</div>
@@ -99,7 +99,9 @@
 						<label class="col-lg-2 control-label">Curso</label>
 						<div class="col-lg-10">
 							<select id="cursos" class="form-control select2" name="codigoCurso">
-								<option value="" disabled="disabled" selected="selected">Seleccione un Curso</option>
+								<option value="-1" selected="selected">
+									Seleccione un Curso
+								</option>
 							</select>
 						</div>
 					</div>

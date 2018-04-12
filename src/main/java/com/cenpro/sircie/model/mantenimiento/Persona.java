@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NumeroDocumento(existe = false, message = "{Existe.Persona.numeroDocumento}", groups = IRegistro.class)
 public class Persona
 {
-    @MultitabDet(campoIdItem = "idTipoDocumento", idTabla = MultiTablaUtil.TABLA_TIPO_DOCUMENTO, min = 1, max = 5, groups = ILlave.class)
+    @MultitabDet(campoIdItem = "idTipoDocumento", idTabla = MultiTablaUtil.TABLA_TIPO_DOCUMENTO_IDENTIDAD, min = 1, max = 5, groups = ILlave.class)
     private String idTipoDocumento;
 
     @NotNull(message = "{NotNull.Persona.numeroDocumento}", groups = ILlave.class)
