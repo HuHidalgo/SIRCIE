@@ -57,4 +57,11 @@ public @Controller class PresupuestoController
         return "seguras/presupuesto/mantenimiento";
     }
     
+    @GetMapping("/{mantenimiento:inicial}")
+    public String irPaginaMantenimientoInicial(@PathVariable String mantenimiento, ModelMap model)
+    {
+        model.addAttribute("mantenimiento", mantenimiento);
+        return "seguras/presupuesto/mantenimiento";
+    }
+    
 }

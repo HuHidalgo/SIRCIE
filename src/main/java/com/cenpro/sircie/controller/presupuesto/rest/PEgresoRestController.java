@@ -17,7 +17,7 @@ import com.cenpro.sircie.service.IPEgresoService;
 import com.cenpro.sircie.utilitario.ConstantesGenerales;
 
 @RequestMapping("/presupuesto/egreso")
-public @RestController class PEgresoController 
+public @RestController class PEgresoRestController 
 {
 
 	private @Autowired IPEgresoService pEgresoService;

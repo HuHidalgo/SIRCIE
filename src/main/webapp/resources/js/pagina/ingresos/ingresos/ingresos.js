@@ -23,6 +23,10 @@ $(document).ready(function() {
 		$conceptos : $("#conceptos"),
 		$cursos : $("#cursos"),
 		$importe : $("#importe"),
+		$apellidos : $("#apellidoCliente"),
+		$nombres : $("#nombreCliente"),
+		$NroDocumento : $("#NroDocumento"),
+		$buscarNroDocumento : $("#buscarNroDocumento"),
 		flag : 0,
 	};
 
@@ -189,6 +193,25 @@ $(document).ready(function() {
 		});
 
 	});
+	
+	$local.$buscarNroDocumento.click(function(){		
+		var nroDocumento = $local.$NroDocumento.val();
+		if (nroDocumento == null || nroDocumento == undefined) {
+			return;
+		}
+		$.ajax({
+			type : "GET",
+			url : $variableUtil.root + "ingresos/cliente/" + nroDocumento,
+			success : function(clientes) {
+				$.each(clientes, function(i, cliente) {				
+					$local.$apellidos.val(this.apeCliente);
+					$local.$nombres.val(this.nomCliente);
+					$local.$tiposDocumento.val(this.tipoDoc).trigger("change.select2");
+				});
+			}
+		});
+	});
+
 	
 	$local.$conceptos.on("change", function(event, opcionSeleccionada) {
 		var codigoConcepto = $(this).val();

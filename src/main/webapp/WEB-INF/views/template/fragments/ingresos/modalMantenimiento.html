@@ -31,14 +31,14 @@
 					<div class="group">
 						<label class="col-lg-2 control-label">Nombres</label>
 						<div class="col-lg-4">
-							<input id="a" class="form-control upperCase" name="nombresCliente" 
+							<input id="nombreCliente" class="form-control upperCase" name="nombresCliente" 
 							data-skip-falsy="true" data-value-type="string">
 						</div>
 					</div>
 					<div class="group">
 						<label class="col-lg-2 control-label">Apellidos</label>
 						<div class="col-lg-4">
-							<input id="b" class="form-control upperCase" name="apellidosCliente" data-skip-falsy="true" 
+							<input id="apellidoCliente" class="form-control upperCase" name="apellidosCliente" data-skip-falsy="true" 
 							data-value-type="string">
 						</div>
 					</div>
@@ -59,8 +59,21 @@
 					<div class="group">
 						<label class="col-lg-2 control-label">Nro. de Documento</label>
 						<div class="col-lg-4">
-							<input class="form-control numbersOnly elemento-desactivable" name="nroDocCliente" data-skip-falsy="true" 
+							<input id="NroDocumento" class="form-control  elemento-desactivable" name="nroDocCliente" data-skip-falsy="true" 
 							data-value-type="string">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="group">
+						<div class="col-lg-8">
+						</div>
+					</div>
+					<div class="group">
+						<div class="col-lg-4">
+							<button id="buscarNroDocumento" type="button" class="btn btn-success">
+								<i></i> Buscar
+							</button>
 						</div>
 					</div>
 				</div>

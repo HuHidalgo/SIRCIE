@@ -111,6 +111,12 @@
 							<span> Egresos</span>
 						</a>
 					</li>
+					<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')">
+						<a th:href="@{/presupuesto/inicial}">
+							<span class="fa fa-list-alt"></span>
+							<span> Iniciales</span>
+						</a>
+					</li>
 					<li>
 						<a th:href="@{/carga/alumno}">
 							<span class="fa fa-file"></span> 

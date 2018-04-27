@@ -17,7 +17,9 @@ $(document).ready(function() {
 		codigoUnidadSeleccionada : "",
 		clasificadorSeleccionado : "",
 		idConceptoSeleccionado : 0,
-		idMesSeleccionado : ""
+		idMesSeleccionado : "",
+		$inicial2 : $("#inicialRegistro"),
+		$año : $("#ingresoAño")
 	};
 
 	$formMantenimiento = $("#formMantenimiento");
@@ -87,7 +89,7 @@ $(document).ready(function() {
 			"title" : "Importe"
 		},{
 			"data" : "inicial",
-			"title" : "Incial"
+			"title" : "Inicial"
 		},{
 			"data" : null,
 			"title" : 'Acción'
@@ -108,11 +110,23 @@ $(document).ready(function() {
 
 	$local.$aniadirMantenimento.on("click", function() {
 		$funcionUtil.prepararFormularioRegistro($formMantenimiento);
+		var tipo = "ingreso";
+		$.ajax({
+			type : "GET",
+			url : $variableUtil.root + "presupuesto/inicial/" +  tipo,
+			success : function(iniciales) {
+				$.each(iniciales, function(i, inicial) {		
+					$local.$inicial2.val(this.total);
+					$local.$año.val(this.año);
+				});
+			}
+		});
 		$local.$actualizarMantenimiento.addClass("hidden");
 		$local.$registrarMantenimiento.removeClass("hidden");
 		$local.$modalMantenimiento.PopupWindow("open");
 	});
-
+	
+	
 	$local.$modalMantenimiento.on("open.popupwindow", function() {
 		$formMantenimiento.find("input:not([disabled]):first").focus();
 	});
@@ -188,7 +202,7 @@ $(document).ready(function() {
 				$.each(conceptos, function(i, concepto) {
 					$local.$conceptos.append($("<option />").val(this.idConcepto).text(this.nroConceptoEsp + " - " + this.nomConceptoEsp + " - S/ " + this.importe));
 				});
-				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {
+				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {					
 					$local.$conceptos.val(opcionSeleccionada).trigger("change.select2");
 				}
 			},
@@ -198,13 +212,13 @@ $(document).ready(function() {
 		});
 	});
 		
-
 	
 	$local.$registrarMantenimiento.on("click", function() {
 		if (!$formMantenimiento.valid()) {
 			return;
 		}
 		var ingreso = $formMantenimiento.serializeJSON();
+		ingreso.inicial = $local.$inicial2.val();
 		$.ajax({
 			type : "POST",
 			url : $variableUtil.root + "presupuesto/ingreso",
