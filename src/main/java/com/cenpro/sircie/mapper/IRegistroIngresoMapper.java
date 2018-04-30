@@ -16,6 +16,7 @@ public interface IRegistroIngresoMapper extends IMantenibleMapper<Ingresos>{
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.idIngreso, jdbcType = INTEGER, mode = IN},"
             + "#{objeto.codigoUnidad, jdbcType = VARCHAR, mode = IN},"
+            + "#{objeto.clasificador, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.nroDocCliente, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.nombresCliente, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.apellidosCliente, jdbcType = VARCHAR, mode = IN},"

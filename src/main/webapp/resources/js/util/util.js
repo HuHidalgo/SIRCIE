@@ -19,9 +19,11 @@ $(document).ready(function() {
 		posIzquierdo : "izquierdo",
 		posDerecho : "derecho",
 		rutaIconoSimp : this.root + "resources/css/icono-simp/",
+		botonVerGastos : "<button class='btn btn-xs btn-warning ver-gastos' title='Ver Gastos' data-tooltip='tooltip'><i class='fa fa-money'></i>  </button>",
 		botonEliminar : "<button class='btn btn-xs btn-danger eliminar' title='Eliminar' data-tooltip='tooltip'><i class='fa fa-trash'></i></button>",
 		botonActualizar : "<button class='btn btn-xs btn-primary actualizar' title='Actualizar' data-tooltip='tooltip'><i class='fa fa-pencil-square'></i></button>",
 		botonRegistrar : "<button class='btn btn-xs btn-success registrar' title='Registrar' data-tooltip='tooltip'><i class='fa fa-floppy-o'></i></button>",
+		botonAniadirEgresos : "<button class='btn btn-xs btn-success aniadir-egresos' title='Añadir Egresos' data-tooltip='tooltip'><i class='fa fa-plus'></i></button>",
 		botonAniadirDetalle : "<button class='btn btn-xs btn-success aniadir-detalle' title='Añadir' data-tooltip='tooltip'><i class='fa fa-plus'></i></button>",
 		botonVerDetalle : "<button class='btn btn-xs btn-primary ver-detalle' title='Ver Detalle' data-tooltip='tooltip'><i class='fa fa-eye'></i></button>",
 		botonVerComision : "<button class='btn btn-xs btn-success ver-comisiones' title='Ver Comisiones' data-tooltip='tooltip'><i class='fa fa-money'></i></button>",
@@ -32,6 +34,7 @@ $(document).ready(function() {
 		$labelDanger : $("<label class='label label-danger label-size-12'></label>"),
 		labelAtendido : "<label class='label label-primary label-size-12'>ATENDIDO</label>",
 		registroExitoso : "Se registró correctamente",
+		registroExitosoGasto : "Se añadió gasto correctamente",
 		asignacionExitosa : "Se asignaron los recursos exitosamente",
 		busquedaSinResultados : "No se han encontrado resultados para su búsqueda. Pruebe diferentes opciones o filtros.",
 		cambioContrasenia : "<strong>¡Cuidado!</strong> Cambie su contraseña, sino sera bloqueado",
@@ -172,6 +175,12 @@ $(document).ready(function() {
 			formulario.find(".select2").val("").trigger("change.select2");
 		},
 		prepararFormularioRegistro : function(formulario) {
+			formulario.find(".elemento-desactivable").prop("disabled", false);
+			this.limpiarCamposFormulario(formulario);
+			this.limpiarMensajesDeError(formulario);
+			formulario.validate().resetForm();
+		},
+		prepararFormularioRegistro2 : function(formulario) {
 			formulario.find(".elemento-desactivable").prop("disabled", false);
 			this.limpiarCamposFormulario(formulario);
 			this.limpiarMensajesDeError(formulario);

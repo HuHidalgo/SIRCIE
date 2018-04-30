@@ -12,7 +12,11 @@ public interface ITareaService extends IMantenibleService<Tarea>
 	
     public List<Tarea> buscarPorId();
     
+    public List<Tarea> buscarMeta(Integer codigoTarea);
+    
     public List<Tarea> buscarUnidad(String codigoUnidad);
+    
+    public List<Tarea> buscarPartida(String codigoPartida);
     
     public void registrarTarea(Tarea tarea);
     

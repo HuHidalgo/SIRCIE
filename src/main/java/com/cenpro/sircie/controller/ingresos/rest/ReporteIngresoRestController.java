@@ -16,14 +16,16 @@ import com.cenpro.sircie.service.IReporteIngresosService;
 public @RestController class ReporteIngresoRestController {
 
 	private @Autowired IReporteIngresosService reporteIngresosService;
-
+	
 	static List<ReporteIngresos> listIngresos = new ArrayList<ReporteIngresos>();
 	static List<ReporteIngresos> listIngresos1 = new ArrayList<ReporteIngresos>();
 	static List<ReporteIngresos> listIngresos2 = new ArrayList<ReporteIngresos>();
 	static List<ReporteIngresos> listIngresos3 = new ArrayList<ReporteIngresos>();
+	
 
 	@GetMapping(params = "accion=buscar")
 	public List<ReporteIngresos> buscarIngresosDetalleConceptos(CriterioBusquedaIngresos criterioBusquedaIngresos) {
+		int i = 0;
 		
 		if(criterioBusquedaIngresos.getVerbo().equals("DET_LIMPIAR_CONCEPTOS")) {
 			listIngresos = new ArrayList<ReporteIngresos>();
@@ -31,14 +33,32 @@ public @RestController class ReporteIngresoRestController {
 		}
 		else {
 			for(ReporteIngresos ri : reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos)) {
-				listIngresos.add(ri);
+				if(listIngresos.isEmpty()) {
+					listIngresos.add(ri);
+				}
+				else {
+					for(ReporteIngresos ri2 : listIngresos) {
+						if(ri.getIdConcepto() == ri2.getIdConcepto()) {
+							i = 1;
+							break;
+						}
+					}
+					if(i == 0) {
+						listIngresos.add(ri);
+					}
+				}
 			}
 			return listIngresos;
 		}
 	}
-
+	
+	public List<ReporteIngresos> reporteDetalleIngresosConceptos(){
+		return listIngresos;
+	}
+	
 	@GetMapping(params = "accion=buscar1")
     public List<ReporteIngresos> buscarIngresosGeneralConceptos(CriterioBusquedaIngresos criterioBusquedaIngresos){
+		int i = 0;
 		
 		if(criterioBusquedaIngresos.getVerbo().equals("GEN_LIMPIAR_CONCEPTOS")) {
 			listIngresos1 = new ArrayList<ReporteIngresos>();
@@ -46,14 +66,40 @@ public @RestController class ReporteIngresoRestController {
 		}
 		else {
 			for(ReporteIngresos ri : reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos)) {
-				listIngresos1.add(ri);
+				if(listIngresos1.isEmpty()) {
+					ri.setIngresoTotal(ri.getImporteEnero() + ri.getImporteFebrero() + ri.getImporteMarzo() +
+							ri.getImporteAbril() + ri.getImporteMayo() + ri.getImporteJunio() + ri.getImporteJulio() +
+							ri.getImporteAgosto() + ri.getImporteSetiembre() + ri.getImporteOctubre() +
+							ri.getImporteNoviembre() + ri.getImporteDiciembre());
+					listIngresos1.add(ri);
+				}
+				else {
+					for(ReporteIngresos ri2 : listIngresos1) {
+						if(ri.getIdReporteIngreso() == ri2.getIdReporteIngreso()) {
+							i = 1;
+							break;
+						}
+					}
+					if(i == 0) {
+						ri.setIngresoTotal(ri.getImporteEnero() + ri.getImporteFebrero() + ri.getImporteMarzo() +
+								ri.getImporteAbril() + ri.getImporteMayo() + ri.getImporteJunio() + ri.getImporteJulio() +
+								ri.getImporteAgosto() + ri.getImporteSetiembre() + ri.getImporteOctubre() +
+								ri.getImporteNoviembre() + ri.getImporteDiciembre());
+						listIngresos1.add(ri);
+					}
+				}
 			}
 			return listIngresos1;
 		}
     }
 	
+	public List<ReporteIngresos> reporteGeneralIngresosConceptos(){
+		return listIngresos1;
+	}
+	
 	@GetMapping(params = "accion=buscar2")
     public List<ReporteIngresos> buscarIngresosDetalleCursos(CriterioBusquedaIngresos criterioBusquedaIngresos){
+		int i = 0;
 		
 		if(criterioBusquedaIngresos.getVerbo().equals("DET_LIMPIAR_CURSOS")) {
 			listIngresos2 = new ArrayList<ReporteIngresos>();
@@ -61,7 +107,20 @@ public @RestController class ReporteIngresoRestController {
 		}
 		else {
 			for(ReporteIngresos ri : reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos)) {
-				listIngresos2.add(ri);
+				if(listIngresos2.isEmpty()) {
+					listIngresos2.add(ri);
+				}
+				else {
+					for(ReporteIngresos ri2 : listIngresos2) {
+						if(ri.getIdConcepto() == ri2.getIdConcepto()) {
+							i = 1;
+							break;
+						}
+					}
+					if(i == 0) {
+						listIngresos2.add(ri);
+					}
+				}
 			}
 			return listIngresos2;
 		}
@@ -80,5 +139,10 @@ public @RestController class ReporteIngresoRestController {
 			}
 			return listIngresos3;
 		}
+    }
+	
+	@GetMapping(params = "accion=buscar4")
+    public List<ReporteIngresos> buscarIngresosDetalleAportantes(CriterioBusquedaIngresos criterioBusquedaIngresos){
+		return reporteIngresosService.buscarIngresosDiarios(criterioBusquedaIngresos);
     }
 }

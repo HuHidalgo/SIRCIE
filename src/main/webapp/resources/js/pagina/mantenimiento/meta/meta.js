@@ -45,7 +45,8 @@ $(document).ready(function() {
 		} ],
 		"columns" : [ {
 			"data" : "nroMeta",
-			"title" : "Número de Meta"
+			"title" : "Nro. Meta",
+			"width": "10%"
 		}, {
 			"data" : "nomMeta",
 			"title" : "Nombre de Meta"
@@ -54,7 +55,8 @@ $(document).ready(function() {
 			"title" : "Descripción"
 		}, {
 			"data" : null,
-			"title" : 'Acción'
+			"title" : 'Acción',
+			"width": "10%"
 		} ]
 	});
 

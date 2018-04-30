@@ -13,20 +13,19 @@ import com.cenpro.sircie.model.parametro.Parametro;
 
 public interface IRegistroEgresosMapper extends IMantenibleMapper<Egresos>{
 	
-	@Select(value = { "{call MANT_INGRESOS ( "
+	@Select(value = { "{call MANT_EGRESOS ( "
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.idEgreso, jdbcType = INTEGER, mode = IN},"
+            + "#{objeto.idProgramacionGasto, jdbcType = INTEGER, mode = IN},"
+            + "#{objeto.idTabla, jdbcType = INTEGER, mode = IN},"
             + "#{objeto.codigoUnidad, jdbcType = VARCHAR, mode = IN},"
+            + "#{objeto.codigoCurso, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.nroDocProveedor, jdbcType = VARCHAR, mode = IN},"
-            + "#{objeto.nombreProveedor, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.tipoDocProveedor, jdbcType = VARCHAR, mode = IN},"
+            + "#{objeto.nombreProveedor, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.documento, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.docReferencia, jdbcType = VARCHAR, mode = IN},"
-            + "#{objeto.estado, jdbcType = VARCHAR, mode = IN},"
-            + "#{objeto.importe, jdbcType = NUMERIC, mode = IN},"
-            + "#{objeto.codigoCurso, jdbcType = VARCHAR, mode = IN},"
-            + "#{objeto.nroProgramacionGasto, jdbcType = INTEGER, mode = IN},"
-            + "#{objeto.fechaEnvio, jdbcType = DATE, mode = IN},"
+            + "#{objeto.montoTotal, jdbcType = NUMERIC, mode = IN},"
             + "#{userAudit, jdbcType = VARCHAR, mode = IN})}" })
     @Options(statementType = StatementType.CALLABLE)
 	public List<Egresos> mantener(Parametro parametro);

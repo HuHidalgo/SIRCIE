@@ -22,10 +22,22 @@ public @RestController class TareaRestController
 {
 	private @Autowired ITareaService tareaService;
 	
+	@GetMapping("/meta/{codigoTarea}")
+    public List<Tarea> buscarMeta(@PathVariable Integer codigoTarea)
+    {
+        return tareaService.buscarMeta(codigoTarea);
+    }
+	
 	@GetMapping("/unidad/{codigoUnidad}")
     public List<Tarea> buscarUnidad(@PathVariable String codigoUnidad)
     {
         return tareaService.buscarUnidad(codigoUnidad);
+    }
+	
+	@GetMapping("/partida/{codigoPartida}")
+    public List<Tarea> buscarPartida(@PathVariable String codigoPartida)
+    {
+        return tareaService.buscarPartida(codigoPartida);
     }
 	
 	@GetMapping(params = "accion=buscarTodos")

@@ -13,7 +13,10 @@ import com.cenpro.sircie.aspecto.enumeracion.Comentario;
 import com.cenpro.sircie.controller.excepcion.anotacion.Vista;
 import com.cenpro.sircie.service.IConceptoService;
 import com.cenpro.sircie.service.ICursoService;
+import com.cenpro.sircie.service.IMetaService;
 import com.cenpro.sircie.service.IMultiTabDetService;
+import com.cenpro.sircie.service.IPartidaService;
+import com.cenpro.sircie.service.ITareaService;
 import com.cenpro.sircie.service.IUnidadService;
 import com.cenpro.sircie.utilitario.MultiTablaUtil;
 
@@ -23,15 +26,30 @@ import com.cenpro.sircie.utilitario.MultiTablaUtil;
 public @Controller class EgresosController {
 	private @Autowired IMultiTabDetService multiTabDetService;
     private @Autowired IUnidadService unidadService;
-    private @Autowired IConceptoService conceptoService;
+    private @Autowired IMetaService metaService;
+    private @Autowired IPartidaService partidaService;
+    private @Autowired ITareaService tareaService;
     private @Autowired ICursoService cursoService;
     
-    //@Audit(tipo = Tipo.Ingresos)
-    @GetMapping(value = "/{mantenimiento:egresos}")
-    public String irPaginaMantenimientoEgresos(@PathVariable String mantenimiento, ModelMap model)
+    
+  //@Audit(tipo = Tipo.Ingresos)
+    @GetMapping(value = "/planificacion/{mantenimiento:programacionGastos}")
+    public String irPaginaMantenimientoActProgramacionGastos(@PathVariable String mantenimiento, ModelMap model)
     {
-        model.addAttribute("mantenimiento", mantenimiento);
-        model.addAttribute("tiposDocumentoIdentidad",
+    	model.addAttribute("mantenimiento", mantenimiento);
+        model.addAttribute("unidades", unidadService.buscarTodos());
+        model.addAttribute("metas", metaService.buscarTodos());
+        model.addAttribute("tareas", tareaService.buscarTodos());
+        model.addAttribute("partidas", partidaService.buscarTodos());
+        return "seguras/egresos/planificacionMantenimiento";
+    }
+    
+    //@Audit(tipo = Tipo.Ingresos)
+    @GetMapping(value = "/usgom/{mantenimiento:programacionGastos}")
+    public String irPaginaMantenimientoProgramacionGastos(@PathVariable String mantenimiento, ModelMap model)
+    {
+    	model.addAttribute("mantenimiento", mantenimiento);
+    	model.addAttribute("tiposDocumentoIdentidad",
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_DOCUMENTO_IDENTIDAD));
         model.addAttribute("tiposDocumento",
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_DOCUMENTO));
@@ -41,16 +59,7 @@ public @Controller class EgresosController {
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_ESTADO));
         model.addAttribute("unidades", unidadService.buscarTodos());
         model.addAttribute("cursos", cursoService.buscarTodos());
-        return "seguras/egresos/mantenimiento";
-    }
-    
-    @GetMapping("{reporteIngresos:reporte}")
-    public String irPaginaReporteIngresos(ModelMap model)
-    {
-    	model.addAttribute("unidades", unidadService.buscarTodos());
-    	model.addAttribute("unidades1", unidadService.buscarTodos());
-        model.addAttribute("conceptos", conceptoService.buscarTodos());
-        model.addAttribute("cursos", cursoService.buscarTodos());;
-        return "seguras/ingresos/reporteIngresos";
+        model.addAttribute("partidas", partidaService.buscarTodos());
+        return "seguras/egresos/usgomMantenimiento";
     }
 }

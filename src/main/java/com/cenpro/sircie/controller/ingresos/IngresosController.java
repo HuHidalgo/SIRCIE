@@ -15,6 +15,7 @@ import com.cenpro.sircie.controller.excepcion.anotacion.Vista;
 import com.cenpro.sircie.service.IConceptoService;
 import com.cenpro.sircie.service.ICursoService;
 import com.cenpro.sircie.service.IMultiTabDetService;
+import com.cenpro.sircie.service.IPartidaService;
 import com.cenpro.sircie.service.IUnidadService;
 import com.cenpro.sircie.utilitario.MultiTablaUtil;
 
@@ -27,6 +28,7 @@ public @Controller class IngresosController
     private @Autowired IUnidadService unidadService;
     private @Autowired IConceptoService conceptoService;
     private @Autowired ICursoService cursoService;
+    private @Autowired IPartidaService partidaService;
     
     //@Audit(tipo = Tipo.Ingresos)
     @GetMapping(value = "/{mantenimiento:ingresos}")
@@ -39,6 +41,7 @@ public @Controller class IngresosController
                 multiTabDetService.buscarPorIdTabla(MultiTablaUtil.TABLA_TIPO_MONEDA));
         model.addAttribute("unidades", unidadService.buscarTodos());
         model.addAttribute("conceptos", conceptoService.buscarTodos());
+        model.addAttribute("partidas", partidaService.buscarTodos());
         model.addAttribute("cursos", cursoService.buscarTodos());
         return "seguras/ingresos/mantenimiento";
     }

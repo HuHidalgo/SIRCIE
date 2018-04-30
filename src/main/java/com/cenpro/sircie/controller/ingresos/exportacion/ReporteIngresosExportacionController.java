@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cenpro.sircie.controller.ingresos.rest.ReporteIngresoRestController;
 import com.cenpro.sircie.model.criterio.CriterioBusquedaIngresos;
 import com.cenpro.sircie.model.ingresos.ReporteIngresos;
 import com.cenpro.sircie.service.IReporteIngresosService;
@@ -25,20 +26,19 @@ public @Controller class ReporteIngresosExportacionController
     public ModelAndView descargarReporteIngresos(ModelMap model, ModelAndView modelAndView,
             CriterioBusquedaIngresos criterioBusquedaIngresos)
     {
+    	ReporteIngresoRestController rep = new ReporteIngresoRestController();
         // DETALLE
-    	criterioBusquedaIngresos.setVerbo("CONCEPTOS");
-        List<ReporteIngresos> atencionIngresosDetalle = reporteIngresosService
-        		.buscarIngresosDiarios(criterioBusquedaIngresos);
+    	
+        List<ReporteIngresos> atencionIngresosDetalle = rep.reporteDetalleIngresosConceptos();
 
-        /*/ GENERAL
-        criterioBusquedaAtencionDiaria.setTipoReporte("GENERAL");
-        List<ReporteAtencionDiaria> atencionDiariaGeneral = reporteAtencionDiariaService
-                .buscarAtencionesDiarias(criterioBusquedaAtencionDiaria);*/
+        // GENERAL
+     
+        List<ReporteIngresos> atencionIngresosGeneral = rep.reporteGeneralIngresosConceptos();
 
         Map<String, Object> params = new HashMap<>();
         params.put("param1", atencionIngresosDetalle);
         params.put("param2", criterioBusquedaIngresos);
-        //params.put("param3", atencionDiariaGeneral);
+        params.put("param3", atencionIngresosGeneral);
 
         // HOJA DETALLE
         model.addAttribute("rb_titulo", ReporteUtilYarg.buildReportBand("Titulo"));
@@ -49,7 +49,7 @@ public @Controller class ReporteIngresosExportacionController
         model.addAttribute("rb_datos",
                 ReporteUtilYarg.buildReportBand("Datos", "Datos", "parameter=param1 $", "json"));
 
-        /*/ HOJA GENERAL
+        // HOJA GENERAL
         model.addAttribute("rb_tituloGeneral", ReporteUtilYarg.buildReportBand("TituloGeneral"));
         model.addAttribute("rb_criterioBusquedaGeneral",
                 ReporteUtilYarg.buildReportBand("CriteriosBusquedaGeneral",
@@ -58,10 +58,10 @@ public @Controller class ReporteIngresosExportacionController
         model.addAttribute("rb_encabezadoGeneral",
                 ReporteUtilYarg.buildReportBand("EncabezadoGeneral"));
         model.addAttribute("rb_datosGeneral", ReporteUtilYarg.buildReportBand("DatosGeneral",
-                "DatosGeneral", "parameter=param3 $", "json"));*/
+                "DatosGeneral", "parameter=param3 $", "json"));
 
-        model.addAttribute(ReporteUtilYarg.PARAM_TEMPLATE, "reporteIngresos");
-        model.addAttribute(ReporteUtilYarg.PARAM_NOMBRE_REPORTE, "Reporte de Ingresos");
+        model.addAttribute(ReporteUtilYarg.PARAM_TEMPLATE, "reporteIngresosConceptos");
+        model.addAttribute(ReporteUtilYarg.PARAM_NOMBRE_REPORTE, "Reporte de Ingresos por Concepto");
         model.addAttribute(ReporteUtilYarg.PARAM_REPORTE_PARAMETERS, params);
         modelAndView = new ModelAndView("yargView", model);
         return modelAndView;

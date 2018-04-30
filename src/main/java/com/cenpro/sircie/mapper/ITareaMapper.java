@@ -15,6 +15,7 @@ public interface ITareaMapper extends IMantenibleMapper<Tarea>
 	@Select(value = { "{call MANT_TAREAS ( "
             + "#{verbo, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.codigoTarea, jdbcType = NUMERIC, mode = IN},"
+            + "#{objeto.clasificador, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.codigoUnidad, jdbcType = VARCHAR, mode = IN},"
             + "#{objeto.nroMeta, jdbcType = NUMERIC, mode = IN},"
             + "#{objeto.nomTarea, jdbcType = VARCHAR, mode = IN},"

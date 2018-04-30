@@ -58,21 +58,15 @@
 					</div>
 					<div class="group">
 						<label class="col-lg-2 control-label">Nro. de Documento</label>
-						<div class="col-lg-4">
+						<div class="col-lg-2">
 							<input id="NroDocumento" class="form-control  elemento-desactivable" name="nroDocCliente" data-skip-falsy="true" 
 							data-value-type="string">
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
 					<div class="group">
-						<div class="col-lg-8">
-						</div>
-					</div>
-					<div class="group">
-						<div class="col-lg-4">
+						<div class="col-lg-1">
 							<button id="buscarNroDocumento" type="button" class="btn btn-success">
-								<i></i> Buscar
+								<i class="fa fa-search"></i> Buscar
 							</button>
 						</div>
 					</div>
@@ -121,6 +115,20 @@
 				</div>
 				<div class="form-group">
 					<div class="group">
+						<label class="col-lg-2 control-label">Partida</label>
+						<div class="col-lg-10">
+							<select id="partidas" class="form-control select2" name="clasificador">
+								<option value="" disabled="disabled" selected="selected">
+									Seleccione una Partida
+								</option>
+								<option th:each="partida: ${partidas}" th:value="${partida.clasificador}"
+									th:text="|${partida.clasificador} - ${partida.descripcion}|"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="group">
 						<label class="col-lg-2 control-label">Importe</label>
 						<div class="col-lg-4">
 							<input id="importe" class="form-control numbersOnlyAndDot" maxlength="8" readonly="readonly" 
@@ -128,18 +136,19 @@
 						</div>
 					</div>
 					<div class="group">
-						<label class="col-lg-2 control-label">Importe Descontado</label>
+						<label class="col-lg-2 control-label">Nro. de Cuota</label>
 						<div class="col-lg-4">
-							<input class="form-control numbersOnlyAndDot" maxlength="8" name="importeDescontado" 
+							<input class="form-control numbersOnly" maxlength="2" name="nroCuota" 
 							data-skip-falsy="true" data-value-type="string">
 						</div>
 					</div>
 				</div>
+				
 				<div class="form-group">
 					<div class="group">
-						<label class="col-lg-2 control-label">Nro. de Cuota</label>
+						<label class="col-lg-2 control-label">Importe Descontado</label>
 						<div class="col-lg-4">
-							<input class="form-control numbersOnly" maxlength="2" name="nroCuota" 
+							<input class="form-control numbersOnlyAndDot" maxlength="8" name="importeDescontado" 
 							data-skip-falsy="true" data-value-type="string">
 						</div>
 					</div>
@@ -151,6 +160,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="form-group">
 					<div class="group">
 						<label class="col-lg-2 control-label">Tipo de Moneda</label>

@@ -29,6 +29,10 @@ $(document).ready(function() {
 				required : true,
 				notOnlySpace : true
 			},
+			clasificador : {
+				required : true,
+				notOnlySpace : true
+			},
 			importe : {
 				required : true,
 				notOnlySpace : true
@@ -66,19 +70,23 @@ $(document).ready(function() {
 				rangelength : "El N&uacute;umero de Documento debe contener entre 3 y 15 car&aacute;cteres."
 			},
 			codigoUnidad : {
-				required : "Elija una Unidad.",
+				required : "Seleccione una Unidad.",
 				notOnlySpace : "La unidad no puede estar en blanco."
 			},
 			idConcepto : {
-				required : "Elija un concepto de pago.",
+				required : "Seleccione un Concepto de pago.",
 				notOnlySpace : "El concepto no puede estar en blanco."
+			},
+			clasificador : {
+				required : "Seleccione una Partida.",
+				notOnlySpace : "La partida no puede estar en blanco."
 			},
 			importe : {
 				required : "Ingrese el importe.",
 				notOnlySpace : "El importe no debe contener solo espacios en blanco."
 			},
 			tipoMoneda : {
-				required : "Elija un tipo de moneda.",
+				required : "Seleccione un tipo de moneda.",
 				notOnlySpace : "El tipo de moneda no debe contener solo espacios en blanco."
 			},
 			nroVoucher : {

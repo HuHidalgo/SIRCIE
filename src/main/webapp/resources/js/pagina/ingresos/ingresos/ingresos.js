@@ -21,6 +21,7 @@ $(document).ready(function() {
 		$unidades : $("#unidades"),
 		$unidades2 : $("#unidades"),
 		$conceptos : $("#conceptos"),
+		$partidas : $("#partidas"),
 		$cursos : $("#cursos"),
 		$importe : $("#importe"),
 		$apellidos : $("#apellidoCliente"),
@@ -34,6 +35,7 @@ $(document).ready(function() {
 	
 	$funcionUtil.crearSelect2($local.$unidades, "Seleccione una Unidad");
 	$funcionUtil.crearSelect2($local.$conceptos, "Seleccione un Concepto de pago");
+	$funcionUtil.crearSelect2($local.$partidas, "Seleccione una Partida");
 	$funcionUtil.crearSelect2($local.$cursos, "Seleccione un Curso");
 	$funcionUtil.crearSelect2($local.$tiposDocumento, "Seleccione un Tipo de Documento");
 	$funcionUtil.crearSelect2($local.$tiposMoneda, "Seleccione un Tipo de Moneda");
@@ -203,6 +205,9 @@ $(document).ready(function() {
 			type : "GET",
 			url : $variableUtil.root + "ingresos/cliente/" + nroDocumento,
 			success : function(clientes) {
+				if(clientes[0] == null){
+					$funcionUtil.notificarException("No se encontraron resultados", "fa-exclamation-circle", "Información", "info");
+				}
 				$.each(clientes, function(i, cliente) {				
 					$local.$apellidos.val(this.apeCliente);
 					$local.$nombres.val(this.nomCliente);
@@ -358,7 +363,6 @@ $(document).ready(function() {
 		$funcionUtil.prepararFormularioActualizacion($formMantenimiento);
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var ingresos = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
-		console.log(ingresos);
 		$local.codigoIngresoSeleccionado = ingresos.idIngreso;
 		$local.importe = ingresos.importe;
 		$local.codigoClienteSeleccionado = ingresos.nroDocCliente;

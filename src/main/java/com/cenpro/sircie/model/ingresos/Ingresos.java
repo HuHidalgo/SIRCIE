@@ -25,6 +25,9 @@ public class Ingresos {
 	private String tipoDocCliente;
 	private String nroDocCliente;
 	
+	private String clasificador;
+	private String descripcionPartida;
+	
 	private Integer idConcepto;
 	private String nroConceptoEsp;
 	private String nomConceptoEsp;

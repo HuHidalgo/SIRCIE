@@ -65,4 +65,16 @@ public class TareaService extends MantenibleService<Tarea> implements ITareaServ
 		Tarea tarea = Tarea.builder().codigoUnidad(codigoUnidad).build();
 		return this.buscar(tarea, Verbo.GET_UNI);
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public List<Tarea> buscarPartida(String codigoPartida) {
+		Tarea tarea = Tarea.builder().clasificador(codigoPartida).build();
+		return this.buscar(tarea, Verbo.GET_PAR);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public List<Tarea> buscarMeta(Integer codigoTarea) {
+		Tarea tarea = Tarea.builder().codigoTarea(codigoTarea).build();
+		return this.buscar(tarea, Verbo.GET_META);
+	}
 }

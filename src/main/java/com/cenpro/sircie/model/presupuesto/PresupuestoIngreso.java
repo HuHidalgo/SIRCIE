@@ -16,6 +16,7 @@ public class PresupuestoIngreso
 	private String codigoUnidad;
 	private String nombreUnidad;
 	private Integer idConcepto;
+	private String nroConcepto;
 	private String nombreConcepto;
 	private String clasificador;
 	private String descripcionPartida;

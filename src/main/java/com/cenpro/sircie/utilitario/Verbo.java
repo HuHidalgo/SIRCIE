@@ -34,6 +34,8 @@ public class Verbo
     public static final String GET_UNI_PARTIDA = "GET_UNI_PARTIDA";
     public static final String GET_UNI = "GET_UNI";
     public static final String GET_AÑO = "GET_AÑO";
+    public static final String GET_PAR = "GET_PAR";
+    public static final String GET_META = "GET_META";
 
     // Verbo de Reporte
     public static final String COMISION_BANCO_ADMINISTRADOR = "COMISION_BANCO_ADMINISTRADOR";

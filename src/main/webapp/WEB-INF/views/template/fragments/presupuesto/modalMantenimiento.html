@@ -101,7 +101,7 @@
 			<label class="col-lg-2 control-label">Unidad</label>
 			<div class="col-lg-10">
 				<select id="unidades" class="form-control select2" name="codigoUnidad">
-					<option value="" disabled="disabled" selected="selected">Elija unidad</option>
+					<option value="" disabled="disabled" selected="selected">Seleccione una unidad</option>
 					<option th:each="unidad : ${unidades}" th:value="${unidad.codigoUnidad}"
 						th:text="|${unidad.codigoUnidad} - ${unidad.nombreUnidad}|"></option>
 				</select>
@@ -112,9 +112,7 @@
 			<label class="col-lg-2 control-label">Concepto</label>
 			<div class="col-lg-10">
 				<select id="conceptos" class="form-control select2" name="idConcepto">
-					<option value="" disabled="disabled" selected="selected">Elija Concepto</option>
-					<option th:each="concepto: ${conceptos}" th:value="${concepto.idConcepto}"
-						th:text="|${concepto.nroConceptoEsp} - ${concepto.nomConceptoEsp}|"></option>
+					<option value="" selected="selected">Seleccione un Concepto</option>
 				</select>
 			</div>
 		</div>
@@ -123,9 +121,7 @@
 			<label class="col-lg-2 control-label">Partida</label>
 			<div class="col-lg-10">
 				<select id="partidas" class="form-control select2" name="clasificador">
-					<option value="" disabled="disabled" selected="selected">Elija partida</option>
-					<option th:each="partida: ${partidas}" th:value="${partida.clasificador}"
-						th:text="|${partida.clasificador} - ${partida.descripcion}|"></option>
+					<option value="" selected="selected">Seleccione una partida</option>
 				</select>
 			</div>
 		</div>
@@ -170,20 +166,20 @@
 	
 	<th:block th:fragment="inicial">
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Inicial</label>
-				<div class="col-lg-4">
+			<label class="col-lg-3 control-label">Inicial</label>
+				<div class="col-lg-8">
 						<input class="form-control numbersOnlyAndDot" name="inicial" >				
 				</div>
 		</div>
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Año</label>
-				<div class="col-lg-4">
+			<label class="col-lg-3 control-label">Año</label>
+				<div class="col-lg-8">
 						<input class="form-control numbersOnly" maxlength="4"  name="año">
 				</div>
 		</div>
 		<div class="form-group">
-			<label class="col-lg-2 control-label">Tipo</label>
-				<div class="col-lg-4">
+			<label class="col-lg-3 control-label">Tipo</label>
+				<div class="col-lg-8">
 					<select id="tipos" class="form-control select2"name="idTipo">
 						<option value="" disabled="disabled" selected="selected">Elija tipo de inicial</option>
 						<option th:value="ingreso"

@@ -20,4 +20,7 @@ public class Tarea
     private Integer nroMeta;
     private String nomMeta;
     
+    private String clasificador;
+    private String descripcion;
+    
 }

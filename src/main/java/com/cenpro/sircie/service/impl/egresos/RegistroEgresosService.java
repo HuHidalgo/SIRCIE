@@ -14,6 +14,7 @@ import com.cenpro.sircie.service.IRegistroEgresosService;
 import com.cenpro.sircie.service.excepcion.MantenimientoException;
 import com.cenpro.sircie.service.impl.MantenibleService;
 import com.cenpro.sircie.utilitario.ConstantesExcepciones;
+import com.cenpro.sircie.utilitario.MultiTablaUtil;
 import com.cenpro.sircie.utilitario.Verbo;
 
 @Service
@@ -45,7 +46,6 @@ public class RegistroEgresosService extends MantenibleService<Egresos> implement
 	public int registrarEgresos(Egresos egresos) {
 		
 		List<Egresos> egreso = this.registrarAutoIncrementable(egresos);
-		System.out.println(egreso);
         if (!egreso.isEmpty() && egreso.get(0).getIdEgreso() != null)
         {
             return egreso.get(0).getIdEgreso();
@@ -59,6 +59,12 @@ public class RegistroEgresosService extends MantenibleService<Egresos> implement
 	public void actualizarEgresos(Egresos egresos) {
 		
 		this.actualizar(egresos);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public List<Egresos> buscarPorIdProgramacionGasto(int IdProgramacionGasto) {
+		Egresos egreso = Egresos.builder().idProgramacionGasto(IdProgramacionGasto).idTabla(MultiTablaUtil.TABLA_DOCUMENTO).build();
+        return this.buscar(egreso, Verbo.GETS_T);
 	}
 
 }

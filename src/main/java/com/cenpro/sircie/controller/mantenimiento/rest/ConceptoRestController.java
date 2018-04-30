@@ -23,8 +23,7 @@ public @RestController class ConceptoRestController {
 	private @Autowired IConceptoService conceptoService;
 	
 	@GetMapping("/unidad/{codigoUnidad}")
-    public List<Concepto> buscarPorCodigoUnidad(@PathVariable String codigoUnidad)
-    {
+    public List<Concepto> buscarPorCodigoUnidad(@PathVariable String codigoUnidad){
         return conceptoService.buscarPorCodigoUnidad(codigoUnidad);
     }
 	

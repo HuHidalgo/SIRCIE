@@ -31,55 +31,44 @@ public class ConceptoService extends MantenibleService<Concepto> implements ICon
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Concepto> buscarPorCodigoUnidad(String codigoUnidad) {
-		
 		Concepto concepto = Concepto.builder().codigoUnidad(codigoUnidad).build();
         return this.buscar(concepto, GET_CON);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Concepto> buscarPorId(Integer idConcepto) {
-
 		Concepto concepto = Concepto.builder().idConcepto(idConcepto).build();
-		//System.out.println(concepto);
         return this.buscar(concepto, Verbo.GET_IMP);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Concepto> buscarTodos() {
-
 		return this.buscar(new Concepto(), Verbo.GETS);
-		
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Concepto> buscarPorCodigoUnidadIdConcepto(String codigoUnidad, Integer idConcepto) {
-
 		Concepto concepto = Concepto.builder().codigoUnidad(codigoUnidad).idConcepto(idConcepto).build();
 		return this.buscar(concepto, Verbo.GET);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int registrarConcepto(Concepto concepto) {
-
 		List<Concepto> conceptos = this.registrarAutoIncrementable(concepto);
-        if (!conceptos.isEmpty() && conceptos.get(0).getIdConcepto() != null)
-        {
+        if (!conceptos.isEmpty() && conceptos.get(0).getIdConcepto() != null){
             return conceptos.get(0).getIdConcepto();
-        } else
-        {
+        } else {
             throw new MantenimientoException(ConstantesExcepciones.ERROR_REGISTRO);
         }
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void actualizarConcepto(Concepto concepto) {
-		
 		this.actualizar(concepto);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void eliminarConcepto(Concepto concepto) {
-		
 		this.eliminar(concepto);
 	}
 

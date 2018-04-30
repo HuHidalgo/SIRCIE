@@ -46,7 +46,8 @@ $(document).ready(function() {
 			"title" : "Conceptos de Pago"
 		}, {
 			"data" : "ingresoTotal",
-			"title" : "Ingreso Total"
+			"title" : "Ingreso Total",
+			"width" : "10%"
 		} ]
 	});
 	
@@ -191,6 +192,7 @@ $(document).ready(function() {
 					return;
 				}
 				$local.tablaReporteIngresosDetalle.rows.add(ingresos).draw();
+								
 			},
 			complete : function() {
 				$local.$buscar.attr("disabled", false).find("i").removeClass("fa-spinner fa-pulse fa-fw").addClass("fa-search");
@@ -210,7 +212,7 @@ $(document).ready(function() {
 					$funcionUtil.notificarException($variableUtil.busquedaSinResultados, "fa-exclamation-circle", "Información", "info");
 					return;
 				}
-				$local.tablaReporteIngresosGeneral.rows.add(ingresos).draw();
+				$local.tablaReporteIngresosGeneral.rows.add(ingresos).draw();					
 			},
 			complete : function() {
 				$local.$buscar.attr("disabled", false).find("i").addClass("fa-search").removeClass("fa-spinner fa-pulse fa-fw");
@@ -220,13 +222,6 @@ $(document).ready(function() {
 	
 	$local.$limpiar.on("click", function() {
 		var criterioBusqueda = $formReporteIngresosConceptos.serializeJSON();
-		if ($funcionUtil.camposVacios($formReporteIngresosConceptos)) {
-			$funcionUtil.notificarException($variableUtil.camposVacios, "fa-exclamation-circle", "Información", "info");
-			return;
-		}
-		if (!$formReporteIngresosConceptos.valid()) {
-			return;
-		}
 
 		criterioBusqueda.verbo = "DET_LIMPIAR_CONCEPTOS";
 		$.ajax({

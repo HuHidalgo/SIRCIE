@@ -36,8 +36,9 @@ public class ReporteIngresos {
     
     private Double importe;
     private Double ingresoTotal;
+	private String nroReciboIngreso;
     
-    private String mes;
+	private Integer idReporteIngreso;
     private Double importeEnero;
     private Double importeFebrero;
     private Double importeMarzo;

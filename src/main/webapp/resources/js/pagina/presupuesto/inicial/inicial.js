@@ -39,28 +39,26 @@ $(document).ready(function() {
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2, 3 ],
+			"targets" : [ 0, 1, 2 ],
 			"className" : "all filtrable",
 		}, {
-			"targets" : 4,
+			"targets" : 3,
 			"className" : "all dt-center",
 			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
 		"columns" : [ {
-			"data" : "idInicial",
-			"title" : "Código"
-		}, {
-			"data" : "inicial",
-			"title" : "Monto"
-		}, {
 			"data" : "año",
 			"title" : "Año"
 		}, {
 			"data" : "tipo",
-			"title" : "Tipo"
-		},{
+			"title" : "Tipo de Presupuesto"
+		}, {
+			"data" : "inicial",
+			"title" : "Monto Inicial"
+		}, {
 			"data" : null,
-			"title" : 'Acción'
+			"title" : 'Acción',
+			"width" : '10%'
 		} ]
 	});
 
@@ -72,8 +70,8 @@ $(document).ready(function() {
 		title : "Mantenimiento de Inicial",
 		autoOpen : false,
 		modal : false,
-		height : 390,
-		width : 626
+		height : 330,
+		width : 320
 	});
 
 	$local.$aniadirMantenimento.on("click", function() {

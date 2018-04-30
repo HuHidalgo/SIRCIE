@@ -52,18 +52,14 @@ $(document).ready(function() {
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2 ,3, 4, 5, 6,7],
+			"targets" : [ 0, 1, 2 ,3, 4, 5, 6 ],
 			"className" : "all filtrable",
 		}, {
-			"targets" : 8,
+			"targets" : 7,
 			"className" : "all dt-center",
 			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
-		"columns" : [ 
-		{
-			"data" : "idPEgreso",
-			"title" : "Código"
-		}, {
+		"columns" : [{
 			"data" : function(row) {
 				return $funcionUtil.unirCodigoDescripcion(row.codigoUnidad, row.nombreUnidad);
 			},
@@ -79,11 +75,11 @@ $(document).ready(function() {
 			},
 			"title" : "Partida"
 		},{
-			"data" : "mes",
-			"title" : "Mes"
-		},{
 			"data" : "año",
 			"title" : "Año"
+		},{
+			"data" : "mes",
+			"title" : "Mes"
 		},{
 			"data" : "importe",
 			"title" : "Importe"

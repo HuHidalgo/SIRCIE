@@ -18,10 +18,9 @@ import com.cenpro.sircie.aspecto.enumeracion.Comentario;
 import com.cenpro.sircie.aspecto.enumeracion.Dato;
 import com.cenpro.sircie.aspecto.enumeracion.Tipo;
 import com.cenpro.sircie.model.egresos.Egresos;
-import com.cenpro.sircie.model.ingresos.Ingresos;
+import com.cenpro.sircie.model.egresos.ProgramacionGastos;
+import com.cenpro.sircie.service.IMultiTabDetService;
 import com.cenpro.sircie.service.IRegistroEgresosService;
-import com.cenpro.sircie.service.IRegistroIngresoService;
-import com.cenpro.sircie.utilitario.ConstantesGenerales;
 
 @Audit(tipo = Tipo.Ingresos, datos = Dato.Ingresos)
 @RequestMapping("/egresos/egresos")
@@ -32,9 +31,14 @@ public @RestController class RegistroEgresosRestController {
 	@Audit(accion = Accion.Consulta, comentario = Comentario.ConsultaTodos)
 	@GetMapping(params = "accion=buscarTodos")
 	public List<Egresos> buscarTodos(){
-		
 		return egresosService.buscarTodos();
 	}
+	
+	@GetMapping("/detalle/{idProgramacionGasto}")
+    public List<Egresos> buscarPorIdProgramacionGasto(@PathVariable int idProgramacionGasto)
+    {
+        return egresosService.buscarPorIdProgramacionGasto(idProgramacionGasto);
+    }
 	
 	@Audit(accion = Accion.Registro, comentario = Comentario.Registro)
 	@PostMapping

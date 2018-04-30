@@ -24,10 +24,10 @@ $(document).ready(function() {
 
 	$formMantenimiento = $("#formMantenimiento");
 	
-	$funcionUtil.crearSelect2($local.$unidades, "Elija unidad");
-	$funcionUtil.crearSelect2($local.$partidas, "Elija partida");
-	$funcionUtil.crearSelect2($local.$conceptos, "Elija concepto");
-	$funcionUtil.crearSelect2($local.$meses, "Elija mes");
+	$funcionUtil.crearSelect2($local.$unidades, "Seleccione una unidad");
+	$funcionUtil.crearSelect2($local.$partidas, "Seleccione una partida");
+	$funcionUtil.crearSelect2($local.$conceptos, "Seleccione un concepto");
+	$funcionUtil.crearSelect2($local.$meses, "Seleccione un mes");
 	
 	$.fn.dataTable.ext.errMode = 'none';
 
@@ -52,25 +52,22 @@ $(document).ready(function() {
 			$tablaFuncion.aniadirFiltroDeBusquedaEnEncabezado(this, $local.$tablaMantenimiento);
 		},
 		"columnDefs" : [ {
-			"targets" : [ 0, 1, 2 ,3 ,4 ,5, 6, 7],
+			"targets" : [ 0, 1, 2 ,3 ,4 ,5, 6 ],
 			"className" : "all filtrable",
 		}, {
-			"targets" : 8,
+			"targets" : 7,
 			"className" : "all dt-center",
 			"defaultContent" : $variableUtil.botonActualizar + " " + $variableUtil.botonEliminar
 		} ],
-		"columns" : [ 
-		{
-			"data" : "idPIngreso",
-			"title" : "Código"
-		}, {
+		"columns" : [{
+			
 			"data" : function(row) {
 				return $funcionUtil.unirCodigoDescripcion(row.codigoUnidad, row.nombreUnidad);
 			},
 			"title" : "Unidad"
 		}, {
 			"data" : function(row) {
-				return $funcionUtil.unirCodigoDescripcion(row.idConcepto, row.nombreConcepto);
+				return $funcionUtil.unirCodigoDescripcion(row.nroConcepto, row.nombreConcepto);
 			},
 			"title" : "Concepto"
 		}, {
@@ -79,11 +76,11 @@ $(document).ready(function() {
 			},
 			"title" : "Partida"
 		},{
-			"data" : "mes",
-			"title" : "Mes"
-		},{
 			"data" : "año",
 			"title" : "Año"
+		},{
+			"data" : "mes",
+			"title" : "Mes"
 		},{
 			"data" : "importe",
 			"title" : "Importe"
@@ -200,7 +197,7 @@ $(document).ready(function() {
 			},
 			success : function(conceptos) {
 				$.each(conceptos, function(i, concepto) {
-					$local.$conceptos.append($("<option />").val(this.idConcepto).text(this.nroConceptoEsp + " - " + this.nomConceptoEsp + " - S/ " + this.importe));
+					$local.$conceptos.append($("<option />").val(this.idConcepto).text(this.nroConceptoEsp + " - " + this.nomConceptoEsp));
 				});
 				if (opcionSeleccionada != null && opcionSeleccionada != undefined) {					
 					$local.$conceptos.val(opcionSeleccionada).trigger("change.select2");

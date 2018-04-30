@@ -50,10 +50,12 @@ $(document).ready(function() {
 			"data" : function(row) {
 				return $funcionUtil.unirCodigoDescripcion(row.nroConceptoUnidad, row.nombreUnidad);
 			},
-			"title" : "Unidad"
+			"title" : "Unidad",
+			"width": "25%"
 		}, {
 			"data" : "nroConceptoEsp",
-			"title" : "Número de Concepto Específico"
+			"title" : "Nro. Concepto Específico",
+			"width": "10%"
 		}, {
 			"data" : "nomConceptoEsp",
 			"title" : "Nombre de Concepto Específico"

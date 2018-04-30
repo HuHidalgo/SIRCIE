@@ -50,16 +50,19 @@ $(document).ready(function() {
 			"data" : function(row) {
 				return $funcionUtil.unirCodigoDescripcion(row.codigoTarea, row.nomTarea);
 			},
-			"title" : "Tarea"
+			"title" : "Tarea",
+			"width": "40%"
 		}, {
 			"data" : "clasificador",
 			"title" : "Clasificador"
 		}, {
 			"data" : "descripcion",
-			"title" : "Descripcion"
+			"title" : "Descripcion",
+			"width": "40%"
 		}, {
 			"data" : null,
-			"title" : 'Acción'
+			"title" : 'Acción',
+			"width": "10%"
 		} ]
 	});
 

@@ -25,19 +25,20 @@
 					<span class="fa fa-home"></span> Inicio
 				</a>
 			</li>
-			<li sec:authorize="hasPermission('1','ALL')" class="xn-openable">
-				<a>
+			<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL') or hasPermission('3','ALL')"
+				class="xn-openable">
+				<a title='Cargas' data-tooltip='tooltip'>
 					<span class="fa fa-upload"></span> 
 					<span class="xn-text">Cargas</span>
 				</a>
 				<ul>
-					<li>
+					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
 						<a th:href="@{/carga/alumno}">
 							<span class="fa fa-upload"></span> 
 							<span> Cargar Ingresos</span>
 						</a>
 					</li>
-					<li>
+					<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')">
 						<a th:href="@{/carga/alumno}">
 							<span class="fa fa-upload"></span> 
 							<span> Cargar Egresos</span>
@@ -45,8 +46,9 @@
 					</li>
 				</ul>
 			</li>
-			<li sec:authorize="hasPermission('1','ALL')" class="xn-openable">
-				<a>
+			<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL') or hasPermission('5','ALL')" 
+				class="xn-openable">
+				<a title='Ingresos' data-tooltip='tooltip'>
 					<span class="fa fa-usd"></span> 
 					<span class="xn-text">Ingresos</span>
 				</a>
@@ -57,7 +59,7 @@
 							<span>Registro</span>
 						</a>
 					</li>
-					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
+					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL') or hasPermission('5','ALL')">
 						<a th:href="@{/ingresos/reporte}">
 							<span class="fa fa-file"></span> 
 							<span>Reportes</span>
@@ -65,40 +67,68 @@
 					</li>
 				</ul>
 			</li>
-			<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL') or hasPermission('3','ALL')"
-				class="xn-openable">
-				<a>
+			<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL') or hasPermission('4','ALL') 
+				or hasPermission('5','ALL')" class="xn-openable">
+				<a title='Egresos' data-tooltip='tooltip'>
 					<span class="fa fa-usd"></span> 
 					<span class="xn-text">Egresos</span>
 				</a>
 				<ul>
-					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
-						<a th:href="@{/egresos/egresos}">
-							<span class="fa fa-list-alt"></span>
+					<li sec:authorize="hasPermission('1','ALL') or hasPermission('4','ALL')" class="xn-openable">
+						<a>
+							<span class="fa fa-institution"></span>
 							<span> USGOM</span>
 						</a>
+						<ul>
+							<li sec:authorize="hasPermission('1','ALL') or hasPermission('4','ALL')">
+								<a th:href="@{/egresos/usgom/programacionGastos}">
+									<span class="fa fa-file-text-o"></span>
+									<span> Programación de Gasto</span>
+								</a>
+							</li>	
+							<li sec:authorize="hasPermission('1','ALL') or hasPermission('4','ALL')">
+								<a th:href="@{/egresos/usgom/compromisoGastos}">
+									<span class="fa fa-file-text-o"></span>
+									<span> Compromiso de Gasto</span>
+								</a>
+							</li>				
+						</ul>
 					</li>
-					<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')">
-						<a th:href="@{/egresos/planificacion}">
-							<span class="fa fa-list-alt"></span>
+					<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')" class="xn-openable">
+						<a>
+							<span class="fa fa-institution"></span>
 							<span> Planificación</span>
 						</a>
-					</li>
-					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
-						<a th:href="@{/egresos/reporte}">
-							<span class="fa fa-file"></span> 
-							<span>Reportes</span>
-						</a>
+						<ul>	
+							<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')">
+								<a th:href="@{/egresos/planificacion/programacionGastos}">
+									<span class="fa fa-file-text-o"></span>
+									<span> Programación de Gasto</span>
+								</a>
+							</li>
+							<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')">
+								<a th:href="@{/egresos/planificacion/compromisoGastos}">
+									<span class="fa fa-file-text-o"></span>
+									<span> Compromiso de Gasto</span>
+								</a>
+							</li>				
+						</ul>
 					</li>
 				</ul>
 			</li>
 			<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL') or hasPermission('3','ALL')"
 				class="xn-openable">
-				<a>
+				<a title='Presupuesto' data-tooltip='tooltip'>
 					<span class="fa fa-usd"></span> 
 					<span class="xn-text">Presupuesto</span>
 				</a>
 				<ul>
+					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL') or hasPermission('3','ALL')">
+						<a th:href="@{/presupuesto/inicial}">
+							<span class="fa fa-list-alt"></span>
+							<span> Iniciales</span>
+						</a>
+					</li>
 					<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')">
 						<a th:href="@{/presupuesto/ingreso}">
 							<span class="fa fa-list-alt"></span>
@@ -111,24 +141,12 @@
 							<span> Egresos</span>
 						</a>
 					</li>
-					<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')">
-						<a th:href="@{/presupuesto/inicial}">
-							<span class="fa fa-list-alt"></span>
-							<span> Iniciales</span>
-						</a>
-					</li>
-					<li>
-						<a th:href="@{/carga/alumno}">
-							<span class="fa fa-file"></span> 
-							<span>Reportes</span>
-						</a>
-					</li>
 				</ul>
 			</li>
 			<li sec:authorize="hasPermission('1','ALL')" class="xn-openable">
-				<a>
+				<a title='Mantenimiento' data-tooltip='tooltip'>
 					<span class="fa fa-wrench"></span> 
-					<span class="xn-text">Mantenimientos</span>
+					<span class="xn-text">Mantenimiento</span>
 				</a>
 				<ul>
 					<li>
@@ -173,114 +191,8 @@
 					</li>
 				</ul>
 			</li>
-			<!--  
-			<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')" class="xn-openable">
-				<a>
-					<span class="fa fa-clipboard"></span> 
-					<span class="xn-text">Resultados de Laboratorio</span>
-				</a>
-				<ul>
-					<li>
-						<a th:href="@{/examenmedico/laboratorio/resultado}">
-							<span class="fa fa-floppy-o"></span>
-							<span> Registro</span>
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li sec:authorize="hasPermission('1','ALL') or hasPermission('2','ALL')" class="xn-openable">
-				<a>
-					<span class="fa fa-clipboard"></span> 
-					<span class="xn-text">Consultas de Laboratorio</span>
-				</a>
-				<ul>
-					<li>
-						<a th:href="@{/consulta/administrativa/laboratorio}">
-							<span class="fa fa-search"></span>
-							<span> Administrativa</span>
-						</a>
-					</li>
-				</ul>
-			</li>		
-			<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')" class="xn-openable">
-				<a>
-					<span class="fa fa-clipboard"></span> 
-					<span class="xn-text">Resultados de Radiología</span>
-				</a>
-				<ul>
-					<li>
-						<a th:href="@{/examenmedico/radiologico/tomaRadiologica}">
-							<span class="fa fa-video-camera"></span>
-							<span> Toma Radiológica</span>
-						</a>
-					</li>
-					<li>
-						<a th:href="@{/examenmedico/radiologico/resultado}">
-							<span class="fa fa-floppy-o"></span>
-							<span> Registro</span>
-						</a>
-					</li>
-				</ul>
-			</li>	
-			<li sec:authorize="hasPermission('1','ALL') or hasPermission('3','ALL')" class="xn-openable">
-				<a>
-					<span class="fa fa-clipboard"></span> 
-					<span class="xn-text">Consultas de Radiologia</span>
-				</a>
-				<ul>
-					<li>
-						<a th:href="@{/consulta/administrativa/radiologico}">
-							<span class="fa fa-search"></span>
-							<span> Administrativa</span>
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li sec:authorize="hasPermission('1','ALL') or hasPermission('4','ALL')" class="xn-openable">
-				<a>
-					<span class="fa fa-clipboard"></span> 
-					<span class="xn-text">Resultados de Psicología</span>
-				</a>
-				<ul>
-					<li>
-						<a th:href="@{/consulta/atencion/psicologia}">
-							<span class="fa fa-floppy-o"></span>
-							<span> Registro</span>
-						</a>
-					</li>
-				</ul>
-			</li>		
-			<li sec:authorize="hasPermission('1','ALL') or hasPermission('4','ALL')" class="xn-openable">
-				<a>
-					<span class="fa fa-clipboard"></span> 
-					<span class="xn-text">Consultas de Psicología</span>
-				</a>
-				<ul>
-					<li>
-						<a th:href="@{/consulta/administrativa/psicologia}">
-							<span class="fa fa-search"></span>
-							<span> Administrativa</span>
-						</a>
-					</li>
-				</ul>
-			</li>	
 			<li sec:authorize="hasPermission('1','ALL')" class="xn-openable">
-				<a>
-					<span class="fa fa-file"></span> 
-					<span class="xn-text">Reportes</span>
-				</a>
-				<ul>
-					<li>
-						<a th:href="@{/reporte/atencion/diaria}">
-							<span class="fa fa-file"></span>
-							<span> Atenciones Diarias</span>
-						</a>
-					</li>
-				</ul>
-			</li>
-			-->
-			<li sec:authorize="hasPermission('1','ALL')" class="xn-openable">
-				<a>
+				<a title='Seguridad' data-tooltip='tooltip'>
 					<span class="fa fa-unlock-alt"></span> 
 					<span class="xn-text">Seguridad</span>
 				</a>
