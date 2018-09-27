@@ -14,8 +14,10 @@ public class Egresos {
 	private Integer idEgreso;
 	private Integer idProgramacionGasto;
 	private Integer idGasto;
+	private Integer nroMeta;
 	private Integer idTabla;
-	
+
+	private String codigoTarea;
 	private String codigoUnidad;
 	private String nombreUnidad;
 	private String nroConceptoUnidad;

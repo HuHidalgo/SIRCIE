@@ -363,6 +363,7 @@ $(document).ready(function() {
 		$funcionUtil.prepararFormularioActualizacion($formMantenimiento);
 		$local.$filaSeleccionada = $(this).parents("tr");
 		var ingresos = $local.tablaMantenimiento.row($local.$filaSeleccionada).data();
+		console.log(ingresos);
 		$local.codigoIngresoSeleccionado = ingresos.idIngreso;
 		$local.importe = ingresos.importe;
 		$local.codigoClienteSeleccionado = ingresos.nroDocCliente;
@@ -370,6 +371,7 @@ $(document).ready(function() {
 		$funcionUtil.llenarFormulario(ingresos, $formMantenimiento);
 		$local.$unidades.trigger("change", [ ingresos.codigoCurso ]);
 		$local.$unidades.trigger("change", [ ingresos.idConcepto ]);
+		$local.$buscarNroDocumento.addClass("hidden");
 		$local.$importe.val(ingresos.importe);
 		$local.$actualizarMantenimiento.removeClass("hidden");
 		$local.$registrarMantenimiento.addClass("hidden");

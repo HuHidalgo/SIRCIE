@@ -288,7 +288,7 @@ $(document).ready(function() {
 		gastos.idGasto = $local.codigoGastoSeleccionado;
 		$.ajax({
 			type : "PUT",
-			url : $variableUtil.root + "egresos/gastos",
+			url : $variableUtil.root + "egresos/egresos",
 			data : JSON.stringify(gastos),
 			beforeSend : function(xhr) {
 				$local.$actualizarMantenimiento.attr("disabled", true).find("i").removeClass("fa-pencil-square").addClass("fa-spinner fa-pulse fa-fw");
